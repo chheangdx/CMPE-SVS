@@ -1,1 +1,3 @@
-cmpesvs
+CMPE SVS
+
+The Computer Engineering Smart Visitor System is a web and mobile application that focuses on reducing student wait times through smart Q&A. This system implements cognitive learning using IBM Watson’s Retrieve and Rank API, which evaluates natural language search queries to resolve students’ concerns. Additional features of this system are linked through MongoDB for fast content updates to provide schedule handling and assistive document preparation. Students may schedule visits ahead of time, which populate a live list that the office views. They are notified of what documents they need to fill out and bring to their visit.

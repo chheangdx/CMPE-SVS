@@ -1,11 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="{% block app%}{% endblock %}">
   <head>
     <meta charset="utf-8">
     <title>title</title>
+	<meta name="csrf_token" content="{{ csrf_token }}">
     {% include 'base/statics.html' %}
+	{% block additional_statics%} {% endblock %}
   </head>
   <body>
+	<div ng-controller="{% block controller%}{% endblock %}">
     {% block content%} {% endblock %}
+	</div>
   </body>
 </html>

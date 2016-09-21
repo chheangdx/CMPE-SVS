@@ -9,6 +9,7 @@
 
 {%block content%}
 <h1>Hello World from Django!</h1>
+<p>Name: <input type="text" ng-model="name"> </p>
 <button ng-click="hello()">Click Me!</button>
 <div ng-bind-html="myContent"></div>
 {% endblock %}

@@ -5,7 +5,7 @@ app.config(function($httpProvider){
 app.controller('helloworldCtrl',  ['$scope','$http', '$sce', function($scope,$http,$sce) {
     $scope.hello = function() {
 		console.log("Button was clicked!");
-		var data = {"message": "Hello World from AngularJS! We welcome:" + $scope.name};
+		var data = {"message": $scope.name};
 		$http({
 			method: 'post',
 			url: '/helloworld/execute/',

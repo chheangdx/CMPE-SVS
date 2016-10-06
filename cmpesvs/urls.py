@@ -22,4 +22,5 @@ from django.conf.urls.static import static
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^helloworld/', include('helloworld.urls')),
+	url(r'^qa/', include('svs_qa.urls')),
 ]

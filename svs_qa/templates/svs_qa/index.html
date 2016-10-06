@@ -1,0 +1,16 @@
+{% extends "base/base.html" %}
+{% load staticfiles %}
+
+{% block title %}SVS Question and Answer{% endblock %}
+
+{% block app%}qaApp{% endblock %}
+{% block controller%}qaCtrl{% endblock %}
+{% block additional_statics %}
+<script src="{% static 'javascript/apps/svs_qa.js' %}"></script>
+{% endblock %}
+
+{%block content%}
+<h1>Hello World from Watson!</h1>
+<div ng-bind-html="myContent"></div>
+<h1>{{answer}}</h1>
+{% endblock %}

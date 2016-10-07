@@ -26,3 +26,10 @@ Screenshot 2 shows that Watson can be given a question and return an answer. Thi
 the rest of the code as sending the request from Python still needs to be figured out. Watson also is not trained 
 yet to fully respond to answers. Watson needs a collection of hand written answers before being able to properly 
 answer questions.
+
+
+Required Packages: <br />
+pip install Django==1.10.1 <br />
+easy_install pymongo <br />
+pip install --upgrade watson-developer-cloud <br />
+pip install mongoengine <br />

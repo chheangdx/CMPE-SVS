@@ -33,9 +33,10 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
 	'helloworld.apps.HelloworldConfig',
 	'svs_qa.apps.SvsQaConfig',
-	'django.contrib.staticfiles',
-    'django.contrib.admin',
+	'accman.apps.AccmanConfig',
+	'django.contrib.admin',
     'django.contrib.auth',
+	'django.contrib.staticfiles',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -114,6 +115,7 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
 
 
 # Static files (CSS, JavaScript, Images)

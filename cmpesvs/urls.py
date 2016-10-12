@@ -19,7 +19,5 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    url(r'^helloworld/', include('helloworld.urls')),
-	url(r'^qa/', include('svs_qa.urls')),
-	url(r'^accman/', include('accman.urls')),
+	url(r'^$', include('system.urls')),
 ]

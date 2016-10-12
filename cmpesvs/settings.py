@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+	'system.apps.SystemConfig',
 	'helloworld.apps.HelloworldConfig',
 	'svs_qa.apps.SvsQaConfig',
 	'accman.apps.AccmanConfig',

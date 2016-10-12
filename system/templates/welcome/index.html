@@ -1,0 +1,17 @@
+{% extends "base/base.html" %}
+{% load staticfiles %}
+
+{% block title %}Hello World{% endblock %}
+
+{% block app%}helloworldApp{% endblock %}
+{% block controller%}helloworldCtrl{% endblock %}
+{% block additional_statics %}
+<script src="{% static 'javascript/apps/helloworld.js' %}"></script>
+{% endblock %}
+
+{%block content%}
+<h1>Hello World from Django!</h1>
+<p>Name: <input type="text" ng-model="name"> </p>
+<button ng-click="hello()">Click Me!</button>
+<div ng-bind-html="myContent"></div>
+{% endblock %}

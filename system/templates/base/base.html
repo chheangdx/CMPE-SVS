@@ -1,15 +1,32 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="{% block app%}{% endblock %}">
+<html lang="en" ng-app="CmpeSVSApp">
   <head>
     <meta charset="utf-8">
     <title>{% block title %}{% endblock %}</title>
 	<meta name="csrf_token" content="{{ csrf_token }}">
     {% include 'base/statics.html' %}
 	{% block additional_statics %}{% endblock %}
+	
+	<script language="javascript">var STATIC_URL = "{{ STATIC_URL|escapejs }}"; console.log("Static URL is: " + STATIC_URL);</script>
   </head>
-  <body>
-	<div ng-controller="{% block controller%}{% endblock %}">
-    {% block content %} {% endblock %}
+  <body onload="openNav()">
+	<div ng-controller="CmpeSVSCtrl">
+		<div class="svsheader">
+			<i class="icongray btnpadded fa fa-bars fa-3x" aria-hidden="true" onClick="openNav()"></i>
+		</div>
+		<div id="mySidenav" class="sidenav">
+			<i class="sideNavBtn btnpadded icongray fa fa-times" aria-hidden="true" onClick="closeNav()"></i>
+			<div class="greensection"></div>
+			<a ng-click=""><i class="fa fa-tachometer" aria-hidden="true"></i> Dashboard</a>
+			<a ng-click=""><i class="fa fa-hand-paper-o" aria-hidden="true"></i> Watson Q&A</a>
+			<a ng-click=""><i class="fa fa-file-text-o" aria-hidden="true"></i> Pre-Screen</a>
+			<a ng-click=""><i class="fa fa-university" aria-hidden="true"></i> About Us</a>
+			<a ng-click=""><i class="fa fa-user" aria-hidden="true"></i> User Settings</a>
+			<a ng-click=""><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a>
+		</div>
+		<div id="main">
+			{% block content %} {% endblock %}
+		</div>
 	</div>
   </body>
 </html>

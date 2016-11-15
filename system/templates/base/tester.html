@@ -1,0 +1,15 @@
+{% extends "base/base.html" %}
+{% load staticfiles %}
+
+{% block title %}Testing Unit{% endblock %}
+
+{% block controller%}testerCtrl{% endblock %}
+
+{% block additional_statics %}
+<script src="{% static 'javascript/apps/tester.js' %}"></script>
+{% endblock %}
+
+{%block content%}
+<button ng-click="test()">Click Me!</button>
+<h1 ng-model="status"></h1>
+{% endblock %}

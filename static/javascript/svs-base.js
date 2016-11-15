@@ -9,3 +9,11 @@ function closeNav() {
     document.getElementById("mySidenav").style.width = "0px";
     document.getElementById("main").style.marginLeft = "0px";
 }
+
+var app = angular.module('CmpeSVSApp', []);
+app.config(function($httpProvider){
+    $httpProvider.defaults.headers.post['X-CSRFToken'] = $('meta[name=csrf_token]').attr('content');
+});
+app.controller('CmpeSVSCtrl',  ['$scope','$http', function($scope,$http) {
+    
+}]);

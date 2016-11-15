@@ -1,15 +1,13 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="CmpeSVSApp">
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <title>{% block title %}{% endblock %}</title>
 	<meta name="csrf_token" content="{{ csrf_token }}">
-    {% include 'base/statics.html' %}
+	{% include 'base/statics.html' %}
 	{% block additional_statics %}{% endblock %}
-	
-	<script language="javascript">var STATIC_URL = "{{ STATIC_URL|escapejs }}"; console.log("Static URL is: " + STATIC_URL);</script>
   </head>
-  <body onload="openNav()">
+  <body onload="openNav()" ng-app="CmpeSVSApp">
 	<div ng-controller="CmpeSVSCtrl">
 		<div class="svsheader">
 			<i class="icongray btnpadded fa fa-bars fa-3x" aria-hidden="true" onClick="openNav()"></i>
@@ -25,7 +23,10 @@
 			<a ng-click=""><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a>
 		</div>
 		<div id="main">
-			{% block content %} {% endblock %}
+			<div ng-controller="{% block controller%}{% endblock %}">
+				<!-- html-bind AngularJS -->
+				{% block content %} {% endblock %}
+			</div>
 		</div>
 	</div>
   </body>

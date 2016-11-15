@@ -32,9 +32,6 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
 	'system.apps.SystemConfig',
-	'helloworld.apps.HelloworldConfig',
-	'svs_qa.apps.SvsQaConfig',
-	'accman.apps.AccmanConfig',
 	'django.contrib.admin',
     'django.contrib.auth',
 	'django.contrib.staticfiles',

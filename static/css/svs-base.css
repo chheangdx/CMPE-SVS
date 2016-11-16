@@ -68,5 +68,9 @@
 
 .greensection{
 	background-color: #00ff99; 
-	height: 50px;
+	/*height: 50px;*/
+}
+
+.gray-bg{
+	background-color: #424242; 
 }

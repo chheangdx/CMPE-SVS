@@ -6,3 +6,8 @@ def index(request):
 	template = loader.get_template('welcome/index.html')
 	context = {}
 	return HttpResponse(template.render(context, request))
+	
+def watson(request):
+	template = loader.get_template('watson/index.html')
+	context = {}
+	return HttpResponse(template.render(context, request))

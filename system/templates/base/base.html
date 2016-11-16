@@ -6,15 +6,18 @@
 	<meta name="csrf_token" content="{{ csrf_token }}">
 	{% include 'base/statics.html' %}
 	{% block additional_statics %}{% endblock %}
+	
   </head>
-  <body onload="openNav()" ng-app="CmpeSVSApp">
+  <body onload="openNav()" ng-app="CmpeSVSApp" class="gray-bg">
 	<div ng-controller="CmpeSVSCtrl">
 		<div class="svsheader">
 			<i class="icongray btnpadded fa fa-bars fa-3x" aria-hidden="true" onClick="openNav()"></i>
 		</div>
 		<div id="mySidenav" class="sidenav">
 			<i class="sideNavBtn btnpadded icongray fa fa-times" aria-hidden="true" onClick="closeNav()"></i>
-			<div class="greensection"></div>
+			<div class="greensection">
+				<i class="fa fa-user fa-5x" aria-hidden="true"></i>
+			</div>
 			<a ng-click=""><i class="fa fa-tachometer" aria-hidden="true"></i> Dashboard</a>
 			<a ng-click=""><i class="fa fa-hand-paper-o" aria-hidden="true"></i> Watson Q&A</a>
 			<a ng-click=""><i class="fa fa-file-text-o" aria-hidden="true"></i> Pre-Screen</a>
@@ -23,10 +26,7 @@
 			<a ng-click=""><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a>
 		</div>
 		<div id="main">
-			<div ng-controller="{% block controller%}{% endblock %}">
-				<!-- html-bind AngularJS -->
-				{% block content %} {% endblock %}
-			</div>
+			{% block content %} {% endblock %}
 		</div>
 	</div>
   </body>

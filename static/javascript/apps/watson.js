@@ -19,6 +19,7 @@ app.controller('watsonCtrl',  ['$scope','$http', '$sce', function($scope,$http,$
 			}).then(function successCallback(response) {
 				//successfully got a response
 				console.log(response);
+				$scope.answers = [5,4,2];
 				$scope.status = "idle";
 			}, function errorCallback(response) {
 				//usually happens when an exception is thrown

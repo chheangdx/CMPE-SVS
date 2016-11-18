@@ -3,7 +3,10 @@ app.config(function($httpProvider){
     $httpProvider.defaults.headers.post['X-CSRFToken'] = $('meta[name=csrf_token]').attr('content');
 });
 
-app.controller('testerCtrl',  ['$scope','$http', function($scope,$http) {
+app.controller('logoutCtrl',  ['$scope','$http', function($scope,$http) {
+		$scope.contort = function(){
+    	console.log("logout");
+   		 };
         $scope.status = "idle";
 		$scope.test = function() {
 		console.log("Button was clicked!");

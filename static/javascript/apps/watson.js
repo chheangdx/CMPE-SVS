@@ -10,7 +10,7 @@ app.controller('watsonCtrl',  ['$scope','$http', '$sce', function($scope,$http,$
 
     $scope.ask = function() {
 		console.log("Button was clicked!" + $scope.query.queryIn);
-		var data = {query:$scope.query.queryIn};
+		var data = {'question':$scope.query.queryIn};
 		$scope.status = "loading";
 		$http({
 			method: 'post',
@@ -19,7 +19,9 @@ app.controller('watsonCtrl',  ['$scope','$http', '$sce', function($scope,$http,$
 			}).then(function successCallback(response) {
 				//successfully got a response
 				console.log(response);
-				$scope.answers = [5,4,2];
+				console.log(response.data);
+				console.log(response.data[0]);
+				$scope.answers = response.data;
 				$scope.status = "idle";
 			}, function errorCallback(response) {
 				//usually happens when an exception is thrown

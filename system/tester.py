@@ -15,20 +15,13 @@ def test(request):
 	body = json.loads(body_unicode)
 	#if body = {"message": "hello"}, then you access like body["message"]
 
-	test={'question': 'Who is our glorious leader?'}
 	#TODO: Test stuff here
-	response = controller(test)
+	response = controller(body)
 	answer = {}
         #for key, value in response[0].items():
         #    print(key)
-        for num in range(len(response)):
-            answer[str(num)]=response[num]['body']
+	for num in range(len(response)):
+    		answer[str(num)]=response[num]['body']
 	
 	#epilog
-        return (HttpResponse(json.dumps(answer)))
-
-
-
-
-
-
+	return (HttpResponse(json.dumps(answer)))

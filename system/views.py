@@ -1,13 +1,10 @@
 from django.http import HttpResponse
 from django.template import loader
+from django.contrib.staticfiles.templatetags.staticfiles import static
 
 # Create your views here.
 def index(request):
-	template = loader.get_template('welcome/index.html')
-	context = {}
-	return HttpResponse(template.render(context, request))
-	
-def watson(request):
-	template = loader.get_template('watson/index.html')
-	context = {}
+	template = loader.get_template('base/base.html')
+	staticpath=static('');
+	context = {'staticpath':staticpath}
 	return HttpResponse(template.render(context, request))

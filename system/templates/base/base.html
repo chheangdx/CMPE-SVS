@@ -5,8 +5,9 @@
     <title>{% block title %}{% endblock %}</title>
 	<meta name="csrf_token" content="{{ csrf_token }}">
 	{% include 'base/statics.html' %}
-	{% block additional_statics %}{% endblock %}
 	
+	<script>console.log("{{staticpath}}"); var staticpath = {{staticpath}};</script>
+
   </head>
   <body onload="openNav()" ng-app="CmpeSVSApp" class="gray-bg">
 	<div ng-controller="CmpeSVSCtrl">
@@ -18,15 +19,15 @@
 			<div class="greensection">
 				<i class="fa fa-user fa-5x" aria-hidden="true"></i>
 			</div>
-			<a ng-click=""><i class="fa fa-tachometer" aria-hidden="true"></i> Dashboard</a>
-			<a ng-click=""><i class="fa fa-hand-paper-o" aria-hidden="true"></i> Watson Q&A</a>
-			<a ng-click=""><i class="fa fa-file-text-o" aria-hidden="true"></i> Pre-Screen</a>
-			<a ng-click=""><i class="fa fa-university" aria-hidden="true"></i> About Us</a>
-			<a ng-click=""><i class="fa fa-user" aria-hidden="true"></i> User Settings</a>
-			<a ng-click=""><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a>
+			<a ui-sref="welcome"><i class="fa fa-tachometer" aria-hidden="true"></i> Dashboard</a>
+			<a ui-sref="watson"><i class="fa fa-hand-paper-o" aria-hidden="true"></i> Watson Q&A</a>
+			<a ui-sref="prescreen"><i class="fa fa-file-text-o" aria-hidden="true"></i> Pre-Screen</a>
+			<a ui-sref="aboutus"><i class="fa fa-university" aria-hidden="true"></i> About Us</a>
+			<a ui-sref="settings"><i class="fa fa-user" aria-hidden="true"></i> User Settings</a>
+			<a ui-sref="logout"i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a>
+
 		</div>
-		<div id="main">
-			{% block content %} {% endblock %}
+		<div id="main" ui-view>
 		</div>
 	</div>
   </body>

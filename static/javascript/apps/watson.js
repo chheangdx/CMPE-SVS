@@ -6,7 +6,7 @@ app.config(function($httpProvider){
 
 app.controller('watsonCtrl',  ['$scope','$http', '$sce', function($scope,$http,$sce) {
 	
-	$scope.query = {queryIn :"Please enter your question here!"};
+	$scope.query = {queryIn :""};
 
     $scope.ask = function() {
 		console.log("Button was clicked, " + $scope.query.queryIn);

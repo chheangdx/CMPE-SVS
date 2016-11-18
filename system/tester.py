@@ -18,17 +18,14 @@ def test(request):
 	test={'question': 'Who is our glorious leader?'}
 	#TODO: Test stuff here
 	response = controller(test)
-	answer = []
-	oneJson = {}
+	answer = {}
+        #for key, value in response[0].items():
+        #    print(key)
         for num in range(len(response)):
-                x = json.dumps(response[num])
-                answer.append(x)
-                oneJson.update({num:x}) 
-                
-        oneJson['answers'] = answer
+            answer[str(num)]=response[num]['body']
 	
 	#epilog
-	return (HttpResponse(oneJson))
+        return (HttpResponse(json.dumps(answer)))
 
 
 

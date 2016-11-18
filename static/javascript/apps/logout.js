@@ -1,19 +1,23 @@
 var app = angular.module('CmpeSVSApp');
+
 app.config(function($httpProvider){
     $httpProvider.defaults.headers.post['X-CSRFToken'] = $('meta[name=csrf_token]').attr('content');
 });
 
 app.controller('logoutCtrl',  ['$scope','$http', function($scope,$http) {
+
 		$scope.contort = function(){
     	console.log("logout");
    		 };
+
         $scope.status = "idle";
+
 		$scope.test = function() {
 		console.log("Button was clicked!");
 		var data = {};
 		$scope.status = "loading";
 		$http({
-			method: 'post',
+			method: 'get',
 			url: '/testmyrequest',
 			data: data
 			}).then(function successCallback(response) {
@@ -26,4 +30,5 @@ app.controller('logoutCtrl',  ['$scope','$http', function($scope,$http) {
 				$scope.status = "failed";
 			});
 	};
+
 }]);

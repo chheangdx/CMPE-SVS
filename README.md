@@ -1,16 +1,21 @@
 CMPE SVS
 
 Install Instructions: <br />
-1) Download and install latest version of Python <br />
-	1.1) Check properly installed: python --version <br />
-	1.2) Check properly installed: pip --version <br />
-2) Run Windows Powershell as admin for next steps <br />
-3) Install Django: pip install Django==1.10.1 <br />
+Use Windows Powershell (Windows) or Terminal(Mac or Linux) using the following commands.
+ If you are using Mac or Linux, use sudo. For example, sudo easy_install pymongo <br /><br />
+
+1) Download and install version 3.5.2 of Python from https://www.python.org/ <br />
+2) Confirm that Python is properly installed: <br />
+	2.1) python --version<br />
+	2.2) easy_install --version<br />
+3) Install Django: easy_install Django==1.10.1 <br />
 	3.1) Check properly installed: django-admin --version <br />
 4) Install PyMongo: easy_install pymongo <br />
-5) Navigate to project folder <br />
-6) Run on local host: python manage.py runserver <br />
-7) URL should be: http://127.0.0.1:8000/ <br />
+5) Install Watson Developer Cloud: easy_install --upgrade watson-developer-cloud <br />
+6) Navigate to project folder <br />
+7) Run on local host: python manage.py runserver <br />
+8) URL should be: http://127.0.0.1:8000/ <br />
+
 
 Description: This is done in screenshot1. <br />
 1) Hello World is first loaded through Django using the URL pattern linked to the "index" controller <br />
@@ -29,7 +34,7 @@ answer questions.
 
 
 Required Packages: <br />
-pip install Django==1.10.1 <br />
-easy_install pymongo <br />
-pip install --upgrade watson-developer-cloud <br />
-pip install mongoengine <br />
+Python 3.5.2<br />
+Django 1.10.1 <br />
+pymongo <br />
+watson-developer-cloud <br />

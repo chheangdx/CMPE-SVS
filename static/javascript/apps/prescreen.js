@@ -6,8 +6,4 @@ app.config(function($httpProvider){
 
 app.controller('prescreenCtrl',  ['$scope','$http', '$sce', function($scope,$http,$sce) {
 
-    $scope.contort = function(){
-    	console.log("prescreen");
-    }
-    
 }]);

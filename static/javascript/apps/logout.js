@@ -5,11 +5,6 @@ app.config(function($httpProvider){
 });
 
 app.controller('logoutCtrl',  ['$scope','$http', function($scope,$http) {
-
-		$scope.contort = function(){
-    	console.log("logout");
-   		 };
-
         $scope.status = "idle";
 
 		$scope.test = function() {

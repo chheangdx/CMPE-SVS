@@ -6,8 +6,4 @@ app.config(function($httpProvider){
 
 app.controller('settingsCtrl',  ['$scope','$http', '$sce', function($scope,$http,$sce) {
 
-    $scope.contort = function(){
-    	console.log("settings");
-    }
-
 }]);

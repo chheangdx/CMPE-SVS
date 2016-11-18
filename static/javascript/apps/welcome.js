@@ -6,10 +6,6 @@ app.config(function($httpProvider){
 
 app.controller('welcomeCtrl',  ['$scope','$http', '$sce', '$state', function($scope,$http,$sce,$state) {
 
-    $scope.contort = function(){
-    	console.log("welcome");
-    }
-    
     $scope.navigate = function() {
     	console.log("welcome");
     	$state.go('watson');

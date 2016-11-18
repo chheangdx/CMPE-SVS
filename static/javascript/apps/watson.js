@@ -10,10 +10,10 @@ app.controller('watsonCtrl',  ['$scope','$http', '$sce', function($scope,$http,$
 
     $scope.ask = function() {
 		console.log("Button was clicked!" + $scope.query.queryIn);
-		var data = {};
+		var data = {query:$scope.query.queryIn};
 		$scope.status = "loading";
 		$http({
-			method: 'get',
+			method: 'post',
 			url: '/watsonq',
 			data: data
 			}).then(function successCallback(response) {

@@ -15,5 +15,10 @@ app.config(function($httpProvider){
     $httpProvider.defaults.headers.post['X-CSRFToken'] = $('meta[name=csrf_token]').attr('content');
 });
 app.controller('CmpeSVSCtrl',  ['$scope','$http', function($scope,$http) {
-    
+	var init = function(){
+		console.log("you are hdsdre:" + staticpath);
+	}
+	init();
+	$scope.includecontent = '/static/partials/tester.html';
 }]);
+

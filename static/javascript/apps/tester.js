@@ -4,8 +4,8 @@ app.config(function($httpProvider){
 });
 
 app.controller('testerCtrl',  ['$scope','$http', function($scope,$http) {
-    $scope.status = "idle";
-	$scope.test = function() {
+        $scope.status = "idle";
+		$scope.test = function() {
 		console.log("Button was clicked!");
 		var data = {};
 		$scope.status = "loading";

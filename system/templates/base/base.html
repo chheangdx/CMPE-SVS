@@ -7,6 +7,8 @@
 	{% include 'base/statics.html' %}
 	{% block additional_statics %}{% endblock %}
 	
+	<script>console.log("{{staticpath}}"); var staticpath = {{staticpath}};</script>
+
   </head>
   <body onload="openNav()" ng-app="CmpeSVSApp" class="gray-bg">
 	<div ng-controller="CmpeSVSCtrl">
@@ -25,8 +27,7 @@
 			<a ng-click=""><i class="fa fa-user" aria-hidden="true"></i> User Settings</a>
 			<a ng-click=""><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a>
 		</div>
-		<div id="main">
-			{% block content %} {% endblock %}
+		<div id="main" ng-include="includecontent">
 		</div>
 	</div>
   </body>

@@ -1,6 +1,9 @@
 from django.http import HttpResponse
 from django.template import loader
 from django.contrib.staticfiles.templatetags.staticfiles import static
+from .com.cmpe.svs.watson.controllers.QAController import controller
+import json
+import ast
 
 # Create your views here.
 def index(request):
@@ -8,3 +11,16 @@ def index(request):
 	staticpath=static('');
 	context = {'staticpath':staticpath}
 	return HttpResponse(template.render(context, request))
+
+def watsonq(request):
+	#prolog
+	body_unicode = request.body.decode('utf-8')
+	body = json.loads(body_unicode)
+
+	response = controller(body)
+	answer = {}
+	for num in range(len(response)):
+    		answer[str(num)]=response[num]['body']
+	
+	#epilog
+	return (HttpResponse(json.dumps(answer)))

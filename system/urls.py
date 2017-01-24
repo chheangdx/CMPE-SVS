@@ -5,5 +5,5 @@ from . import tester
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
-    url(r'^watsonq$', tester.test, name='watsonrequest')
+    url(r'^watsonq$', views.watsonq, name='watsonrequest')
 ]

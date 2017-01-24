@@ -11,7 +11,8 @@ def test(request):
 	#if body = {"message": "hello"}, then you access like body["message"]
    
 	#TODO: Test stuff here 
-	response = {"message": "hello"} #WHAT YOU ARE RETURNING 
+	response = {"message": "hello", "name": "dude"} #WHAT YOU ARE RETURNING 
+	
    
 	#epilog 
-	return HttpResponse(response)
+	return HttpResponse(json.dumps(response))

@@ -59,6 +59,12 @@ app.config(
                         url: '/logout',
                         templateUrl: '/static/partials/logout.html',
                         controller: 'logoutCtrl',
+                    })
+                    
+                    .state('tester', {
+                    	url: '/tester',
+                    	templateUrl: '/static/partials/tester.html',
+                    	controller: 'testerCtrl',
                     });
       
                 $urlRouterProvider.otherwise('/');
@@ -67,8 +73,7 @@ app.config(
 
 app.controller('CmpeSVSCtrl',  ['$scope','$http', function($scope,$http) {
 	var init = function(){
-		console.log("you are hdsdre:" + staticpath);
+		
 	}
 	init();
-	$scope.includecontent = '/static/partials/tester.html';
 }]);

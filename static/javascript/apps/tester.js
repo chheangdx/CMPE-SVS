@@ -18,7 +18,7 @@ app.controller('testerCtrl',  ['$scope','$http', '$sce', function($scope,$http,$
 				alert("Error! No url to test!");
 				return;
 			}
-			var data = {'data': $scope.dataInput};
+			var data = {data: $scope.dataInput}; //not that key is not in quotes
 			$http({
 					method: 'post',
 					url: $scope.urlInput,

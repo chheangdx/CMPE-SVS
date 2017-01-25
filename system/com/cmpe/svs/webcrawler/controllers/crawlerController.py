@@ -7,3 +7,7 @@ def simpleCrawl(thisurl):
 def parseText(thisurl):
 	print("Crawler Controller: Parse Text initiated")
 	return crawlerService.parseText(thisurl)
+	
+def crawl(thisurl):
+	print("Crawler Controller: Web Crawling initiated")
+	return crawlerService.crawl(thisurl)

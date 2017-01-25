@@ -31,7 +31,8 @@ def webcrawler(request):
 	#body 
 	thisurl = body["data"]
 	#response = crawlerController.simpleCrawl(thisurl)
-	response = crawlerController.parseText(thisurl)
+	#response = crawlerController.parseText(thisurl)
+	response = crawlerController.crawl(thisurl)
 	
 	#epilog 
 	return HttpResponse(response)

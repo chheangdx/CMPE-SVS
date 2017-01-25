@@ -12,7 +12,7 @@ class parseText(HTMLParser.HTMLParser):
             
 def crawl(thisurl):
 	print("Parse Text: crawling initiated " + thisurl)
-	if(re.match("^http://.*$", thisurl, re.I|re.M)):
+	if(re.match("^https?://.*$", thisurl, re.I|re.M)):
 		#Create instance of HTML parser
 		lParser = parseText()
 	

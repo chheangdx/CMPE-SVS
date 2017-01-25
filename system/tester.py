@@ -14,7 +14,7 @@ def test(request):
 	#prolog
 	body_unicode = request.body.decode('utf-8')
 	body = json.loads(body_unicode)
-	#if body = {"message": "hello"}, then you access like body["message"]
+	#if body = {message: "hello"}, then you access like body["message"]
    
 	#TODO: Test stuff here 
 	response = {"message": "hello", "name": "dude"} #WHAT YOU ARE RETURNING 
@@ -29,7 +29,7 @@ def webcrawler(request):
 	body = json.loads(body_unicode)
    
 	#body 
-	thisurl = "http://www-rohan.sdsu.edu/~gawron/index.html"
+	thisurl = body["data"]
 	#response = crawlerController.simpleCrawl(thisurl)
 	response = crawlerController.parseText(thisurl)
 	

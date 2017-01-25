@@ -7,6 +7,5 @@ urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^watsonq$', views.watsonq, name='watsonrequest'),
     url(r'^testmyrequest$', tester.test, name='tester'),
+    url(r'^testWebCrawler$', tester.webcrawler, name='webcrawler')
 ]
-
-#url(r'^testWebCrawler$', tester.webcrawler, name='webcrawler')

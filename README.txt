@@ -21,3 +21,4 @@ Required Packages:
 	Django 1.10.1 
 	pymongo
 	watson-developer-cloud
+	--upgrade google-api-python-client

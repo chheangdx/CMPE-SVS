@@ -81,6 +81,35 @@ app.controller('testerCtrl',  ['$scope','$http', '$sce', function($scope,$http,$
 				};
 			
 		};
+
+		$scope.userForm = {
+				username:{field:"Username", value:"", type:"text"},
+				password:{field:"Password", value:"", type:"text"},
+				notifyEmailToggle:{field:"Receive Email Notifications?", value:"false", type:"checkbox"},
+				firstName:{field:"First Name", value:"", type:"text"},
+				lastName:{field:"Last Name", value:"", type:"text"},
+				email:{field:"Email", value:"", type:"email"},
+				stayLoggedIn:{field:"Stay Logged In?", value:"false", type:"checkbox"}
+		}
+
+		$scope.createAccount = function() {
+		console.log("User creating account with username: " + $scope.userForm.username.value);
+		var data = {user: $scope.userForm};
+
+		$http({
+		            method: 'post',
+		            url: $scope.urlInput,
+		            data: data
+		        }).then(function successCallback(response) {
+		            //successfully got a response
+		            console.log(response);
+		        }, function errorCallback(response) {
+		            //usually happens when an exception is thrown
+		            console.error(response);
+		        });
+
+		};
+
 		init();
 		
 }]);

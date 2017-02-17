@@ -1,0 +1,40 @@
+<div class="container-fluid">
+	<h2 class="white-text">TESTING</h2>
+	<label class="white-text marginRight15">URL to Test</label><input type="text" id="urlinput" ng-model="urlInput">
+	<br>
+	<label class="white-text marginRight15">Input Data</label><input type="text" id="datainput" ng-model="dataInput">
+	<br><br>
+	<button ng-click="test()" >Click Me to Test!</button>
+	<div style="width:100%; border-bottom: 1px solid yellow; margin-top: 25px;"></div>
+	<h3 class="white-text">{{ testBody }}</h3>
+
+
+<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#registerModal">Register Now</button>
+
+<!-- Modal -->
+<div id="registerModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Modal Header</h4>
+      </div>
+      <div class="modal-body">
+        <div ng-repeat="object in userForm">
+        	<label style="display:block;padding-top:15px;">{{object.field}}  <input type="{{object.type}}" ng-model="object.value"></label>
+        </div>
+        <button ng-click="createAccount()">Register</button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+			
+

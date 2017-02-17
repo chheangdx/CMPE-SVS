@@ -23,7 +23,7 @@
       </div>
       <div class="modal-body">
         <div ng-repeat="object in userForm">
-        	<label>{{object.field}}<input type="{{object.type}}" ng-model="object.value"></label>
+        	<label style="display:block;padding-top:15px;">{{object.field}}  <input type="{{object.type}}" ng-model="object.value"></label>
         </div>
         <button ng-click="createAccount()">Register</button>
       </div>

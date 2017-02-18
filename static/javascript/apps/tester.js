@@ -82,14 +82,19 @@ app.controller('testerCtrl',  ['$scope','$http', '$sce', function($scope,$http,$
 			
 		};
 
-		$scope.userForm = {
-				username:{field:"Username", value:"", type:"text"},
-				password:{field:"Password", value:"", type:"text"},
+		$scope.userFormDefault = {
+				username:{field:"Username", value:"", type:"text", uses:"login"},
+				password:{field:"Password", value:"", type:"text", uses:"login"},
 				notifyEmailToggle:{field:"Receive Email Notifications?", value:"false", type:"checkbox"},
 				firstName:{field:"First Name", value:"", type:"text"},
 				lastName:{field:"Last Name", value:"", type:"text"},
-				email:{field:"Email", value:"", type:"email"},
-				stayLoggedIn:{field:"Stay Logged In?", value:"false", type:"checkbox"}
+				email:{field:"Email", value:"", type:"text"},
+				stayLoggedIn:{field:"Stay Logged In?", value:"false", type:"checkbox", uses:"login"}
+		};
+
+		$scope.formClear = function() {
+			console.log("Clearing user form");
+			$scope.userForm = angular.copy($scope.userFormDefault);
 		}
 
 		$scope.createAccount = function() {

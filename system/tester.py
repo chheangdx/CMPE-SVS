@@ -17,7 +17,8 @@ def test(request):
 	body_unicode = request.body.decode('utf-8')
 	body = json.loads(body_unicode)
 	#if body = {message: "hello"}, then you access like body["message"]
-   
+   	
+   	print (body);
 	#TODO: Test stuff here 
 	response = {"message": "hello", "name": "dude"} #WHAT YOU ARE RETURNING 
 	

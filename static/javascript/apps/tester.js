@@ -82,6 +82,12 @@ app.controller('testerCtrl',  ['$scope','$http', '$sce', function($scope,$http,$
 			
 		};
 
+		$(document).on("click", ".open-Modal", function () {
+    		var functionName = $(this).data('id');
+    		$(".modal-body #functionName").val( functionName );
+    		$scope.functionName = functionName;
+		});
+
 		$scope.userFunctions = [
 			{	
 				bText : "Login",
@@ -138,7 +144,7 @@ app.controller('testerCtrl',  ['$scope','$http', '$sce', function($scope,$http,$
 					$scope.finFunct = function() {
 						console.log("User logging in account with username: " + $scope.userForm.username.value);
 						var data = {user: $scope.userForm};
-
+						$scope.shower = data;
 						$http({
 						            method: 'post',
 						            url: '/login',
@@ -159,7 +165,7 @@ app.controller('testerCtrl',  ['$scope','$http', '$sce', function($scope,$http,$
 					$scope.finFunct = function() {
 						console.log("User logging out account with username: " + $scope.userForm.username.value);
 						var data = {user: $scope.userForm};
-
+						$scope.shower = data;
 						$http({
 						            method: 'post',
 						            url: '/logout',
@@ -180,7 +186,7 @@ app.controller('testerCtrl',  ['$scope','$http', '$sce', function($scope,$http,$
 					$scope.finFunct = function() {
 						console.log("Getting user notifications with username: " + $scope.userForm.username.value);
 						var data = {user: $scope.userForm};
-
+						$scope.shower = data;
 						$http({
 						            method: 'post',
 						            url: '/getNotifications',
@@ -201,7 +207,7 @@ app.controller('testerCtrl',  ['$scope','$http', '$sce', function($scope,$http,$
 					$scope.finFunct = function() {
 						console.log("Removing all notifications with username: " + $scope.userForm.username.value);
 						var data = {user: $scope.userForm};
-
+						$scope.shower = data;
 						$http({
 						            method: 'post',
 						            url: '/removeAllNotifications',
@@ -222,7 +228,7 @@ app.controller('testerCtrl',  ['$scope','$http', '$sce', function($scope,$http,$
 					$scope.finFunct = function() {
 						console.log("Removing one notification with username: " + $scope.userForm.username.value);
 						var data = {user: $scope.userForm};
-
+						$scope.shower = data;
 						$http({
 						            method: 'post',
 						            url: '/removeNotification',
@@ -243,7 +249,7 @@ app.controller('testerCtrl',  ['$scope','$http', '$sce', function($scope,$http,$
 					$scope.finFunct = function() {
 						console.log("Changing password with username: " + $scope.userForm.username.value);
 						var data = {user: $scope.userForm};
-
+						$scope.shower = data;
 						$http({
 						            method: 'post',
 						            url: '/changePassword',
@@ -264,7 +270,7 @@ app.controller('testerCtrl',  ['$scope','$http', '$sce', function($scope,$http,$
 					$scope.finFunct = function() {
 						console.log("Changing Email with username: " + $scope.userForm.username.value);
 						var data = {user: $scope.userForm};
-
+						$scope.shower = data;
 						$http({
 						            method: 'post',
 						            url: '/changeEmail',
@@ -285,7 +291,7 @@ app.controller('testerCtrl',  ['$scope','$http', '$sce', function($scope,$http,$
 					$scope.finFunct = function() {
 						console.log("Changing first name with username: " + $scope.userForm.username.value);
 						var data = {user: $scope.userForm};
-
+						$scope.shower = data;
 						$http({
 						            method: 'post',
 						            url: '/changeFirst',
@@ -306,7 +312,7 @@ app.controller('testerCtrl',  ['$scope','$http', '$sce', function($scope,$http,$
 					$scope.finFunct = function() {
 						console.log("Changing Last with username: " + $scope.userForm.username.value);
 						var data = {user: $scope.userForm};
-
+						$scope.shower = data;
 						$http({
 						            method: 'post',
 						            url: '/changeLast',
@@ -327,8 +333,8 @@ app.controller('testerCtrl',  ['$scope','$http', '$sce', function($scope,$http,$
 					$scope.finFunct = function() {
 						console.log("User creating account with username: " + $scope.userForm.username.value);
 						var data = {user: $scope.userForm};
-
-					$http({
+						$scope.shower = data;
+						$http({
 					            method: 'post',
 					            url: '/createAccount',
 					            data: data
@@ -348,8 +354,8 @@ app.controller('testerCtrl',  ['$scope','$http', '$sce', function($scope,$http,$
 					$scope.finFunct = function() {
 						console.log("Checking if user is logged in with username: " + $scope.userForm.username.value);
 						var data = {user: $scope.userForm};
-
-					$http({
+						$scope.shower = data;	
+						$http({
 					            method: 'post',
 					            url: '/isLoggedIn',
 					            data: data

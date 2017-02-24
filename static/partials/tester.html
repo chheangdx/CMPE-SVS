@@ -10,7 +10,7 @@
 
 
 <label ng-repeat="fun in userFunctions">
-	<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#Modal" ng-click="formPrep(fun.targetForm)">{{ fun.bText }}</button>
+	<button type="button" class="btn btn-info btn-lg open-Modal" data-id="{{ fun.bText }}" title="{{ fun.desctiption }}" data-toggle="modal" data-target="#Modal" ng-click="formPrep(fun.targetForm)">{{ fun.bText }}</button>
 
 </label>
 
@@ -28,9 +28,12 @@
       </div>
       <div class="modal-body">
         <div ng-repeat="object in userForm">
-          <label style="display:block;padding-top:15px;">{{object.field}}  <input type="{{object.type}}" ng-model="object.value"></label>
+          <label style="display:block;padding-top:15px;"> {{ object.field }}  <input type="{{ object.type }}" ng-model="object.value"></label>
         </div>
-        <button ng-click="finFunct()">Login</button>
+        <button ng-click="finFunct()" name="functionName" id="functionName" value="">{{ functionName }}</button>
+        <br>
+        <h3>Request data object</h3>
+        <p>{{ shower }}</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

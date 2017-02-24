@@ -82,37 +82,360 @@ app.controller('testerCtrl',  ['$scope','$http', '$sce', function($scope,$http,$
 			
 		};
 
+		$scope.userFunctions = [
+			{	
+				bText : "Login",
+				targetForm : 'login'
+			},
+			{
+				bText : "Logout",
+				targetForm : 'logout'
+			},
+			{
+				bText : "Get Notifications",
+				targetForm : 'getNotifications'
+			},
+			{
+				bText : "Remove All Notifications",
+				targetForm : 'removeAllNotifications'
+			},
+			{
+				bText : "Remove Notification",
+				targetForm : 'removeNotification'
+			},
+			{
+				bText : "Change Password",
+				targetForm : 'changePassword'
+			},
+			{
+				bText : "Change Email",
+				targetForm : 'changeEmail'
+			},
+			{
+				bText : "Change First Name",
+				targetForm : 'changeFirst'
+			},
+			{
+				bText : "Change Last Name",
+				targetForm : 'changeLast'
+			},
+			{
+				bText : "Register",
+				targetForm : 'createAccount'
+			},
+			{
+				bText : "Login Check",
+				targetForm : 'isLoggedIn'
+			}
+		]
+
+		$scope.formPrep = function(target) {
+			console.log("Clearing user form");
+			switch(target){
+				case 'login':
+					$scope.finText = "Login";
+					$scope.userForm = angular.copy($scope.loginForm);
+					$scope.finFunct = function() {
+						console.log("User logging in account with username: " + $scope.userForm.username.value);
+						var data = {user: $scope.userForm};
+
+						$http({
+						            method: 'post',
+						            url: '/login',
+						            data: data
+						        }).then(function successCallback(response) {
+						            //successfully got a response
+						            console.log(response);
+						        }, function errorCallback(response) {
+						            //usually happens when an exception is thrown
+						            console.error(response);
+						        });
+					};
+					break;
+
+				case 'logout':
+					$scope.finText = "Logout";
+					$scope.userForm = angular.copy($scope.logoutForm);
+					$scope.finFunct = function() {
+						console.log("User logging out account with username: " + $scope.userForm.username.value);
+						var data = {user: $scope.userForm};
+
+						$http({
+						            method: 'post',
+						            url: '/logout',
+						            data: data
+						        }).then(function successCallback(response) {
+						            //successfully got a response
+						            console.log(response);
+						        }, function errorCallback(response) {
+						            //usually happens when an exception is thrown
+						            console.error(response);
+						        });
+					};
+					break;
+
+				case 'getNotifications':
+					$scope.finText = "Get Notifications";
+					$scope.userForm = angular.copy($scope.getNotificationsForm);
+					$scope.finFunct = function() {
+						console.log("Getting user notifications with username: " + $scope.userForm.username.value);
+						var data = {user: $scope.userForm};
+
+						$http({
+						            method: 'post',
+						            url: '/getNotifications',
+						            data: data
+						        }).then(function successCallback(response) {
+						            //successfully got a response
+						            console.log(response);
+						        }, function errorCallback(response) {
+						            //usually happens when an exception is thrown
+						            console.error(response);
+						        });
+					};
+					break;
+
+				case 'removeAllNotifications':
+					$scope.finText = "Remove All Notifications";
+					$scope.userForm = angular.copy($scope.removeAllNotificationsForm);
+					$scope.finFunct = function() {
+						console.log("Removing all notifications with username: " + $scope.userForm.username.value);
+						var data = {user: $scope.userForm};
+
+						$http({
+						            method: 'post',
+						            url: '/removeAllNotifications',
+						            data: data
+						        }).then(function successCallback(response) {
+						            //successfully got a response
+						            console.log(response);
+						        }, function errorCallback(response) {
+						            //usually happens when an exception is thrown
+						            console.error(response);
+						        });
+					};
+					break;
+
+				case 'removeNotification':
+					$scope.finText = "Remove a Notification";
+					$scope.userForm = angular.copy($scope.removeNotificationForm);
+					$scope.finFunct = function() {
+						console.log("Removing one notification with username: " + $scope.userForm.username.value);
+						var data = {user: $scope.userForm};
+
+						$http({
+						            method: 'post',
+						            url: '/removeNotification',
+						            data: data
+						        }).then(function successCallback(response) {
+						            //successfully got a response
+						            console.log(response);
+						        }, function errorCallback(response) {
+						            //usually happens when an exception is thrown
+						            console.error(response);
+						        });
+					};
+					break;
+
+				case 'changePassword':
+					$scope.finText = "Change Password";
+					$scope.userForm = angular.copy($scope.changePasswordForm);
+					$scope.finFunct = function() {
+						console.log("Changing password with username: " + $scope.userForm.username.value);
+						var data = {user: $scope.userForm};
+
+						$http({
+						            method: 'post',
+						            url: '/changePassword',
+						            data: data
+						        }).then(function successCallback(response) {
+						            //successfully got a response
+						            console.log(response);
+						        }, function errorCallback(response) {
+						            //usually happens when an exception is thrown
+						            console.error(response);
+						        });
+					};
+					break;
+
+				case 'changeEmail':
+					$scope.finText = "Change Email";
+					$scope.userForm = angular.copy($scope.changeEmailForm);
+					$scope.finFunct = function() {
+						console.log("Changing Email with username: " + $scope.userForm.username.value);
+						var data = {user: $scope.userForm};
+
+						$http({
+						            method: 'post',
+						            url: '/changeEmail',
+						            data: data
+						        }).then(function successCallback(response) {
+						            //successfully got a response
+						            console.log(response);
+						        }, function errorCallback(response) {
+						            //usually happens when an exception is thrown
+						            console.error(response);
+						        });
+					};
+					break;
+
+				case 'changeFirst':
+					$scope.finText = "Change First Name";
+					$scope.userForm = angular.copy($scope.changeFirstForm);
+					$scope.finFunct = function() {
+						console.log("Changing first name with username: " + $scope.userForm.username.value);
+						var data = {user: $scope.userForm};
+
+						$http({
+						            method: 'post',
+						            url: '/changeFirst',
+						            data: data
+						        }).then(function successCallback(response) {
+						            //successfully got a response
+						            console.log(response);
+						        }, function errorCallback(response) {
+						            //usually happens when an exception is thrown
+						            console.error(response);
+						        });
+					};
+					break;
+
+				case 'changeLast':
+					$scope.finText = "Change Last";
+					$scope.userForm = angular.copy($scope.changeLastForm);
+					$scope.finFunct = function() {
+						console.log("Changing Last with username: " + $scope.userForm.username.value);
+						var data = {user: $scope.userForm};
+
+						$http({
+						            method: 'post',
+						            url: '/changeLast',
+						            data: data
+						        }).then(function successCallback(response) {
+						            //successfully got a response
+						            console.log(response);
+						        }, function errorCallback(response) {
+						            //usually happens when an exception is thrown
+						            console.error(response);
+						        });
+					};
+					break;
+
+				case 'createAccount':
+					$scope.finText = "Register";
+					$scope.userForm = angular.copy($scope.registerForm);
+					$scope.finFunct = function() {
+						console.log("User creating account with username: " + $scope.userForm.username.value);
+						var data = {user: $scope.userForm};
+
+					$http({
+					            method: 'post',
+					            url: '/createAccount',
+					            data: data
+					        }).then(function successCallback(response) {
+					            //successfully got a response
+					            console.log(response);
+					        }, function errorCallback(response) {
+					            //usually happens when an exception is thrown
+					            console.error(response);
+					        });
+					};
+					break;
+
+				case 'isLoggedIn':
+					$scope.finText = "Is Logged In";
+					$scope.userForm = angular.copy($scope.isLoggedInForm);
+					$scope.finFunct = function() {
+						console.log("Checking if user is logged in with username: " + $scope.userForm.username.value);
+						var data = {user: $scope.userForm};
+
+					$http({
+					            method: 'post',
+					            url: '/isLoggedIn',
+					            data: data
+					        }).then(function successCallback(response) {
+					            //successfully got a response
+					            console.log(response);
+					        }, function errorCallback(response) {
+					            //usually happens when an exception is thrown
+					            console.error(response);
+					        });
+					};
+					break;
+			}
+		}
+
 		$scope.userFormDefault = {
-				username:{field:"Username", value:"", type:"text", uses:"login"},
-				password:{field:"Password", value:"", type:"text", uses:"login"},
+				username:{field:"Username", value:"", type:"text"},
+				password:{field:"Password", value:"", type:"text"},
 				notifyEmailToggle:{field:"Receive Email Notifications?", value:"false", type:"checkbox"},
 				firstName:{field:"First Name", value:"", type:"text"},
 				lastName:{field:"Last Name", value:"", type:"text"},
 				email:{field:"Email", value:"", type:"text"},
-				stayLoggedIn:{field:"Stay Logged In?", value:"false", type:"checkbox", uses:"login"}
+				stayLoggedIn:{field:"Stay Logged In?", value:"false", type:"checkbox"}
 		};
 
-		$scope.formClear = function() {
-			console.log("Clearing user form");
-			$scope.userForm = angular.copy($scope.userFormDefault);
-		}
+		$scope.loginForm = { 
+			username:{field:"Username", value:"", type:"text"},
+			password:{field:"Password", value:"", type:"text"},
+			stayLoggedIn:{field:"Stay Logged In?", value:"false", type:"checkbox"}
+		};
 
-		$scope.createAccount = function() {
-		console.log("User creating account with username: " + $scope.userForm.username.value);
-		var data = {user: $scope.userForm};
+		$scope.logoutForm = {
+				username:{field:"Username", value:"", type:"text"}
+		};
 
-		$http({
-		            method: 'post',
-		            url: $scope.urlInput,
-		            data: data
-		        }).then(function successCallback(response) {
-		            //successfully got a response
-		            console.log(response);
-		        }, function errorCallback(response) {
-		            //usually happens when an exception is thrown
-		            console.error(response);
-		        });
+		$scope.getNotificationsForm = {
+				username:{field:"Username", value:"", type:"text"},
+				password:{field:"Password", value:"", type:"text"},
+				notifyEmailToggle:{field:"Receive Email Notifications?", value:"false", type:"checkbox"},
+				firstName:{field:"First Name", value:"", type:"text"},
+				lastName:{field:"Last Name", value:"", type:"text"},
+				email:{field:"Email", value:"", type:"text"},
+				stayLoggedIn:{field:"Stay Logged In?", value:"false", type:"checkbox"}
+		};
 
+		$scope.removeAllNotificationsForm = {
+				username:{field:"Username", value:"", type:"text"}
+		};
+
+		$scope.removeNotificationForm = {
+				username:{field:"Username", value:"", type:"text"}
+		};
+
+		$scope.changePasswordForm = {
+				username:{field:"Username", value:"", type:"text"},
+				password:{field:"Password", value:"", type:"text"},
+				newPassword:{field:"New Password", value:'', type:"text"}
+		};
+
+		$scope.changeEmailForm = {
+				username:{field:"Username", value:"", type:"text"},
+				newEmail:{field:"New Email", value:"", type:"text"}
+		};
+
+		$scope.changeFirstForm = {
+				username:{field:"Username", value:"", type:"text"},
+				newFirstName:{field:"New First Name", value:"", type:"text"}
+		};
+
+		$scope.changeLastForm = {
+				username:{field:"Username", value:"", type:"text"},
+				newLastName:{field:"New Last Name", value:"", type:"text"}
+		};
+
+		$scope.createAccountForm = {
+				username:{field:"Username", value:"", type:"text"},
+				password:{field:"Password", value:"", type:"text"},
+				notifyEmailToggle:{field:"Receive Email Notifications?", value:"false", type:"checkbox"},
+				firstName:{field:"First Name", value:"", type:"text"},
+				lastName:{field:"Last Name", value:"", type:"text"},
+				email:{field:"Email", value:"", type:"text"},
+				stayLoggedIn:{field:"Stay Logged In?", value:"false", type:"checkbox"}
+		};
+
+		$scope.isLoggedInForm = {
+				username:{field:"Username", value:"", type:"text"}
 		};
 
 		init();

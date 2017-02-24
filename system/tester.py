@@ -10,6 +10,8 @@ import HTMLParser
 #our controller
 from .com.cmpe.svs.webcrawler.controllers import crawlerController
 
+from .com.cmpe.svs.accounts.controllers import AccountsController	# account controller
+
 def test(request):
 	#prolog
 	body_unicode = request.body.decode('utf-8')

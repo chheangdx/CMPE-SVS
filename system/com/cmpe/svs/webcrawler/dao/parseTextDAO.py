@@ -1,10 +1,10 @@
 import urllib
-import HTMLParser
+from html.parser import HTMLParser
 import re
 
 #Define HTML Parser
 urlText=[]
-class parseText(HTMLParser.HTMLParser):
+class parseText(HTMLParser):
         
     def handle_data(self, data):
         if data != '\n':

@@ -12,12 +12,16 @@ from .com.cmpe.svs.webcrawler.controllers import crawlerController
 
 from .com.cmpe.svs.accounts.controllers import AccountsController	# account controller
 
+count = 0
+
 def test(request):
 	#prolog
 	body_unicode = request.body.decode('utf-8')
 	body = json.loads(body_unicode)
+	global count
 	#if body = {message: "hello"}, then you access like body["message"]
-   	
+   	print ("******"+ str(count) + "******")
+   	count = count + 1
    	print (body);
 	#TODO: Test stuff here 
 	response = {"message": "hello", "name": "dude"} #WHAT YOU ARE RETURNING 
@@ -25,6 +29,7 @@ def test(request):
    
 	#epilog 
 	return HttpResponse(json.dumps(response))
+
 
 def webcrawler(request):
 	#prolog
@@ -39,3 +44,20 @@ def webcrawler(request):
 	
 	#epilog 
 	return HttpResponse(response)
+
+
+
+def login(request):
+	#prolog
+	body_unicode = request.body.decode('utf-8')
+	data = json.loads(body_unicode)
+	
+   	
+   	print("Received Command: Login.")
+
+	response = AccountsController.controller("login", data);
+
+	#epilog 
+	return HttpResponse(json.dumps(response))
+
+

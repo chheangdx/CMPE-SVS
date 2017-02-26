@@ -1,4 +1,4 @@
 from ..service import MongoService
 
-def dataAccessObject(request):
-	return MongoService.service(request)
+def dataAcessObject(request, data):
+	return MongoService.service(request, data)

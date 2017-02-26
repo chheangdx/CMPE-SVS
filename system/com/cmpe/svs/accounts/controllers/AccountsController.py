@@ -1,4 +1,4 @@
 from ..service import RouterService
 
-def controller(request):
-	return RouterService.service(request)
+def controller(request, data):
+	return RouterService.service(request, data)

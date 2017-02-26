@@ -1,4 +1,4 @@
 from ..dao import MongoDAO
 
-def service(request):
-	return MongoDAO.dataAcessObject(request)
+def service(request, data):
+	return MongoDAO.dataAcessObject(request, data)

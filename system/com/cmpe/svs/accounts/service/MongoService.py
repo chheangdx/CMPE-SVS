@@ -3,8 +3,6 @@ from pymongo import MongoClient
 import json
 
 
-
-
 def connectToMongoDB(databaseName):
     print("Connecting to MongoDB...")
     client = MongoClient('aws-us-east-1-portal.17.dblayer.com', 15319)
@@ -22,8 +20,6 @@ def login(db, username, password):
         if (accountInformation['username'] == username):
             if (accountInformation['password'] == password):
                 print("Login Success: Account Information Authenticated.")
-                accountInformation['isLoggedIn'] = "True"
-                db.save(accountInformation)
                 return True
             else:
                 print("Login Error: Incorrect Password.")
@@ -99,5 +95,25 @@ def logout(db, username):
     print("Account Status : ") + accountInformation['isLoggedIn']
 
 
-def service(request):
-    return True
+def service(request, data):
+    toBeReplaced = "TBD"
+    response = {"Login": "TBD"}
+    global db
+
+    if(request == "login"):
+
+        username = toBeReplaced
+        password = toBeReplaced
+        if(login(db, username, password)):
+            response = {"Login": "TRUE"}
+        else:
+            response = {"Login": "FALSE"}
+
+    
+
+
+    return response
+
+
+databaseName = 'TestDB'
+db = connectToMongoDB(databaseName)

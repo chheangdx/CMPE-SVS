@@ -140,7 +140,13 @@ app.controller('testerCtrl',  ['$scope','$http', '$sce', function($scope,$http,$
 			{
 				bText : "Get Notifications",
 				targetForm : {
-				username:{field:"Username", value:"", type:"text", key: 0}
+				username:{field:"Username", value:"", type:"text", key: 0},
+				password:{field:"Password", value:"", type:"text", key: 1},
+				notifyEmailToggle:{field:"Receive Email Notifications?", value:"false", type:"checkbox", key: 2},
+				firstName:{field:"First Name", value:"", type:"text", key: 3},
+				lastName:{field:"Last Name", value:"", type:"text", key: 4},
+				email:{field:"Email", value:"", type:"text", key: 5},
+				stayLoggedIn:{field:"Stay Logged In?", value:"false", type:"checkbox", key: 6}
 				},
 				targetFunction : function() {
 						$scope.dataPrep();
@@ -239,7 +245,6 @@ app.controller('testerCtrl',  ['$scope','$http', '$sce', function($scope,$http,$
 				bText : "Change Email",
 				targetForm : {
 				username:{field:"Username", value:"", type:"text", key: 0},
-				password:{field:"Password", value:"", type:"text", key: 1},
 				newEmail:{field:"New Email", value:"", type:"text", key: 8}
 				},
 				targetFunction : function() {
@@ -265,7 +270,6 @@ app.controller('testerCtrl',  ['$scope','$http', '$sce', function($scope,$http,$
 				bText : "Change First Name",
 				targetForm : {
 				username:{field:"Username", value:"", type:"text", key: 0},
-				password:{field:"Password", value:"", type:"text", key: 1},
 				newFirstName:{field:"New First Name", value:"", type:"text", key: 9}
 				},
 				targetFunction : function() {
@@ -291,7 +295,6 @@ app.controller('testerCtrl',  ['$scope','$http', '$sce', function($scope,$http,$
 				bText : "Change Last Name",
 				targetForm : {
 				username:{field:"Username", value:"", type:"text", key: 0},
-				password:{field:"Password", value:"", type:"text", key: 1},
 				newLastName:{field:"New Last Name", value:"", type:"text", key: 10}
 				},
 				targetFunction : function() {

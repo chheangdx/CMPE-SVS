@@ -5,6 +5,7 @@ import ast
 
 #web crawler imports
 import urllib
+import HTMLParser
 
 #our controller
 from .com.cmpe.svs.webcrawler.controllers import crawlerController

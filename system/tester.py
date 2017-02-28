@@ -20,13 +20,12 @@ def test(request):
 	body = json.loads(body_unicode)
 	global count
 	#if body = {message: "hello"}, then you access like body["message"]
-   	print ("******"+ str(count) + "******")
-   	count = count + 1
-   	print (body);
+	print ("******"+ str(count) + "******")
+	count = count + 1
+	print (body);
 	#TODO: Test stuff here 
 	response = {"message": "hello", "name": "dude"} #WHAT YOU ARE RETURNING 
 	
-   
 	#epilog 
 	return HttpResponse(json.dumps(response))
 
@@ -35,7 +34,7 @@ def webcrawler(request):
 	#prolog
 	body_unicode = request.body.decode('utf-8')
 	body = json.loads(body_unicode)
-   
+
 	#body 
 	thisurl = body["data"]
 	#response = crawlerController.simpleCrawl(thisurl)
@@ -51,9 +50,8 @@ def login(request):
 	#prolog
 	body_unicode = request.body.decode('utf-8')
 	data = json.loads(body_unicode)
-	
-   	
-   	print("Received Command: Login.")
+
+	print("Received Command: Login.")
 
 	response = AccountsController.controller("login", data);
 

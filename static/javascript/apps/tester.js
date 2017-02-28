@@ -79,7 +79,6 @@ app.controller('testerCtrl',  ['$scope','$http', '$sce', function($scope,$http,$
 					.append("<a style='display: inline-block;width: 100%;'><h5 class='textOverflow'><div style='border-bottom: 1px solid yellow'>" + item.label + "</div>" + item.desc + "</h5></a>")
 					.appendTo(ul);
 				};
-			
 		};
 
 		$(document).on("click", ".open-Modal", function () {
@@ -91,59 +90,15 @@ app.controller('testerCtrl',  ['$scope','$http', '$sce', function($scope,$http,$
 		$scope.userFunctions = [
 			{	
 				bText : "Login",
-				targetForm : 'login'
-			},
-			{
-				bText : "Logout",
-				targetForm : 'logout'
-			},
-			{
-				bText : "Get Notifications",
-				targetForm : 'getNotifications'
-			},
-			{
-				bText : "Remove All Notifications",
-				targetForm : 'removeAllNotifications'
-			},
-			{
-				bText : "Remove Notification",
-				targetForm : 'removeNotification'
-			},
-			{
-				bText : "Change Password",
-				targetForm : 'changePassword'
-			},
-			{
-				bText : "Change Email",
-				targetForm : 'changeEmail'
-			},
-			{
-				bText : "Change First Name",
-				targetForm : 'changeFirst'
-			},
-			{
-				bText : "Change Last Name",
-				targetForm : 'changeLast'
-			},
-			{
-				bText : "Register",
-				targetForm : 'createAccount'
-			},
-			{
-				bText : "Login Check",
-				targetForm : 'isLoggedIn'
-			}
-		]
-
-		$scope.formPrep = function(target) {
-			console.log("Clearing user form");
-			switch(target){
-				case 'login':
-					$scope.finText = "Login";
-					$scope.userForm = angular.copy($scope.loginForm);
-					$scope.finFunct = function() {
-						console.log("User logging in account with username: " + $scope.userForm.username.value);
-						var data = {user: $scope.userForm};
+				targetForm : { 
+				username:{field:"Username", value:"", type:"text", key: 0},
+				password:{field:"Password", value:"", type:"text", key: 1},
+				stayLoggedIn:{field:"Stay Logged In?", value:"false", type:"checkbox", key: 6}
+				},
+				targetFunction : function() {
+						$scope.dataPrep();
+						console.log("User logging in account with username: " + $scope.packet.username);
+						var data = {user: $scope.packet};
 						$scope.shower = data;
 						$http({
 						            method: 'post',
@@ -156,15 +111,18 @@ app.controller('testerCtrl',  ['$scope','$http', '$sce', function($scope,$http,$
 						            //usually happens when an exception is thrown
 						            console.error(response);
 						        });
-					};
-					break;
+				}
+			},
 
-				case 'logout':
-					$scope.finText = "Logout";
-					$scope.userForm = angular.copy($scope.logoutForm);
-					$scope.finFunct = function() {
-						console.log("User logging out account with username: " + $scope.userForm.username.value);
-						var data = {user: $scope.userForm};
+			{
+				bText : "Logout",
+				targetForm : {
+				username:{field:"Username", value:"", type:"text", key: 0}
+				},
+				targetFunction : function() {
+						$scope.dataPrep();
+						console.log("User logging out account with username: " + $scope.packet.username);
+						var data = {user: $scope.packet};
 						$scope.shower = data;
 						$http({
 						            method: 'post',
@@ -177,15 +135,23 @@ app.controller('testerCtrl',  ['$scope','$http', '$sce', function($scope,$http,$
 						            //usually happens when an exception is thrown
 						            console.error(response);
 						        });
-					};
-					break;
-
-				case 'getNotifications':
-					$scope.finText = "Get Notifications";
-					$scope.userForm = angular.copy($scope.getNotificationsForm);
-					$scope.finFunct = function() {
-						console.log("Getting user notifications with username: " + $scope.userForm.username.value);
-						var data = {user: $scope.userForm};
+				}
+			},
+			{
+				bText : "Get Notifications",
+				targetForm : {
+				username:{field:"Username", value:"", type:"text", key: 0},
+				password:{field:"Password", value:"", type:"text", key: 1},
+				notifyEmailToggle:{field:"Receive Email Notifications?", value:"false", type:"checkbox", key: 2},
+				firstName:{field:"First Name", value:"", type:"text", key: 3},
+				lastName:{field:"Last Name", value:"", type:"text", key: 4},
+				email:{field:"Email", value:"", type:"text", key: 5},
+				stayLoggedIn:{field:"Stay Logged In?", value:"false", type:"checkbox", key: 6}
+				},
+				targetFunction : function() {
+						$scope.dataPrep();
+						console.log("Getting user notifications with username: " + $scope.packet.username);
+						var data = {user: $scope.packet};
 						$scope.shower = data;
 						$http({
 						            method: 'post',
@@ -198,15 +164,18 @@ app.controller('testerCtrl',  ['$scope','$http', '$sce', function($scope,$http,$
 						            //usually happens when an exception is thrown
 						            console.error(response);
 						        });
-					};
-					break;
+				}
+			},
 
-				case 'removeAllNotifications':
-					$scope.finText = "Remove All Notifications";
-					$scope.userForm = angular.copy($scope.removeAllNotificationsForm);
-					$scope.finFunct = function() {
-						console.log("Removing all notifications with username: " + $scope.userForm.username.value);
-						var data = {user: $scope.userForm};
+			{
+				bText : "Remove All Notifications",
+				targetForm : {
+				username:{field:"Username", value:"", type:"text", key: 0}
+				},
+				targetFunction : function() {
+						$scope.dataPrep();
+						console.log("Removing all notifications with username: " + $scope.packet.username);
+						var data = {user: $scope.packet};
 						$scope.shower = data;
 						$http({
 						            method: 'post',
@@ -219,15 +188,18 @@ app.controller('testerCtrl',  ['$scope','$http', '$sce', function($scope,$http,$
 						            //usually happens when an exception is thrown
 						            console.error(response);
 						        });
-					};
-					break;
+				}
+			},
 
-				case 'removeNotification':
-					$scope.finText = "Remove a Notification";
-					$scope.userForm = angular.copy($scope.removeNotificationForm);
-					$scope.finFunct = function() {
-						console.log("Removing one notification with username: " + $scope.userForm.username.value);
-						var data = {user: $scope.userForm};
+			{
+				bText : "Remove Notification",
+				targetForm : {
+				username:{field:"Username", value:"", type:"text", key: 0}
+				},
+				targetFunction : function() {
+						$scope.dataPrep();
+						console.log("Removing one notification with username: " + $scope.packet.username);
+						var data = {user: $scope.packet};
 						$scope.shower = data;
 						$http({
 						            method: 'post',
@@ -240,15 +212,20 @@ app.controller('testerCtrl',  ['$scope','$http', '$sce', function($scope,$http,$
 						            //usually happens when an exception is thrown
 						            console.error(response);
 						        });
-					};
-					break;
+				}
+			},
 
-				case 'changePassword':
-					$scope.finText = "Change Password";
-					$scope.userForm = angular.copy($scope.changePasswordForm);
-					$scope.finFunct = function() {
-						console.log("Changing password with username: " + $scope.userForm.username.value);
-						var data = {user: $scope.userForm};
+			{
+				bText : "Change Password",
+				targetForm : {
+				username:{field:"Username", value:"", type:"text", key: 0},
+				password:{field:"Password", value:"", type:"text", key: 1},
+				newPassword:{field:"New Password", value:'', type:"text", key: 7}
+				},
+				targetFunction : function() {
+						$scope.dataPrep();
+						console.log("Changing password with username: " + $scope.packet.username);
+						var data = {user: $scope.packet};
 						$scope.shower = data;
 						$http({
 						            method: 'post',
@@ -261,15 +238,19 @@ app.controller('testerCtrl',  ['$scope','$http', '$sce', function($scope,$http,$
 						            //usually happens when an exception is thrown
 						            console.error(response);
 						        });
-					};
-					break;
+				}
+			},
 
-				case 'changeEmail':
-					$scope.finText = "Change Email";
-					$scope.userForm = angular.copy($scope.changeEmailForm);
-					$scope.finFunct = function() {
-						console.log("Changing Email with username: " + $scope.userForm.username.value);
-						var data = {user: $scope.userForm};
+			{
+				bText : "Change Email",
+				targetForm : {
+				username:{field:"Username", value:"", type:"text", key: 0},
+				newEmail:{field:"New Email", value:"", type:"text", key: 8}
+				},
+				targetFunction : function() {
+						$scope.dataPrep();
+						console.log("Changing Email with username: " + $scope.packet.username);
+						var data = {user: $scope.packet};
 						$scope.shower = data;
 						$http({
 						            method: 'post',
@@ -282,15 +263,19 @@ app.controller('testerCtrl',  ['$scope','$http', '$sce', function($scope,$http,$
 						            //usually happens when an exception is thrown
 						            console.error(response);
 						        });
-					};
-					break;
+				}
+			},
 
-				case 'changeFirst':
-					$scope.finText = "Change First Name";
-					$scope.userForm = angular.copy($scope.changeFirstForm);
-					$scope.finFunct = function() {
-						console.log("Changing first name with username: " + $scope.userForm.username.value);
-						var data = {user: $scope.userForm};
+			{
+				bText : "Change First Name",
+				targetForm : {
+				username:{field:"Username", value:"", type:"text", key: 0},
+				newFirstName:{field:"New First Name", value:"", type:"text", key: 9}
+				},
+				targetFunction : function() {
+						$scope.dataPrep();
+						console.log("Changing first name with username: " + $scope.packet.username);
+						var data = {user: $scope.packet};
 						$scope.shower = data;
 						$http({
 						            method: 'post',
@@ -303,15 +288,19 @@ app.controller('testerCtrl',  ['$scope','$http', '$sce', function($scope,$http,$
 						            //usually happens when an exception is thrown
 						            console.error(response);
 						        });
-					};
-					break;
+				}
+			},
 
-				case 'changeLast':
-					$scope.finText = "Change Last";
-					$scope.userForm = angular.copy($scope.changeLastForm);
-					$scope.finFunct = function() {
-						console.log("Changing Last with username: " + $scope.userForm.username.value);
-						var data = {user: $scope.userForm};
+			{
+				bText : "Change Last Name",
+				targetForm : {
+				username:{field:"Username", value:"", type:"text", key: 0},
+				newLastName:{field:"New Last Name", value:"", type:"text", key: 10}
+				},
+				targetFunction : function() {
+						$scope.dataPrep();
+						console.log("Changing Last with username: " + $scope.packet.username);
+						var data = {user: $scope.packet};
 						$scope.shower = data;
 						$http({
 						            method: 'post',
@@ -324,15 +313,24 @@ app.controller('testerCtrl',  ['$scope','$http', '$sce', function($scope,$http,$
 						            //usually happens when an exception is thrown
 						            console.error(response);
 						        });
-					};
-					break;
+				}
+			},
 
-				case 'createAccount':
-					$scope.finText = "Register";
-					$scope.userForm = angular.copy($scope.registerForm);
-					$scope.finFunct = function() {
+			{
+				bText : "Register",
+				targetForm : {
+				username:{field:"Username", value:"", type:"text", key: 0},
+				password:{field:"Password", value:"", type:"text", key: 1},
+				notifyEmailToggle:{field:"Receive Email Notifications?", value:"false", type:"checkbox", key: 2},
+				firstName:{field:"First Name", value:"", type:"text", key: 3},
+				lastName:{field:"Last Name", value:"", type:"text", key: 4},
+				email:{field:"Email", value:"", type:"text", key: 5},
+				stayLoggedIn:{field:"Stay Logged In?", value:"false", type:"checkbox", key: 6}
+				},
+				targetFunction : function() {
+						$scope.dataPrep();
 						console.log("User creating account with username: " + $scope.userForm.username.value);
-						var data = {user: $scope.userForm};
+						var data = {user: $scope.packet};
 						$scope.shower = data;
 						$http({
 					            method: 'post',
@@ -345,15 +343,18 @@ app.controller('testerCtrl',  ['$scope','$http', '$sce', function($scope,$http,$
 					            //usually happens when an exception is thrown
 					            console.error(response);
 					        });
-					};
-					break;
+				}
+			},
 
-				case 'isLoggedIn':
-					$scope.finText = "Is Logged In";
-					$scope.userForm = angular.copy($scope.isLoggedInForm);
-					$scope.finFunct = function() {
+			{
+				bText : "Login Check",
+				targetForm : {
+				username:{field:"Username", value:"", type:"text", key: 0}
+				},
+				targetFunction : function() {
+						$scope.dataPrep();
 						console.log("Checking if user is logged in with username: " + $scope.userForm.username.value);
-						var data = {user: $scope.userForm};
+						var data = {user: $scope.packet};
 						$scope.shower = data;	
 						$http({
 					            method: 'post',
@@ -366,82 +367,69 @@ app.controller('testerCtrl',  ['$scope','$http', '$sce', function($scope,$http,$
 					            //usually happens when an exception is thrown
 					            console.error(response);
 					        });
-					};
-					break;
+				}
 			}
+		]
+
+		$scope.formPrep = function(target) {
+			console.log("Clearing user form");
+			$scope.finText = target.bText;
+			$scope.userForm = angular.copy(target.targetForm);
+			$scope.finFunct = target.targetFunction;
 		}
 
+		$scope.dataPrep = function() {
+			console.log("Begin dataprep of current userForm");
+			$scope.packet = {}
+			//This function takes one of the form objects and strips it down to the data to send to backend.
+			for ( var field in $scope.userForm) {
+				console.log("Handling field: " + field);
+				switch ($scope.userForm[field].key) {
+					case 0:
+						$scope.packet.username = $scope.userForm[field].value;
+						break;
+					case 1:
+						$scope.packet.password = $scope.userForm[field].value;
+						break;
+					case 2:
+						$scope.packet.notifyEmailToggle = $scope.userForm[field].value;
+						break;
+					case 3:
+						$scope.packet.firstName = $scope.userForm[field].value;
+						break;
+					case 4:
+						$scope.packet.lastName = $scope.userForm[field].value;
+						break;
+					case 5:
+						$scope.packet.email = $scope.userForm[field].value;
+						break;
+					case 6:
+						$scope.packet.stayLoggedIn = $scope.userForm[field].value;
+						break;
+					case 7:
+						$scope.packet.newPassword = $scope.userForm[field].value;
+						break;
+					case 8:
+						$scope.packet.newEmail = $scope.userForm[field].value;
+						break;
+					case 9:
+						$scope.packet.newFirstName = $scope.userForm[field].value;
+						break;
+					case 10:
+						$scope.packet.newLastName = $scope.userForm[field].value;
+						break;
+				}
+			}
+		} 
+
 		$scope.userFormDefault = {
-				username:{field:"Username", value:"", type:"text"},
-				password:{field:"Password", value:"", type:"text"},
-				notifyEmailToggle:{field:"Receive Email Notifications?", value:"false", type:"checkbox"},
-				firstName:{field:"First Name", value:"", type:"text"},
-				lastName:{field:"Last Name", value:"", type:"text"},
-				email:{field:"Email", value:"", type:"text"},
-				stayLoggedIn:{field:"Stay Logged In?", value:"false", type:"checkbox"}
-		};
-
-		$scope.loginForm = { 
-			username:{field:"Username", value:"", type:"text"},
-			password:{field:"Password", value:"", type:"text"},
-			stayLoggedIn:{field:"Stay Logged In?", value:"false", type:"checkbox"}
-		};
-
-		$scope.logoutForm = {
-				username:{field:"Username", value:"", type:"text"}
-		};
-
-		$scope.getNotificationsForm = {
-				username:{field:"Username", value:"", type:"text"},
-				password:{field:"Password", value:"", type:"text"},
-				notifyEmailToggle:{field:"Receive Email Notifications?", value:"false", type:"checkbox"},
-				firstName:{field:"First Name", value:"", type:"text"},
-				lastName:{field:"Last Name", value:"", type:"text"},
-				email:{field:"Email", value:"", type:"text"},
-				stayLoggedIn:{field:"Stay Logged In?", value:"false", type:"checkbox"}
-		};
-
-		$scope.removeAllNotificationsForm = {
-				username:{field:"Username", value:"", type:"text"}
-		};
-
-		$scope.removeNotificationForm = {
-				username:{field:"Username", value:"", type:"text"}
-		};
-
-		$scope.changePasswordForm = {
-				username:{field:"Username", value:"", type:"text"},
-				password:{field:"Password", value:"", type:"text"},
-				newPassword:{field:"New Password", value:'', type:"text"}
-		};
-
-		$scope.changeEmailForm = {
-				username:{field:"Username", value:"", type:"text"},
-				newEmail:{field:"New Email", value:"", type:"text"}
-		};
-
-		$scope.changeFirstForm = {
-				username:{field:"Username", value:"", type:"text"},
-				newFirstName:{field:"New First Name", value:"", type:"text"}
-		};
-
-		$scope.changeLastForm = {
-				username:{field:"Username", value:"", type:"text"},
-				newLastName:{field:"New Last Name", value:"", type:"text"}
-		};
-
-		$scope.createAccountForm = {
-				username:{field:"Username", value:"", type:"text"},
-				password:{field:"Password", value:"", type:"text"},
-				notifyEmailToggle:{field:"Receive Email Notifications?", value:"false", type:"checkbox"},
-				firstName:{field:"First Name", value:"", type:"text"},
-				lastName:{field:"Last Name", value:"", type:"text"},
-				email:{field:"Email", value:"", type:"text"},
-				stayLoggedIn:{field:"Stay Logged In?", value:"false", type:"checkbox"}
-		};
-
-		$scope.isLoggedInForm = {
-				username:{field:"Username", value:"", type:"text"}
+				username:{field:"Username", value:"", type:"text", key: 0},
+				password:{field:"Password", value:"", type:"text", key: 1},
+				notifyEmailToggle:{field:"Receive Email Notifications?", value:"false", type:"checkbox", key: 2},
+				firstName:{field:"First Name", value:"", type:"text", key: 3},
+				lastName:{field:"Last Name", value:"", type:"text", key: 4},
+				email:{field:"Email", value:"", type:"text", key: 5},
+				stayLoggedIn:{field:"Stay Logged In?", value:"false", type:"checkbox", key: 6}
 		};
 
 		init();

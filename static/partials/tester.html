@@ -8,11 +8,13 @@
 	<div style="width:100%; border-bottom: 1px solid yellow; margin-top: 25px;"></div>
 	<h3 class="white-text">{{ testBody }}</h3>
 
+<label ng-repeat="fun in userFunctions">
+	<button type="button" class="btn btn-info btn-lg open-Modal" data-id="{{ fun.bText }}" title="{{ fun.desctiption }}" data-toggle="modal" data-target="#Modal" ng-click="formPrep(fun)">{{ fun.bText }}</button>
 
-<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#registerModal">Register Now</button>
+</label>
 
 <!-- Modal -->
-<div id="registerModal" class="modal fade" role="dialog">
+<div id="Modal" class="modal fade" role="dialog">
   <div class="modal-dialog">
 
     <!-- Modal content-->
@@ -23,9 +25,14 @@
       </div>
       <div class="modal-body">
         <div ng-repeat="object in userForm">
-        	<label>{{object.field}}<input type="{{object.type}}" ng-model="object.value"></label>
+          <label style="display:block;padding-top:15px;"> {{ object.field }}  <input type="{{ object.type }}" ng-model="object.value"></label>
         </div>
-        <button ng-click="createAccount()">Register</button>
+        <button ng-click="finFunct()" name="functionName" id="functionName">{{ finText }}</button>
+        <br>
+        <h3>whats going to cann</h3>
+
+        <p>{{ packet }}</p>
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

@@ -39,8 +39,8 @@ app.config(
 
                     .state('prescreen', {
                         url: '/prescreen',
-                        templateUrl: '/static/partials/prescreen.html',
-                        controller: 'prescreenCtrl',
+                        templateUrl: '/static/partials/pdfviewer.html',
+                        controller: 'assistDocPrepCtrl',
                     })
                     
                     .state('aboutus', {

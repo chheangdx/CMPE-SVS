@@ -11,6 +11,12 @@ def index(request):
 	staticpath=static('');
 	context = {'staticpath':staticpath}
 	return HttpResponse(template.render(context, request))
+	
+def pdfview(request):
+	template = loader.get_template('pdfviewhelloworld.html')
+	staticpath=static('');
+	context = {'staticpath':staticpath}
+	return HttpResponse(template.render(context, request))
 
 def watsonq(request):
 	#prolog

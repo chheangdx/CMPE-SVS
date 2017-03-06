@@ -58,3 +58,16 @@ def login(request):
 	return HttpResponse(json.dumps(response))
 
 
+
+def createAccount(request):
+	#prolog
+	body_unicode = request.body.decode('utf-8')
+	data = json.loads(body_unicode)
+	
+   	
+   	print("Received Command: Login.")
+
+	response = AccountsController.controller("login", data);
+
+	#epilog 
+	return HttpResponse(json.dumps(response))

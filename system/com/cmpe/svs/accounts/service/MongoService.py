@@ -19,14 +19,18 @@ def login(db, username, password):
         accountInformation = db.find_one({"username": username})
         if (accountInformation['username'] == username):
             if (accountInformation['password'] == password):
+                accountInformation['isLoggedIn'] = "true"
                 print("Login Success: Account Information Authenticated.")
-                return True
+                response = {"login": "TRUE"}
             else:
                 print("Login Error: Incorrect Password.")
-                return False
+                response = {"login": "FALSE", 
+                            "error": "Incorrect Password." }
     else:
         print("Login Error: Username does not exist.")
-        return False
+        response = {"login": "FALSE",
+                    "error:": "Username does not exist."}
+    return response
     
 def createAccount(db, username, password, email, firstName, lastName, isLoggedIn):
     accountInformation = {  "username":     username,
@@ -40,9 +44,13 @@ def createAccount(db, username, password, email, firstName, lastName, isLoggedIn
     print("Creating Account..")
     if( db.find_one({"username": username})):
         print("Account Creation Error: Username already exists.")
+        response = {"createAccount": "FALSE", 
+                            "error": "Username already exists." }
     else:
         result = db.insert_one(accountInformation)
         print("Account Creation Success: Account created.")
+        response = {"createAccount": "TRUE"}        
+    return response
         
 
 
@@ -92,24 +100,36 @@ def logout(db, username):
     accountInformation = db.find_one({"username": username})
     accountInformation['isLoggedIn'] = "False"
     db.save(accountInformation)
-    print("Account Status : ") + accountInformation['isLoggedIn']
+    print("Account Logged In Status: ") + accountInformation['isLoggedIn']
+    response = {"logout": "TRUE"}
+    return response
 
 
 def service(request, data):
-    toBeReplaced = "TBD"
-    response = {"Login": "TBD"}
     global db
+    accountInformation = data
 
     if(request == "login"):
+        username = accountInformation['user']['username']
+        username = username.lower()
+        password = accountInformation['user']['password']
+        response = login(db, username, password)
 
-        username = toBeReplaced
-        password = toBeReplaced
-        if(login(db, username, password)):
-            response = {"Login": "TRUE"}
-        else:
-            response = {"Login": "FALSE"}
-
+    if(request == "createAccount"):
+        username = accountInformation['user']['username']
+        username = username.lower()
+        password = accountInformation['user']['password']
+        email = accountInformation['user']['email']
+        firstName = accountInformation['user']['firstName']
+        lastName = accountInformation['user']['lastName']
+        isLoggedIn = "true"
+        response = createAccount(db, username, password, email, firstName, lastName, isLoggedIn)
     
+    if(request == "logout"):
+        username = accountInformation['user']['username']
+        username = username.lower()
+        response = logout(db, username)
+
 
 
     return response

@@ -8,13 +8,13 @@ import ast
 # Create your views here.
 def index(request):
 	template = loader.get_template('base/base.html')
-	staticpath=static('');
+	staticpath=static('')
 	context = {'staticpath':staticpath}
 	return HttpResponse(template.render(context, request))
 	
 def pdfview(request):
 	template = loader.get_template('pdfviewhelloworld.html')
-	staticpath=static('');
+	staticpath=static('')
 	context = {'staticpath':staticpath}
 	return HttpResponse(template.render(context, request))
 

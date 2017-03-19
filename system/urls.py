@@ -15,7 +15,9 @@ urlpatterns = [
     url(r'^logout$', tester.logout, name = 'logout')
 =======
     url(r'^fileTest$', tester.fileTest, name = 'fileTest'),
-    url(r'^fileTestGet$', tester.fileTestGet, name = 'fileTestGet')
+    url(r'^fileTestGet$', tester.fileTestGet, name = 'fileTestGet'),
+    url(r'^annotationTest$', tester.annotationTest, name = 'annotationTest'),
+    url(r'^annotationTestGet$', tester.annotationTestGet, name = 'annotationTestGet')
     #url(r'^logout$', tester.logout, name = 'logout')
 >>>>>>> origin/useraccounts
    # url(r'^getNotifications$', tester.getNotifications, name = 'getNotifications')

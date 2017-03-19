@@ -14,6 +14,7 @@ from .com.cmpe.svs.accounts.controllers import AccountsController	# account cont
 
 count = 0
 myFile = 0
+myAnnotations = []
 
 def test(request):
 	#prolog
@@ -48,25 +49,24 @@ def webcrawler(request):
 def login(request):
 	body_unicode = request.body.decode('utf-8')
 	data = json.loads(body_unicode)
-<<<<<<< HEAD
+
 	response = AccountsController.controller("login", data);
 	print("Returning data:")
 	print(response)
-=======
+
 
 	print("Received Command: Login.")
 
 	response = AccountsController.controller("login", data)
 
 	#epilog 
->>>>>>> origin/useraccounts
 	return HttpResponse(json.dumps(response))
 
 
 def createAccount(request):
 	body_unicode = request.body.decode('utf-8')
 	data = json.loads(body_unicode)
-<<<<<<< HEAD
+
 	response = AccountsController.controller("createAccount", data);
 	print(response)
 	return HttpResponse(json.dumps(response))
@@ -77,7 +77,7 @@ def logout(request):
 	response = AccountsController.controller("logout", data);
 	print(response)
 	return HttpResponse(json.dumps(response))
-=======
+
 	
    	
    	print("Received Command: Login.")
@@ -105,4 +105,19 @@ def fileTestGet(request):
 	
 	#epilog
 	return (HttpResponse(myFile))
->>>>>>> origin/useraccounts
+
+def annotationTest(request):
+	#prolog
+	body_unicode = request.body.decode('utf-8')
+	body = json.loads(body_unicode)
+	
+	#body
+	global myAnnotations
+	myAnnotations = body['annotations']
+	
+	#epilog
+	return (HttpResponse(request.body))
+	
+def annotationTestGet(request):
+	
+	return (HttpResponse(json.dumps(myAnnotations)))

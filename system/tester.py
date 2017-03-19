@@ -14,6 +14,7 @@ from .com.cmpe.svs.accounts.controllers import AccountsController	# account cont
 
 count = 0
 myFile = 0
+myAnnotations = []
 
 def test(request):
 	#prolog
@@ -90,3 +91,18 @@ def fileTestGet(request):
 	
 	#epilog
 	return (HttpResponse(myFile))
+def annotationTest(request):
+	#prolog
+	body_unicode = request.body.decode('utf-8')
+	body = json.loads(body_unicode)
+	
+	#body
+	global myAnnotations
+	myAnnotations = body['annotations']
+	
+	#epilog
+	return (HttpResponse(request.body))
+	
+def annotationTestGet(request):
+	
+	return (HttpResponse(json.dumps(myAnnotations)))

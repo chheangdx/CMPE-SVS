@@ -47,9 +47,13 @@ def webcrawler(request):
 	return HttpResponse(response)
 
 def login(request):
-	#prolog
 	body_unicode = request.body.decode('utf-8')
 	data = json.loads(body_unicode)
+
+	response = AccountsController.controller("login", data);
+	print("Returning data:")
+	print(response)
+
 
 	print("Received Command: Login.")
 
@@ -59,11 +63,21 @@ def login(request):
 	return HttpResponse(json.dumps(response))
 
 
-
 def createAccount(request):
-	#prolog
 	body_unicode = request.body.decode('utf-8')
 	data = json.loads(body_unicode)
+
+	response = AccountsController.controller("createAccount", data);
+	print(response)
+	return HttpResponse(json.dumps(response))
+
+def logout(request):
+	body_unicode = request.body.decode('utf-8')
+	data = json.loads(body_unicode)
+	response = AccountsController.controller("logout", data);
+	print(response)
+	return HttpResponse(json.dumps(response))
+
 	
    	
    	print("Received Command: Login.")
@@ -91,6 +105,7 @@ def fileTestGet(request):
 	
 	#epilog
 	return (HttpResponse(myFile))
+
 def annotationTest(request):
 	#prolog
 	body_unicode = request.body.decode('utf-8')

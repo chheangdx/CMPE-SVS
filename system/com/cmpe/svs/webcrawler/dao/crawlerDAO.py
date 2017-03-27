@@ -7,7 +7,7 @@
 #imports for web parser
 from htmlentitydefs import name2codepoint
 import urllib
-import HTMLParser
+from html.parser import HTMLParser
 
 #regular expression validator
 import re
@@ -16,7 +16,7 @@ import re
 urlText = []
 
 #our parser
-class MyHTMLParser(HTMLParser.HTMLParser):
+class MyHTMLParser(HTMLParser):
 	def handle_starttag(self, tag, attrs):
 		print "Start tag:", tag
 		for attr in attrs:

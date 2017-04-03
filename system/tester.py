@@ -11,6 +11,11 @@ import urllib
 from .com.cmpe.svs.webcrawler.controllers import crawlerController
 
 from .com.cmpe.svs.accounts.controllers import AccountsController	# account controller
+from .com.cmpe.svs.security import SVSEncryptionFactory
+
+#secret key cryptography
+from simplecrypt import encrypt, decrypt
+from binascii import hexlify, unhexlify
 
 count = 0
 myFile = 0
@@ -39,9 +44,9 @@ def webcrawler(request):
 
 	#body 
 	thisurl = body["data"]
-	#response = crawlerController.simpleCrawl(thisurl)
+	response = crawlerController.simpleCrawl(thisurl)
 	#response = crawlerController.parseText(thisurl)
-	response = crawlerController.crawl(thisurl)
+	#response = crawlerController.crawl(thisurl)
 	
 	#epilog 
 	return HttpResponse(response)
@@ -114,10 +119,34 @@ def annotationTest(request):
 	#body
 	global myAnnotations
 	myAnnotations = body['annotations']
-	
+	if(len(myAnnotations) > 0):
+		plaintext = myAnnotations[0]['text']
+		ciphertext = encrypt('password', plaintext)
+		myAnnotations[0]['text'] = ciphertext
+		print(plaintext)
+		
 	#epilog
 	return (HttpResponse(request.body))
 	
 def annotationTestGet(request):
 	
 	return (HttpResponse(json.dumps(myAnnotations)))
+	
+def stringEncryption(request):
+	#prolog
+	body_unicode = request.body.decode('utf-8')
+	body = json.loads(body_unicode)
+
+	#body 
+	inputString = body["data"]
+	layer1 = SVSEncryptionFactory.svsSign(inputString, "test", False)
+	layer2 = SVSEncryptionFactory.svsEncrypt(layer1, "test")
+	layer3 = SVSEncryptionFactory.svsSign(layer2, "salt", True)
+	layer3_2 = SVSEncryptionFactory.svsUnsign(layer3, "salt", True)
+	layer2_2 = SVSEncryptionFactory.svsDecrypt(layer3_2, "test", True)
+	layer1_2 = SVSEncryptionFactory.svsUnsign(layer2_2, "test", False)
+	
+	response = {"message": layer1_2}
+	
+	#epilog 
+	return HttpResponse(response)

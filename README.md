@@ -38,3 +38,7 @@ Python 3.5.2<br />
 Django 1.10.1 <br />
 pymongo <br />
 watson-developer-cloud <br />
+
+Additionally, download and install the below packages. Use "python setup.py build" and then "python setup.py install"<br/>
+PyCrypto (requires python 3.2 at least) <br />
+Simple Crypt <br />

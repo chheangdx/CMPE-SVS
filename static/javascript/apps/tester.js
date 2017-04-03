@@ -10,7 +10,8 @@ app.controller('testerCtrl',  ['$scope','$http', '$sce', function($scope,$http,$
 		$scope.dataInput = "";
 		
 		var urlOptions = [{'label': 'Default Tester', 'url': '/testmyrequest', 'desc': 'simple tester'}, 
-			{'label': 'Web Crawl Tester', 'url': '/testWebCrawler', 'desc': 'web crawling with python'}];
+			{'label': 'Web Crawl Tester', 'url': '/testWebCrawler', 'desc': 'web crawling with python'},
+			{'label': 'Encryption Testing', 'url': '/stringEncryption', 'desc': 'test encryption of a string'}];
 		
 		$scope.test = function() {
 			console.log("Button was clicked!");

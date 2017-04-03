@@ -21,3 +21,7 @@ Required Packages:
 	Django 1.10.1 
 	pymongo
 	--upgrade watson-developer-cloud
+	
+Additionally, download and install the below packages. Use "python setup.py build" and then "python setup.py install"
+PyCrypto (requires python 3.2 at least)
+Simple Crypt

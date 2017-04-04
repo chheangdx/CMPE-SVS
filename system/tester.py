@@ -11,7 +11,7 @@ import urllib
 from .com.cmpe.svs.webcrawler.controllers import crawlerController
 
 from .com.cmpe.svs.accounts.controllers import AccountsController	# account controller
-from .com.cmpe.svs.security import SVSEncryptionFactory
+from .com.cmpe.svs.utility import SVSEncryptionFactory
 
 #secret key cryptography
 from simplecrypt import encrypt, decrypt
@@ -99,7 +99,9 @@ def fileTest(request):
 	#body
 	global myFile
 	myFile = request.body
-	
+	myFile = SVSEncryptionFactory.svsSign(myFile, "pdf", True)
+	myFile = SVSEncryptionFactory.svsEncrypt(myFile, "key")
+	myFile = SVSEncryptionFactory.svsSign(myFile, "calcium chloride", True)
 	#epilog
 	return (HttpResponse(request.body))
 
@@ -107,9 +109,11 @@ def fileTestGet(request):
 	#prolog
 	
 	#body 
-	
+	toReturn = SVSEncryptionFactory.svsUnsign(myFile, "calcium chloride", True)
+	toReturn = SVSEncryptionFactory.svsDecrypt(toReturn, "key", True)
+	toReturn = SVSEncryptionFactory.svsUnsign(toReturn, "pdf", True)
 	#epilog
-	return (HttpResponse(myFile))
+	return (HttpResponse(toReturn))
 
 def annotationTest(request):
 	#prolog

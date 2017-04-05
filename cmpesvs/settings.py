@@ -25,6 +25,17 @@ SECRET_KEY = '3-rh9_g!*$+it9^)3!9&hkc3-@%&&t9yl#yl@@y-irs1+#=0ol'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# SECURITY WARNING: redirect all http request to https, turn on in production
+SECURE_SSL_REDIRECT = False
+
+# SECURITY: prevent other sites from using iFrames
+X_FRAME_OPTIONS = 'DENY'
+
+# SESSIONS: 
+#3 possible forms of using sessions: signed cookies, cache, temporary file
+SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
 ALLOWED_HOSTS = []
 
 

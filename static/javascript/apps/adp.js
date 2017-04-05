@@ -31,6 +31,28 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
    $scope.checkAnnotations = function(){
    		console.log(anno.getAnnotations());   
    }
+   $scope.checkAnnotationsBackEnd = function(){
+   	   		var annotations = anno.getAnnotations();
+			//annotations[0]['text'] = sjcl.encrypt("password", annotations[0]['text']);
+			$http({
+					method : 'post',
+					url : '/annotationTest',
+					data : {'annotations': annotations}
+			}).then(function successCallback(response) {
+			
+				console.log(response);
+			}, function errorCallback(response) {
+				console.log("HTTP File Response failed: " + response);
+			});   	   
+//   	   $http({
+//   	   		   method : 'post',
+//   	   		   url : '/annotationTestGet'
+//   	   }).then(function successCallback(response) {
+//   	   	   console.log(response.data);
+//  	   }, function errorCallback(response) {
+//   	   	   console.log("HTTP File Response failed: " + response);
+//   	   });
+   }
    var init = function(){
   	  //
   	  // If absolute URL from the remote server is provided, configure the CORS
@@ -90,11 +112,13 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
   	  		  		  		  		  method : 'post',
   	  		  		  		  		  url : '/annotationTestGet'
   	  		  		  		  }).then(function successCallback(response) {
-  	  		  		  		  	  console.log(response.data[0]);
-  	  		  		  		  	  var annotation_0 = response.data[0];
-  	  		  		  		  	  annotation_0["src"] = "http://stable-identifier/for-image";
-  	  		  		  		  	  console.log(annotation_0);
-  	  		  		  		  	  anno.addAnnotation(annotation_0, null);
+  	  		  		  		  	  if(response.data.length > 0){
+  	  		  		  		  	  	  console.log(response.data[0]);
+  	  		  		  		  	  	  var annotation_0 = response.data[0];
+  	  		  		  		  	  	  annotation_0["src"] = "http://stable-identifier/for-image";
+  	  		  		  		  	  	  console.log(annotation_0);
+  	  		  		  		  	  	  anno.addAnnotation(annotation_0, null);
+  	  		  		  		  	  }
   	  		  		  		  }, function errorCallback(response) {
   	  		  		  		  	  console.log("HTTP File Response failed: " + response);
   	  		  		  		  });

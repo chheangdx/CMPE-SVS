@@ -4,19 +4,33 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
   $scope.testFile = function(){
 		var file = $scope.myFile;
 		var fd = new FormData();
-
+		
         fd.append('file', file);
-        
+       
 		$http({
 			method : 'post',
 			url : '/fileTest',
 			data : fd
 		}).then(function successCallback(response) {
 			console.log(response);
+			var annotations = anno.getAnnotations();
+			$http({
+					method : 'post',
+					url : '/annotationTest',
+					data : {'annotations': annotations}
+			}).then(function successCallback(response) {
+			
+				console.log(response);
+			}, function errorCallback(response) {
+				console.log("HTTP File Response failed: " + response);
+			});
 		}, function errorCallback(response) {
 			console.log("HTTP File Response failed: " + response);
 		});
 	};
+   $scope.checkAnnotations = function(){
+   		console.log(anno.getAnnotations());   
+   }
    var init = function(){
   	  //
   	  // If absolute URL from the remote server is provided, configure the CORS
@@ -72,6 +86,18 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
   	  		  		  		  var image = document.getElementById('pdfview');
   	  		  		  		  image.src = canvas.toDataURL('image/jpeg');
   	  		  		  		  anno.makeAnnotatable(document.getElementById('pdfview'));
+  	  		  		  		  $http({
+  	  		  		  		  		  method : 'post',
+  	  		  		  		  		  url : '/annotationTestGet'
+  	  		  		  		  }).then(function successCallback(response) {
+  	  		  		  		  	  console.log(response.data[0]);
+  	  		  		  		  	  var annotation_0 = response.data[0];
+  	  		  		  		  	  annotation_0["src"] = "http://stable-identifier/for-image";
+  	  		  		  		  	  console.log(annotation_0);
+  	  		  		  		  	  anno.addAnnotation(annotation_0, null);
+  	  		  		  		  }, function errorCallback(response) {
+  	  		  		  		  	  console.log("HTTP File Response failed: " + response);
+  	  		  		  		  });
   	  		  		  });
   	  		  });
   	  });

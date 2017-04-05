@@ -14,6 +14,7 @@ import urllib
 from .com.cmpe.svs.webcrawler.controllers import crawlerController
 
 from .com.cmpe.svs.accounts.controllers import AccountsController	# account controller
+from .com.cmpe.svs.utility import SVSEncryptionFactory, SVSSessionFactory 
 
 count = 0
 myFile = 0
@@ -231,13 +232,23 @@ def logout(request):
 	
 def fileTest(request):
 	#prolog
-	
+	databaseName = 'TestDB'
+ 
+	db = connectToMongoDB(databaseName)
+ 
+	fs = gridfs.GridFS(db)
+ 
 	#body
 	global myFile
 	myFile = request.body
 	myFile = SVSEncryptionFactory.svsSign(myFile, "pdf", True)
 	myFile = SVSEncryptionFactory.svsEncrypt(myFile, "key")
 	myFile = SVSEncryptionFactory.svsSign(myFile, "calcium chloride", True)
+ 
+	testfile = fs.put(myFile, filename = "pdf321", username = "kickthecann3")
+ 
+	out = fs.get(testfile)
+
 	#epilog
 	return (HttpResponse(request.body))
 
@@ -245,6 +256,16 @@ def fileTestGet(request):
 	#prolog
 	
 	#body 
+	databaseName = 'TestDB'
+ 
+	db = connectToMongoDB(databaseName)
+ 
+	fs = gridfs.GridFS(db)
+ 
+
+	for grid_data in fs.find({"username":"kickthecann3","filename": "pdf321"}, no_cursor_timeout=True):
+		data = grid_data.read()
+ 
 	toReturn = SVSEncryptionFactory.svsUnsign(myFile, "calcium chloride", True)
 	toReturn = SVSEncryptionFactory.svsDecrypt(toReturn, "key", True)
 	toReturn = SVSEncryptionFactory.svsUnsign(toReturn, "pdf", True)

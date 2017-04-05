@@ -3,6 +3,9 @@ from django.template import loader
 from django.contrib.staticfiles.templatetags.staticfiles import static
 import json
 import ast
+import pymongo
+from pymongo import MongoClient
+import gridfs
 
 #web crawler imports
 import urllib
@@ -15,6 +18,25 @@ from .com.cmpe.svs.accounts.controllers import AccountsController	# account cont
 count = 0
 myFile = 0
 
+
+def connectToMongoDB(databaseName):
+    print("Connecting to MongoDB...documents")
+    client = MongoClient('aws-us-east-1-portal.17.dblayer.com', 15319)
+    if not client:
+        print("MongoDB Error: Could not connect to DB.")
+    db = client[databaseName]
+    db.authenticate('cann', 'cannpassword', mechanism = 'SCRAM-SHA-1')
+    if not(db):
+    	print("error")
+    return db
+    
+def uploadDocument(db, file):
+    print("Uploading pdf..")
+    document = {"document": file}
+    db.insert_one(document)
+
+
+    
 def test(request):
 	#prolog
 	body_unicode = request.body.decode('utf-8')
@@ -48,25 +70,23 @@ def webcrawler(request):
 def login(request):
 	body_unicode = request.body.decode('utf-8')
 	data = json.loads(body_unicode)
-<<<<<<< HEAD
 	response = AccountsController.controller("login", data);
 	print("Returning data:")
 	print(response)
-=======
+
 
 	print("Received Command: Login.")
 
 	response = AccountsController.controller("login", data)
 
 	#epilog 
->>>>>>> origin/useraccounts
+
 	return HttpResponse(json.dumps(response))
 
 
 def createAccount(request):
 	body_unicode = request.body.decode('utf-8')
 	data = json.loads(body_unicode)
-<<<<<<< HEAD
 	response = AccountsController.controller("createAccount", data);
 	print(response)
 	return HttpResponse(json.dumps(response))
@@ -77,7 +97,6 @@ def logout(request):
 	response = AccountsController.controller("logout", data);
 	print(response)
 	return HttpResponse(json.dumps(response))
-=======
 	
    	
    	print("Received Command: Login.")
@@ -89,20 +108,34 @@ def logout(request):
 	
 	
 def fileTest(request):
-	#prolog
-	
-	#body
+	databaseName = 'TestDB'
+	db = connectToMongoDB(databaseName)
+	fs = gridfs.GridFS(db)
+
+
 	global myFile
 	myFile = request.body
-	
-	#epilog
+	testfile = fs.put(myFile, filename = "pdf21", username = "kickthecann3")
+	out = fs.get(testfile)
+
+
+
+	print("bloop")
+	print(out)
+	#uploadDocument(db, myFile)
+
+
 	return (HttpResponse(request.body))
 
 def fileTestGet(request):
-	#prolog
-	
-	#body 
-	
-	#epilog
-	return (HttpResponse(myFile))
->>>>>>> origin/useraccounts
+	databaseName = 'TestDB'
+	db = connectToMongoDB(databaseName)
+	fs = gridfs.GridFS(db)
+
+	for grid_data in fs.find({"username":"kickthecann3","filename": "pdf21"}, no_cursor_timeout=True):
+    		data = grid_data.read()
+
+ 
+
+	return (HttpResponse(data))
+

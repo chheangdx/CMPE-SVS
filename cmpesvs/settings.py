@@ -31,6 +31,11 @@ SECURE_SSL_REDIRECT = False
 # SECURITY: prevent other sites from using iFrames
 X_FRAME_OPTIONS = 'DENY'
 
+# SESSIONS: 
+#3 possible forms of using sessions: signed cookies, cache, temporary file
+SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
 ALLOWED_HOSTS = []
 
 

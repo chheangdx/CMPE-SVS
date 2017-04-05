@@ -11,7 +11,7 @@ import urllib
 from .com.cmpe.svs.webcrawler.controllers import crawlerController
 
 from .com.cmpe.svs.accounts.controllers import AccountsController	# account controller
-from .com.cmpe.svs.utility import SVSEncryptionFactory
+from .com.cmpe.svs.utility import SVSEncryptionFactory, SVSSessionFactory
 
 #secret key cryptography
 from simplecrypt import encrypt, decrypt
@@ -140,8 +140,11 @@ def stringEncryption(request):
 	#prolog
 	body_unicode = request.body.decode('utf-8')
 	body = json.loads(body_unicode)
-
+	
 	#body 
+	
+	print(SVSSessionFactory.getFromSession(request, "testKey")) #test sessions
+	
 	inputString = body["data"]
 	layer1 = SVSEncryptionFactory.svsSign(inputString, "test", False)
 	layer2 = SVSEncryptionFactory.svsEncrypt(layer1, "test")
@@ -150,7 +153,13 @@ def stringEncryption(request):
 	layer2_2 = SVSEncryptionFactory.svsDecrypt(layer3_2, "test", True)
 	layer1_2 = SVSEncryptionFactory.svsUnsign(layer2_2, "test", False)
 	
-	response = {"message": layer1_2}
+	#test sessions
+	SVSSessionFactory.setInSession(request, "testKey", layer1_2)
+	data = SVSSessionFactory.getFromSession(request, "testKey")
+	print(data)
+	
+	response = {"message": data}
+	
 	
 	#epilog 
 	return HttpResponse(response)

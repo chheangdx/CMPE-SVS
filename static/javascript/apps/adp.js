@@ -1,33 +1,146 @@
 var app = angular.module('CmpeSVSApp');
 
 app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($scope,$http,$filter) {
+
   $scope.testFile = function(){
-		var file = $scope.myFile;
-		var fd = new FormData();
-		
-        fd.append('file', file);
-       
-		$http({
-			method : 'post',
-			url : '/fileTest',
-			data : fd
-		}).then(function successCallback(response) {
-			console.log(response);
-			var annotations = anno.getAnnotations();
-			$http({
-					method : 'post',
-					url : '/annotationTest',
-					data : {'annotations': annotations}
-			}).then(function successCallback(response) {
-			
-				console.log(response);
-			}, function errorCallback(response) {
-				console.log("HTTP File Response failed: " + response);
-			});
-		}, function errorCallback(response) {
-			console.log("HTTP File Response failed: " + response);
-		});
+    if(!$scope.uploadMutex){
+      $scope.uploadMutex = true;
+  		var file = $scope.myFile;
+  		var fd = new FormData();
+  		
+          fd.append('file', file);
+         
+  		$http({
+  			method : 'post',
+  			url : '/fileTest',
+  			data : fd
+  		}).then(function successCallback(response) {
+  			//console.log(response);
+  			var annotations = anno.getAnnotations();
+  			$http({
+  					method : 'post',
+  					url : '/annotationTest',
+  					data : {'annotations': annotations}
+  			}).then(function successCallback(response) {
+  			  $scope.uploadMutex = false;
+  				console.log(response);
+  			}, function errorCallback(response) {
+          $scope.uploadMutex = false;
+  				console.log("HTTP File Response failed: " + response);
+  			});
+  		}, function errorCallback(response) {
+        $scope.uploadMutex = false;
+  			console.log("HTTP File Response failed: " + response);
+  		});
+    }
 	};
+
+   $scope.nextPage = function(){
+    if($scope.currentPage < $scope.pdf.numPages){
+      $scope.currentPage = $scope.currentPage + 1;
+      console.log("Current page: " + $scope.pdf.numPages);
+      $scope.pdf.getPage($scope.currentPage).then(function getPageHelloWorld(page) {
+        var scale = 1.5;
+        var viewport = page.getViewport(scale);
+        //
+        // Prepare canvas using PDF page dimensions
+        //
+        var canvas = document.getElementById('the-canvas');
+        var context = canvas.getContext('2d');
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+
+        //
+        // Render PDF page into canvas context
+        //
+        var callback = function(){
+          var canvas = document.getElementById('the-canvas');
+          var image = document.getElementById('pdfview');
+          image.src = canvas.toDataURL();
+          anno.makeAnnotatable(document.getElementById('pdfview'));
+        };
+        var renderContext = {
+          canvasContext: context,
+          viewport: viewport,
+        };  
+        var task = page.render(renderContext);
+        task.promise.then(function(){
+          var canvas = document.getElementById('the-canvas');
+          var image = document.getElementById('pdfview');
+          image.src = canvas.toDataURL('image/jpeg');
+          anno.makeAnnotatable(document.getElementById('pdfview'));
+          $http({
+                method : 'post',
+                url : '/annotationTestGet'
+          }).then(function successCallback(response) {
+              if(response.data.length > 0){
+                console.log(response.data[0]);
+                var annotation_0 = response.data[0];
+                annotation_0["src"] = "http://stable-identifier/for-image";
+                console.log(annotation_0);
+                anno.addAnnotation(annotation_0, null);
+              }
+            }, function errorCallback(response) {
+              console.log("HTTP File Response failed: " + response);
+          });
+        });
+      });
+    }
+   }
+
+   $scope.previousPage = function(){
+    if($scope.currentPage > 1){
+      $scope.currentPage = $scope.currentPage - 1;
+      console.log("Current page: " + $scope.pdf.numPages);
+      $scope.pdf.getPage($scope.currentPage).then(function getPageHelloWorld(page) {
+        var scale = 1.5;
+        var viewport = page.getViewport(scale);
+        //
+        // Prepare canvas using PDF page dimensions
+        //
+        var canvas = document.getElementById('the-canvas');
+        var context = canvas.getContext('2d');
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+
+        //
+        // Render PDF page into canvas context
+        //
+        var callback = function(){
+          var canvas = document.getElementById('the-canvas');
+          var image = document.getElementById('pdfview');
+          image.src = canvas.toDataURL();
+          anno.makeAnnotatable(document.getElementById('pdfview'));
+        };
+        var renderContext = {
+          canvasContext: context,
+          viewport: viewport,
+        };  
+        var task = page.render(renderContext);
+        task.promise.then(function(){
+          var canvas = document.getElementById('the-canvas');
+          var image = document.getElementById('pdfview');
+          image.src = canvas.toDataURL('image/jpeg');
+          anno.makeAnnotatable(document.getElementById('pdfview'));
+          $http({
+                method : 'post',
+                url : '/annotationTestGet'
+          }).then(function successCallback(response) {
+              if(response.data.length > 0){
+                console.log(response.data[0]);
+                var annotation_0 = response.data[0];
+                annotation_0["src"] = "http://stable-identifier/for-image";
+                console.log(annotation_0);
+                anno.addAnnotation(annotation_0, null);
+              }
+            }, function errorCallback(response) {
+              console.log("HTTP File Response failed: " + response);
+          });
+        });
+      });
+    }
+   }
+
    $scope.checkAnnotations = function(){
    		console.log(anno.getAnnotations());   
    }
@@ -54,6 +167,8 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
 //   	   });
    }
    var init = function(){
+
+      $scope.uploadMutex = false;
   	  //
   	  // If absolute URL from the remote server is provided, configure the CORS
   	  // header on that server.
@@ -77,8 +192,11 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
   	  		  //
   	  		  // Fetch the first page
   	  		  //
-  	  		  console.log("Number of pages is " + pdf.numPages);
-  	  		  pdf.getPage(1).then(function getPageHelloWorld(page) {
+            $scope.pdf = pdf;
+  	  		  console.log("Number of pages is " + $scope.pdf.numPages);
+
+  	  		  $scope.pdf.getPage(1).then(function getPageHelloWorld(page) {
+                  $scope.currentPage = 1;
   	  		  		  var scale = 1.5;
   	  		  		  var viewport = page.getViewport(scale);
   	  		  		  //

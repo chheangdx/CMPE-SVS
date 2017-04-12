@@ -99,13 +99,6 @@ def logout(request):
 	print(response)
 	return HttpResponse(json.dumps(response))
 	
-   	
-   	print("Received Command: Login.")
-
-	response = AccountsController.controller("login", data)
-
-	#epilog 
-	return HttpResponse(json.dumps(response))
 	
 	
 def fileTest(request):

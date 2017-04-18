@@ -25,8 +25,9 @@ def watsonq(request):
 
 	response = controller(body)
 	answer = {}
+	#print(response)
 	for num in range(len(response)):
-    		answer[str(num)]=[response[num]['body'], response[num]['score']]
+    		answer[str(num)]=[response[num]['body'], response[num]['score'], response[num]['contentHtml']]
 	
 	#epilog
 	return (HttpResponse(json.dumps(answer)))

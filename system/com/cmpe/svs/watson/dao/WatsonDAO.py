@@ -2,4 +2,4 @@ from ..service import WatsonService
 
 def dataAccessObject(request):
 
-    return WatsonService.both(request)
+    return WatsonService.getTopAnswers(request)

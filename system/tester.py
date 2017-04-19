@@ -16,9 +16,13 @@ from .com.cmpe.svs.webcrawler.controllers import crawlerController
 from .com.cmpe.svs.accounts.controllers import AccountsController	# account controller
 from .com.cmpe.svs.utility import SVSEncryptionFactory, SVSSessionFactory 
 
+#secret key cryptography
+from simplecrypt import encrypt, decrypt
+from binascii import hexlify, unhexlify
+
 count = 0
 myFile = 0
-
+myAnnotations = []
 
 def connectToMongoDB(databaseName):
     print("Connecting to MongoDB...documents")
@@ -30,126 +34,6 @@ def connectToMongoDB(databaseName):
     if not(db):
     	print("error")
     return db
-    
-def uploadDocument(db, file):
-    print("Uploading pdf..")
-    document = {"document": file}
-    db.insert_one(document)
-
-
-    
-def test(request):
-	#prolog
-	body_unicode = request.body.decode('utf-8')
-	body = json.loads(body_unicode)
-	global count
-	#if body = {message: "hello"}, then you access like body["message"]
-	print ("******"+ str(count) + "******")
-	count = count + 1
-	print (body)
-	#TODO: Test stuff here 
-	response = {"message": "hello", "name": "dude"} #WHAT YOU ARE RETURNING 
-	
-	#epilog 
-	return HttpResponse(json.dumps(response))
-
-
-def webcrawler(request):
-	#prolog
-	body_unicode = request.body.decode('utf-8')
-	body = json.loads(body_unicode)
-
-	#body 
-	thisurl = body["data"]
-	#response = crawlerController.simpleCrawl(thisurl)
-	#response = crawlerController.parseText(thisurl)
-	response = crawlerController.crawl(thisurl)
-	
-	#epilog 
-	return HttpResponse(response)
-
-def login(request):
-	body_unicode = request.body.decode('utf-8')
-	data = json.loads(body_unicode)
-	response = AccountsController.controller("login", data);
-	print("Returning data:")
-	print(response)
-
-
-	print("Received Command: Login.")
-
-	response = AccountsController.controller("login", data)
-
-	#epilog 
-
-	return HttpResponse(json.dumps(response))
-
-
-def createAccount(request):
-	body_unicode = request.body.decode('utf-8')
-	data = json.loads(body_unicode)
-	response = AccountsController.controller("createAccount", data);
-	print(response)
-	return HttpResponse(json.dumps(response))
-
-def logout(request):
-	body_unicode = request.body.decode('utf-8')
-	data = json.loads(body_unicode)
-	response = AccountsController.controller("logout", data);
-	print(response)
-	return HttpResponse(json.dumps(response))
-	
-	
-	
-def fileTest(request):
-	databaseName = 'TestDB'
-	db = connectToMongoDB(databaseName)
-	fs = gridfs.GridFS(db)
-
-
-	global myFile
-	myFile = request.body
-	testfile = fs.put(myFile, filename = "pdf21", username = "kickthecann3")
-	out = fs.get(testfile)
-
-
-
-	print("bloop")
-	print(out)
-	#uploadDocument(db, myFile)
-
-
-	return (HttpResponse(request.body))
-
-def fileTestGet(request):
-	databaseName = 'TestDB'
-	db = connectToMongoDB(databaseName)
-	fs = gridfs.GridFS(db)
-
-	for grid_data in fs.find({"username":"kickthecann3","filename": "pdf21"}, no_cursor_timeout=True):
-    		data = grid_data.read()
-
- 
-
-	return (HttpResponse(data))
-
-
-#web crawler imports
-import urllib
-
-#our controller
-from .com.cmpe.svs.webcrawler.controllers import crawlerController
-
-from .com.cmpe.svs.accounts.controllers import AccountsController	# account controller
-from .com.cmpe.svs.utility import SVSEncryptionFactory, SVSSessionFactory
-
-#secret key cryptography
-from simplecrypt import encrypt, decrypt
-from binascii import hexlify, unhexlify
-
-count = 0
-myFile = 0
-myAnnotations = []
 
 def test(request):
 	#prolog
@@ -259,7 +143,7 @@ def fileTestGet(request):
 	for grid_data in fs.find({"username":"kickthecann3","filename": "pdf321"}, no_cursor_timeout=True):
 		data = grid_data.read()
  
-	toReturn = SVSEncryptionFactory.svsUnsign(myFile, "calcium chloride", True)
+	toReturn = SVSEncryptionFactory.svsUnsign(data, "calcium chloride", True)
 	toReturn = SVSEncryptionFactory.svsDecrypt(toReturn, "key", True)
 	toReturn = SVSEncryptionFactory.svsUnsign(toReturn, "pdf", True)
 	#epilog

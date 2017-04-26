@@ -3,6 +3,16 @@
 	<button ng-click="checkAnnotationsBackEnd()">Check Annotations</button>
 	<button ng-click="previousPage()">Previous Page</button>
 	<button ng-click="nextPage()">Next Page</button>
+	<input ng-model=username>
+	<button ng-click="getDocumentNameList()">getDocumentNameList</button>
+	<button ng-click="getDocument()">getDocument</button>
+	<button ng-click="adminGetUncompletedDocuments()">adminGetUncompletedDocuments</button>
+	<button ng-click="adminGetCompletedDocuments()">adminGetCompletedDocuments</button>
+	<button ng-click="saveAnnotatedDocument()">saveAnnotatedDocument</button>
+	<button ng-click="deleteDocument()">deleteDocument</button>
+	<button ng-click="saveDocument()">saveDocument</button>
+	<p>{{username}}</p>
+
 	<canvas id="the-canvas" style="border:1px  solid black; display:none;"></canvas>
 	<img id="pdfview"  style="border:1px  solid black;" data-original="http://stable-identifier/for-image" >
 

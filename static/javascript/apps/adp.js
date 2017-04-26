@@ -2,13 +2,216 @@ var app = angular.module('CmpeSVSApp');
 
 app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($scope,$http,$filter) {
 
+//get list of documents specific to user
+   $scope.getDocumentNameList = function(){
+      var data = {
+        'username': $scope.username
+      }
+      console.log(data.username)
+      $http({
+          method : 'post',
+          url : '/getDocumentNameList',
+          data : data
+      }).then(function successCallback(response) {
+        console.log(response);
+        $scope.documentNameList = response.data
+      }, function errorCallback(response) {
+        console.log("HTTP File Response failed: " + response);
+      });        
+   }
+
+//retrieve a document picked from the document list
+   $scope.getDocument = function(){
+
+      var data = {
+        'username': $scope.username,
+        'documentName' : $scope.chosenName
+      }
+      console.log(data.username)
+      $http({
+          method : 'post',
+          url : '/getDocument',
+          data : data
+      }).then(function successCallback(response) {
+        console.log(response);
+        $scope.documentReturned = response.data
+            //
+            // Fetch the first page
+            //
+        $scope.pdf = $scope.documentReturned;
+        console.log("Number of pages is " + $scope.pdf.numPages);
+
+        $scope.pdf.getPage(1).then(function getPageHelloWorld(page) {
+              $scope.currentPage = 1;
+              var scale = 1.5;
+              var viewport = page.getViewport(scale);
+              //
+              // Prepare canvas using PDF page dimensions
+              //
+              var canvas = document.getElementById('the-canvas');
+              var context = canvas.getContext('2d');
+              canvas.height = viewport.height;
+              canvas.width = viewport.width;
+  
+              //
+              // Render PDF page into canvas context
+              //
+              var callback = function(){
+                  var canvas = document.getElementById('the-canvas');
+                  var image = document.getElementById('pdfview');
+                  image.src = canvas.toDataURL();
+                  anno.makeAnnotatable(document.getElementById('pdfview'));
+              };
+              var renderContext = {
+                  canvasContext: context,
+                  viewport: viewport,
+              };
+              var task = page.render(renderContext);
+              task.promise.then(function(){
+                    var canvas = document.getElementById('the-canvas');
+                    var image = document.getElementById('pdfview');
+                    image.src = canvas.toDataURL('image/jpeg');
+                    anno.makeAnnotatable(document.getElementById('pdfview'));
+                    $http({
+                          method : 'post',
+                          url : '/annotationTestGet'
+                    }).then(function successCallback(response) {
+                        if(response.data.length > 0){
+                            console.log(response.data[0]);
+                            var annotation_0 = response.data[0];
+                            annotation_0["src"] = "http://stable-identifier/for-image";
+                            console.log(annotation_0);
+                            anno.addAnnotation(annotation_0, null);
+                        }
+                    }, function errorCallback(response) {
+                        console.log("HTTP File Response failed: " + response);
+                    });
+              });
+        });
+    //end response
+      }, function errorCallback(response) {
+        console.log("HTTP File Response failed: " + response);
+      });        
+   }
+
+//get all existing documents that arent completed
+   $scope.adminGetUncompletedDocuments = function(){
+      var data = {
+        'username': $scope.username
+      }
+      console.log(data.username)
+      $http({
+          method : 'post',
+          url : '/adminGetUncompletedDocuments',
+          data : data
+      }).then(function successCallback(response) {
+        console.log(response);
+        $scope.documentNameList = response.data
+      }, function errorCallback(response) {
+        console.log("HTTP File Response failed: " + response);
+      });        
+   }
+
+//get all existing documents that are completed
+   $scope.adminGetCompletedDocuments = function(){
+      var data = {
+        'username': $scope.username
+      }
+      console.log(data.username)
+      $http({
+          method : 'post',
+          url : '/adminGetCompletedDocuments',
+          data : data
+      }).then(function successCallback(response) {
+        console.log(response);
+        $scope.documentNameList = response.data
+      }, function errorCallback(response) {
+        console.log("HTTP File Response failed: " + response);
+      });        
+   }
+
+//save a document with annotations to backend. admin function
+   $scope.saveAnnotatedDocument = function(){
+    if(!$scope.uploadMutex){
+      $scope.uploadMutex = true;
+      var file = $scope.myFile;
+      var fd = new FormData();
+      
+      fd.append('file', file);
+         
+      $http({
+        method : 'post',
+        url : '/saveAnnotatedDocument',
+        data : fd
+      }).then(function successCallback(response) {
+        //console.log(response);
+        var annotations = anno.getAnnotations();
+        $http({
+            method : 'post',
+            url : '/saveAnnotationAnnotations',
+            data : {'annotations': annotations}
+        }).then(function successCallback(response) {
+          $scope.uploadMutex = false;
+          console.log("Annotated document saved successfully.");
+        }, function errorCallback(response) {
+          $scope.uploadMutex = false;
+          console.log("HTTP File Response failed: " + response);
+        });
+      }, function errorCallback(response) {
+        $scope.uploadMutex = false;
+        console.log("HTTP File Response failed: " + response);
+      });
+    }
+   }
+
+//delete a document from the backend
+   $scope.deleteDocument = function(){
+      var data = {
+        'username': $scope.username
+      }
+      console.log(data.username)
+      $http({
+          method : 'post',
+          url : '/deleteDocument',
+          data : data
+      }).then(function successCallback(response) {
+        console.log("Delete document success.");
+      }, function errorCallback(response) {
+        console.log("HTTP File Response failed: " + response);
+      });        
+   }
+
+//save a document to backend, from normal user
+   $scope.saveDocument = function(){
+    if(!$scope.uploadMutex){
+      $scope.uploadMutex = true;
+      var file = $scope.myFile;
+      var fd = new FormData();
+      
+      fd.append('file', file);
+         
+      $http({
+        method : 'post',
+        url : '/saveDocument',
+        data : fd
+      }).then(function successCallback(response) {
+        console.log(response);
+        $scope.uploadMutex = false;
+      }, function errorCallback(response) {
+        $scope.uploadMutex = false;
+        console.log("HTTP File Response failed: " + response);
+      });
+    }
+   }
+
+//test uploading of a document
   $scope.testFile = function(){
     if(!$scope.uploadMutex){
       $scope.uploadMutex = true;
   		var file = $scope.myFile;
   		var fd = new FormData();
   		
-          fd.append('file', file);
+      fd.append('file', file);
          
   		$http({
   			method : 'post',
@@ -166,6 +369,66 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
 //   	   	   console.log("HTTP File Response failed: " + response);
 //   	   });
    }
+
+    $scope.documentGrab = function(url){
+      console.log("getting document from url:" + url)
+            PDFJS.getDocument(url).then(function getPdfHelloWorld(pdf) {
+            //
+            // Fetch the first page
+            //
+            $scope.pdf = pdf;
+            console.log("Number of pages is " + $scope.pdf.numPages);
+
+            $scope.pdf.getPage(1).then(function getPageHelloWorld(page) {
+                  $scope.currentPage = 1;
+                  var scale = 1.5;
+                  var viewport = page.getViewport(scale);
+                  //
+                  // Prepare canvas using PDF page dimensions
+                  //
+                  var canvas = document.getElementById('the-canvas');
+                  var context = canvas.getContext('2d');
+                  canvas.height = viewport.height;
+                  canvas.width = viewport.width;
+      
+                  //
+                  // Render PDF page into canvas context
+                  //
+                  var callback = function(){
+                      var canvas = document.getElementById('the-canvas');
+                      var image = document.getElementById('pdfview');
+                      image.src = canvas.toDataURL();
+                      anno.makeAnnotatable(document.getElementById('pdfview'));
+                  };
+                  var renderContext = {
+                      canvasContext: context,
+                      viewport: viewport,
+                  };
+                  var task = page.render(renderContext);
+                  task.promise.then(function(){
+                        var canvas = document.getElementById('the-canvas');
+                        var image = document.getElementById('pdfview');
+                        image.src = canvas.toDataURL('image/jpeg');
+                        anno.makeAnnotatable(document.getElementById('pdfview'));
+                        $http({
+                              method : 'post',
+                              url : '/annotationTestGet'
+                        }).then(function successCallback(response) {
+                            if(response.data.length > 0){
+                                console.log(response.data[0]);
+                                var annotation_0 = response.data[0];
+                                annotation_0["src"] = "http://stable-identifier/for-image";
+                                console.log(annotation_0);
+                                anno.addAnnotation(annotation_0, null);
+                            }
+                        }, function errorCallback(response) {
+                            console.log("HTTP File Response failed: " + response);
+                        });
+                  });
+            });
+      });
+    }
+
    var init = function(){
 
       $scope.uploadMutex = false;
@@ -188,61 +451,8 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
   	  //
   	  // Asynchronous download PDF
   	  //
-  	  PDFJS.getDocument(url).then(function getPdfHelloWorld(pdf) {
-  	  		  //
-  	  		  // Fetch the first page
-  	  		  //
-            $scope.pdf = pdf;
-  	  		  console.log("Number of pages is " + $scope.pdf.numPages);
+      $scope.documentGrab(url)
 
-  	  		  $scope.pdf.getPage(1).then(function getPageHelloWorld(page) {
-                  $scope.currentPage = 1;
-  	  		  		  var scale = 1.5;
-  	  		  		  var viewport = page.getViewport(scale);
-  	  		  		  //
-  	  		  		  // Prepare canvas using PDF page dimensions
-  	  		  		  //
-  	  		  		  var canvas = document.getElementById('the-canvas');
-  	  		  		  var context = canvas.getContext('2d');
-  	  		  		  canvas.height = viewport.height;
-  	  		  		  canvas.width = viewport.width;
-      
-  	  		  		  //
-  	  		  		  // Render PDF page into canvas context
-  	  		  		  //
-  	  		  		  var callback = function(){
-  	  		  		  	  var canvas = document.getElementById('the-canvas');
-  	  		  		  	  var image = document.getElementById('pdfview');
-  	  		  		  	  image.src = canvas.toDataURL();
-  	  		  		  	  anno.makeAnnotatable(document.getElementById('pdfview'));
-  	  		  		  };
-  	  		  		  var renderContext = {
-  	  		  		  	  canvasContext: context,
-  	  		  		  	  viewport: viewport,
-  	  		  		  };
-  	  		  		  var task = page.render(renderContext);
-  	  		  		  task.promise.then(function(){
-  	  		  		  		  var canvas = document.getElementById('the-canvas');
-  	  		  		  		  var image = document.getElementById('pdfview');
-  	  		  		  		  image.src = canvas.toDataURL('image/jpeg');
-  	  		  		  		  anno.makeAnnotatable(document.getElementById('pdfview'));
-  	  		  		  		  $http({
-  	  		  		  		  		  method : 'post',
-  	  		  		  		  		  url : '/annotationTestGet'
-  	  		  		  		  }).then(function successCallback(response) {
-  	  		  		  		  	  if(response.data.length > 0){
-  	  		  		  		  	  	  console.log(response.data[0]);
-  	  		  		  		  	  	  var annotation_0 = response.data[0];
-  	  		  		  		  	  	  annotation_0["src"] = "http://stable-identifier/for-image";
-  	  		  		  		  	  	  console.log(annotation_0);
-  	  		  		  		  	  	  anno.addAnnotation(annotation_0, null);
-  	  		  		  		  	  }
-  	  		  		  		  }, function errorCallback(response) {
-  	  		  		  		  	  console.log("HTTP File Response failed: " + response);
-  	  		  		  		  });
-  	  		  		  });
-  	  		  });
-  	  });
 	};
 
 	init();

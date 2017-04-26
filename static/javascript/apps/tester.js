@@ -108,6 +108,7 @@ app.controller('testerCtrl',  ['$scope','$http', '$sce', function($scope,$http,$
 						        }).then(function successCallback(response) {
 						            //successfully got a response
 						            console.log(response);
+						         	$scope.message = response.data
 						        }, function errorCallback(response) {
 						            //usually happens when an exception is thrown
 						            console.error(response);
@@ -132,6 +133,7 @@ app.controller('testerCtrl',  ['$scope','$http', '$sce', function($scope,$http,$
 						        }).then(function successCallback(response) {
 						            //successfully got a response
 						            console.log(response);
+						            $scope.message = response.data
 						        }, function errorCallback(response) {
 						            //usually happens when an exception is thrown
 						            console.error(response);
@@ -155,6 +157,7 @@ app.controller('testerCtrl',  ['$scope','$http', '$sce', function($scope,$http,$
 						        }).then(function successCallback(response) {
 						            //successfully got a response
 						            console.log(response);
+						            $scope.message = response.data
 						        }, function errorCallback(response) {
 						            //usually happens when an exception is thrown
 						            console.error(response);
@@ -179,6 +182,7 @@ app.controller('testerCtrl',  ['$scope','$http', '$sce', function($scope,$http,$
 						        }).then(function successCallback(response) {
 						            //successfully got a response
 						            console.log(response);
+						            $scope.message = response.data
 						        }, function errorCallback(response) {
 						            //usually happens when an exception is thrown
 						            console.error(response);
@@ -203,6 +207,7 @@ app.controller('testerCtrl',  ['$scope','$http', '$sce', function($scope,$http,$
 						        }).then(function successCallback(response) {
 						            //successfully got a response
 						            console.log(response);
+						            $scope.message = response.data
 						        }, function errorCallback(response) {
 						            //usually happens when an exception is thrown
 						            console.error(response);
@@ -229,6 +234,7 @@ app.controller('testerCtrl',  ['$scope','$http', '$sce', function($scope,$http,$
 						        }).then(function successCallback(response) {
 						            //successfully got a response
 						            console.log(response);
+						            $scope.message = response.data
 						        }, function errorCallback(response) {
 						            //usually happens when an exception is thrown
 						            console.error(response);
@@ -255,6 +261,7 @@ app.controller('testerCtrl',  ['$scope','$http', '$sce', function($scope,$http,$
 						        }).then(function successCallback(response) {
 						            //successfully got a response
 						            console.log(response);
+						            $scope.message = response.data
 						        }, function errorCallback(response) {
 						            //usually happens when an exception is thrown
 						            console.error(response);
@@ -281,6 +288,7 @@ app.controller('testerCtrl',  ['$scope','$http', '$sce', function($scope,$http,$
 						        }).then(function successCallback(response) {
 						            //successfully got a response
 						            console.log(response);
+						            $scope.message = response.data
 						        }, function errorCallback(response) {
 						            //usually happens when an exception is thrown
 						            console.error(response);
@@ -307,6 +315,7 @@ app.controller('testerCtrl',  ['$scope','$http', '$sce', function($scope,$http,$
 						        }).then(function successCallback(response) {
 						            //successfully got a response
 						            console.log(response);
+						            $scope.message = response.data
 						        }, function errorCallback(response) {
 						            //usually happens when an exception is thrown
 						            console.error(response);
@@ -337,6 +346,7 @@ app.controller('testerCtrl',  ['$scope','$http', '$sce', function($scope,$http,$
 					        }).then(function successCallback(response) {
 					            //successfully got a response
 					            console.log(response);
+					            $scope.message = response.data
 					        }, function errorCallback(response) {
 					            //usually happens when an exception is thrown
 					            console.error(response);
@@ -361,6 +371,7 @@ app.controller('testerCtrl',  ['$scope','$http', '$sce', function($scope,$http,$
 					        }).then(function successCallback(response) {
 					            //successfully got a response
 					            console.log(response);
+					            $scope.message = response.data
 					        }, function errorCallback(response) {
 					            //usually happens when an exception is thrown
 					            console.error(response);

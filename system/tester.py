@@ -259,7 +259,7 @@ def fileTestGet(request):
 	for grid_data in fs.find({"username":"kickthecann3","filename": "pdf321"}, no_cursor_timeout=True):
 		data = grid_data.read()
  
-	toReturn = SVSEncryptionFactory.svsUnsign(myFile, "calcium chloride", True)
+	toReturn = SVSEncryptionFactory.svsUnsign(data, "calcium chloride", True)
 	toReturn = SVSEncryptionFactory.svsDecrypt(toReturn, "key", True)
 	toReturn = SVSEncryptionFactory.svsUnsign(toReturn, "pdf", True)
 	#epilog

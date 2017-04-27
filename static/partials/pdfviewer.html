@@ -1,11 +1,10 @@
+	<div>
 	<label class="marginRight15">File Upload</label><input type="file" name="files" file-model = "myFile" />
-	
+	<label class="marginRight15">File Name</label><input ng-model=documentName>
+	</div>
 	<button ng-click="previousPage()">Previous Page</button>
 	<button ng-click="nextPage()">Next Page</button>
 
-	<input ng-model=documentName>
-	
-	<p>{{documentName}}</p>
 	
 	<button ng-click="getDocument()">getDocument</button>
 	<button ng-click="saveAnnotatedDocument()">saveAnnotatedDocument</button>

@@ -20,7 +20,7 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
    $scope.getDocument = function(){
 
       var data = {
-        'documentName' : $scope.fileName //Change this later to be selected value from doc list
+        'documentName' : $scope.documentName //Change this later to be selected value from doc
       }
       $http({
           method : 'post',
@@ -165,7 +165,7 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
 //save a document to backend, from normal user
     $scope.saveDocument = function(){
     var data  = {
-      'fileName' : $scope.fileName
+      'documentName' : $scope.documentName
     };
     $http({
           method : 'post',

@@ -4,14 +4,10 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
 
 //get list of documents specific to user
    $scope.getDocumentNameList = function(){
-      var data = {
-        'username': $scope.username
-      }
-      console.log(data.username)
+
       $http({
           method : 'post',
-          url : '/getDocumentNameList',
-          data : data
+          url : '/getDocumentNameList'
       }).then(function successCallback(response) {
         console.log(response);
         $scope.documentNameList = response.data
@@ -24,10 +20,8 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
    $scope.getDocument = function(){
 
       var data = {
-        'username': $scope.username,
-        'documentName' : $scope.chosenName
+        'documentName' : $scope.fileName //Change this later to be selected value from doc list
       }
-      console.log(data.username)
       $http({
           method : 'post',
           url : '/getDocument',
@@ -96,14 +90,10 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
 
 //get all existing documents that arent completed
    $scope.adminGetUncompletedDocuments = function(){
-      var data = {
-        'username': $scope.username
-      }
-      console.log(data.username)
+
       $http({
           method : 'post',
-          url : '/adminGetUncompletedDocuments',
-          data : data
+          url : '/adminGetUncompletedDocuments'
       }).then(function successCallback(response) {
         console.log(response);
         $scope.documentNameList = response.data
@@ -114,14 +104,10 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
 
 //get all existing documents that are completed
    $scope.adminGetCompletedDocuments = function(){
-      var data = {
-        'username': $scope.username
-      }
-      console.log(data.username)
+
       $http({
           method : 'post',
-          url : '/adminGetCompletedDocuments',
-          data : data
+          url : '/adminGetCompletedDocuments'
       }).then(function successCallback(response) {
         console.log(response);
         $scope.documentNameList = response.data
@@ -166,14 +152,9 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
 
 //delete a document from the backend
    $scope.deleteDocument = function(){
-      var data = {
-        'username': $scope.username
-      }
-      console.log(data.username)
       $http({
           method : 'post',
-          url : '/deleteDocument',
-          data : data
+          url : '/deleteDocument'
       }).then(function successCallback(response) {
         console.log("Delete document success.");
       }, function errorCallback(response) {
@@ -182,26 +163,40 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
    }
 
 //save a document to backend, from normal user
-   $scope.saveDocument = function(){
-    if(!$scope.uploadMutex){
-      $scope.uploadMutex = true;
-      var file = $scope.myFile;
-      var fd = new FormData();
-      
-      fd.append('file', file);
-         
-      $http({
-        method : 'post',
-        url : '/saveDocument',
-        data : fd
+    $scope.saveDocument = function(){
+    var data  = {
+      'fileName' : $scope.fileName
+    };
+    $http({
+          method : 'post',
+          url : '/sameDocumentName',
+          data : data
       }).then(function successCallback(response) {
-        console.log(response);
-        $scope.uploadMutex = false;
+
+        if(!$scope.uploadMutex){
+          $scope.uploadMutex = true;
+          var file = $scope.myFile;
+          var fd = new FormData();
+          
+          fd.append('file', file);
+             
+          $http({
+            method : 'post',
+            url : '/saveDocument',
+            data : fd
+          }).then(function successCallback(response) {
+            console.log(response);
+            $scope.uploadMutex = false;
+          }, function errorCallback(response) {
+            $scope.uploadMutex = false;
+            console.log("HTTP File Response failed: " + response);
+          });
+        }
+
       }, function errorCallback(response) {
-        $scope.uploadMutex = false;
         console.log("HTTP File Response failed: " + response);
-      });
-    }
+      });        
+
    }
 
 //test uploading of a document

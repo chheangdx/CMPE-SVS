@@ -1,18 +1,23 @@
 	<label class="marginRight15">File Upload</label><input type="file" name="files" file-model = "myFile" />
-	<button ng-click="testFile()">Click to Test File Upload on backend</button>
-	<button ng-click="checkAnnotationsBackEnd()">Check Annotations</button>
+	
 	<button ng-click="previousPage()">Previous Page</button>
 	<button ng-click="nextPage()">Next Page</button>
-	<input ng-model=username>
-	<button ng-click="getDocumentNameList()">getDocumentNameList</button>
-	<button ng-click="getDocument()">getDocument</button>
-	<button ng-click="adminGetUncompletedDocuments()">adminGetUncompletedDocuments</button>
-	<button ng-click="adminGetCompletedDocuments()">adminGetCompletedDocuments</button>
-	<button ng-click="saveAnnotatedDocument()">saveAnnotatedDocument</button>
-	<button ng-click="deleteDocument()">deleteDocument</button>
-	<button ng-click="saveDocument()">saveDocument</button>
-	<p>{{username}}</p>
 
+	<input ng-model=fileName>
+	
+	<p>{{fileName}}</p>
+	
+	<button ng-click="getDocument()">getDocument</button>
+	<button ng-click="saveAnnotatedDocument()">saveAnnotatedDocument</button>
+	<button ng-click="saveDocument()">saveDocument</button>
+	
+<!-- 	<button ng-click="adminGetUncompletedDocuments()">adminGetUncompletedDocuments</button>
+	<button ng-click="adminGetCompletedDocuments()">adminGetCompletedDocuments</button>
+	<button ng-click="deleteDocument()">deleteDocument</button>
+	<button ng-click="getDocumentNameList()">getDocumentNameList</button>
+	<button ng-click="testFile()">Click to Test File Upload on backend</button>
+	<button ng-click="checkAnnotationsBackEnd()">Check Annotations</button>
+ -->
 	<canvas id="the-canvas" style="border:1px  solid black; display:none;"></canvas>
 	<img id="pdfview"  style="border:1px  solid black;" data-original="http://stable-identifier/for-image" >
 

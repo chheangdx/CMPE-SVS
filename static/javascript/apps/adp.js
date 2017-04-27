@@ -169,7 +169,7 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
     };
     $http({
           method : 'post',
-          url : '/sameDocumentName',
+          url : '/saveDocumentName',
           data : data
       }).then(function successCallback(response) {
 

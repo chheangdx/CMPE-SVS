@@ -27,7 +27,7 @@ def getDocument(fs, username, documentName):
     
     if(fs.find_one({"documentName": documentName, "username": username})):
         documentData = fs.find_one({"documentName": documentName, "username": username})
-        response = {"request": "TRUE", "data": documentData} 
+        response =  documentData
     else:
         response = {"request": "FALSE", "error": "Document not found."}
     return response

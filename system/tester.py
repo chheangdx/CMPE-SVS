@@ -89,14 +89,14 @@ def getDocument(request):
 
 def saveDocument(request):
 	myFile = request.body
-	response = ADPService.service("saveDocument", data)
+	response = ADPService.service("saveDocument", myFile)
 	print("Returning data for saveDocument command:")
 	print(response)
 	return HttpResponse(json.dumps(response))
 
 def saveAnnotatedDocument(request):
 	myFile = request.body
-	response = ADPService.service("saveAnnotatedDocument", data)
+	response = ADPService.service("saveAnnotatedDocument", myFile)
 	print("Returning data for saveDocument command:")
 	print(response)
 	return HttpResponse(json.dumps(response))

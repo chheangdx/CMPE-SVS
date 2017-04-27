@@ -65,6 +65,7 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
                     var canvas = document.getElementById('the-canvas');
                     var image = document.getElementById('pdfview');
                     image.src = canvas.toDataURL('image/jpeg');
+                    console.log("made annotatable")
                     anno.makeAnnotatable(document.getElementById('pdfview'));
                     $http({
                           method : 'post',
@@ -365,6 +366,24 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
 //   	   });
    }
 
+   $scope.getTestDoc = function(){
+      var url = "/fileTestGet";
+      //
+      // Disable workers to avoid yet another cross-origin issue (workers need
+      // the URL of the script to be loaded, and dynamically loading a cross-origin
+      // script does not work).
+      //
+      // PDFJS.disableWorker = true;
+      //
+      // The workerSrc property shall be specified.
+      //
+      PDFJS.workerSrc = "/static/javascript/adp-js/pdf.worker.js";
+      //
+      // Asynchronous download PDF
+      //
+      $scope.documentGrab(url)
+   }
+
     $scope.documentGrab = function(url){
       console.log("getting document from url:" + url)
             PDFJS.getDocument(url).then(function getPdfHelloWorld(pdf) {
@@ -404,6 +423,7 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
                         var canvas = document.getElementById('the-canvas');
                         var image = document.getElementById('pdfview');
                         image.src = canvas.toDataURL('image/jpeg');
+                        console.log("made annotatable")
                         anno.makeAnnotatable(document.getElementById('pdfview'));
                         $http({
                               method : 'post',
@@ -425,29 +445,7 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
     }
 
    var init = function(){
-
       $scope.uploadMutex = false;
-  	  //
-  	  // If absolute URL from the remote server is provided, configure the CORS
-  	  // header on that server.
-  	  //
-  	  //var url = "/static/partials/compressed.tracemonkey-pldi-09.pdf";
-  	  var url = "/fileTestGet";
-  	  //
-  	  // Disable workers to avoid yet another cross-origin issue (workers need
-  	  // the URL of the script to be loaded, and dynamically loading a cross-origin
-  	  // script does not work).
-  	  //
-  	  // PDFJS.disableWorker = true;
-  	  //
-  	  // The workerSrc property shall be specified.
-  	  //
-  	  PDFJS.workerSrc = "/static/javascript/adp-js/pdf.worker.js";
-  	  //
-  	  // Asynchronous download PDF
-  	  //
-      $scope.documentGrab(url)
-
 	};
 
 	init();

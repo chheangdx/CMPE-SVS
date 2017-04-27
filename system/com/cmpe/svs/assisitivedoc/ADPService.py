@@ -68,12 +68,14 @@ def service(request, data):
         response = getDocumentNameList(fs, username)
 
     if(request == "saveAnnotatedDocument"):     
-        response = saveAnnotatedDocument(fs, username, documentName, documentData)  
+        response = adminSaveAnnotatedDocument(fs, username, documentName, documentData)  
+        documentName = "BLANK1"
 
     if(request == "saveDocument"):
         documentData = data
         response = saveDocument(fs, username, documentName, documentData)
         documentName = "BLANK"
+
 
     if(request == "deleteDocument"):    
         response = deleteDocument(fs, username, documentName)

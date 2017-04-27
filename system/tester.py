@@ -94,6 +94,13 @@ def saveDocument(request):
 	print(response)
 	return HtppResponse(json.dumps(response))
 
+def saveAnnotatedDocument(request):
+	myFile = request.body
+	response = ADPService.service("saveAnnotatedDocument", data)
+	print("Returning data for saveDocument command:")
+	print(response)
+	return HtppResponse(json.dumps(response))
+
 def saveDocumentName(request):
 	body_unicode = request.body.decode('utf-8')
 	data = json.loads(body_unicode)
@@ -101,8 +108,6 @@ def saveDocumentName(request):
 	print("Returning data for saveDocumentName command:")
 	print(response)
 	return HtppResponse(json.dumps(response))
-
-
 
 def createAccount(request):
 	body_unicode = request.body.decode('utf-8')
@@ -272,7 +277,6 @@ def stringEncryption(request):
 	
 	#body 
 	
-	print(SVSSessionFactory.getFromSession(request, "testKey")) #test sessions
 	
 	inputString = body["data"]
 	layer1 = SVSEncryptionFactory.svsSign(inputString, "test", False)

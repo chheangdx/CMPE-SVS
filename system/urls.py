@@ -16,7 +16,12 @@ urlpatterns = [
     url(r'^fileTest$', tester.fileTest, name = 'fileTest'),
     url(r'^fileTestGet$', tester.fileTestGet, name = 'fileTestGet'),
     url(r'^annotationTest$', tester.annotationTest, name = 'annotationTest'),
-    url(r'^annotationTestGet$', tester.annotationTestGet, name = 'annotationTestGet')
+    url(r'^annotationTestGet$', tester.annotationTestGet, name = 'annotationTestGet'),
+    url(r'^getDocument$', tester.getDocument, name = 'getDocument'),
+    url(r'^saveDocumentName$', tester.saveDocumentName, name = 'saveDocumentName'),
+    url(r'^saveDocument$', tester.saveDocument, name = 'saveDocument'),
+    url(r'^saveAnnotatedDocument$', tester.saveAnnotatedDocument, name = 'saveAnnotatedDocument')
+
     #url(r'^logout$', tester.logout, name = 'logout')
    # url(r'^getNotifications$', tester.getNotifications, name = 'getNotifications')
    # url(r'^removeAllNotifications$', tester.removeAllNotifications, name = 'removeAllNotifications')

@@ -15,6 +15,7 @@ from .com.cmpe.svs.webcrawler.controllers import crawlerController
 
 from .com.cmpe.svs.accounts.controllers import AccountsController	# account controller
 from .com.cmpe.svs.utility import SVSEncryptionFactory, SVSSessionFactory 
+from .com.cmpe.svs.assisitivedoc import ADPService
 
 count = 0
 myFile = 0
@@ -30,13 +31,10 @@ def connectToMongoDB(databaseName):
     if not(db):
     	print("error")
     return db
-    
-def uploadDocument(db, file):
-    print("Uploading pdf..")
-    document = {"document": file}
-    db.insert_one(document)
 
 
+
+   
     
 def test(request):
 	#prolog
@@ -72,17 +70,38 @@ def login(request):
 	body_unicode = request.body.decode('utf-8')
 	data = json.loads(body_unicode)
 	response = AccountsController.controller("login", data);
-	print("Returning data:")
+
+	print("Returning data for login command:")
 	print(response)
 
-
-	print("Received Command: Login.")
-
-	response = AccountsController.controller("login", data)
-
-	#epilog 
-
 	return HttpResponse(json.dumps(response))
+
+
+def getDocument(request):
+	body_unicode = request.body.decode('utf-8')
+	data = json.loads(body_unicode)
+	response = ADPService.service("getDocument", data)
+	print("Returning data for getDocument command:")
+	print(response)
+	return HtppResponse(json.dumps(response))
+
+
+
+def saveDocument(request):
+	myFile = request.body
+	response = ADPService.service("saveDocument", data)
+	print("Returning data for saveDocument command:")
+	print(response)
+	return HtppResponse(json.dumps(response))
+
+def saveDocumentName(request):
+	body_unicode = request.body.decode('utf-8')
+	data = json.loads(body_unicode)
+	response = ADPService.service("saveDocumentName", data)
+	print("Returning data for saveDocumentName command:")
+	print(response)
+	return HtppResponse(json.dumps(response))
+
 
 
 def createAccount(request):
@@ -181,47 +200,7 @@ def webcrawler(request):
 	#epilog 
 	return HttpResponse(response)
 
-def login(request):
-	body_unicode = request.body.decode('utf-8')
-	data = json.loads(body_unicode)
 
-	response = AccountsController.controller("login", data);
-	print("Returning data:")
-	print(response)
-
-
-	print("Received Command: Login.")
-
-	response = AccountsController.controller("login", data)
-
-	#epilog 
-	return HttpResponse(json.dumps(response))
-
-
-def createAccount(request):
-	body_unicode = request.body.decode('utf-8')
-	data = json.loads(body_unicode)
-
-	response = AccountsController.controller("createAccount", data);
-	print(response)
-	return HttpResponse(json.dumps(response))
-
-def logout(request):
-	body_unicode = request.body.decode('utf-8')
-	data = json.loads(body_unicode)
-	response = AccountsController.controller("logout", data);
-	print(response)
-	return HttpResponse(json.dumps(response))
-
-	
-   	
-   	print("Received Command: Login.")
-
-	response = AccountsController.controller("login", data)
-
-	#epilog 
-	return HttpResponse(json.dumps(response))
-	
 	
 def fileTest(request):
 	#prolog
@@ -306,7 +285,7 @@ def stringEncryption(request):
 	#test sessions
 	SVSSessionFactory.setInSession(request, "testKey", layer1_2)
 	data = SVSSessionFactory.getFromSession(request, "testKey")
-	print(data)
+
 	
 	response = {"message": data}
 	

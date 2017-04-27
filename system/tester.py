@@ -104,6 +104,8 @@ def saveAnnotatedDocument(request):
 def saveDocumentName(request):
 	body_unicode = request.body.decode('utf-8')
 	data = json.loads(body_unicode)
+	print("DOCUMENTNAME DATA: ")
+	print(data)
 	response = ADPService.service("saveDocumentName", data)
 	print("Returning data for saveDocumentName command:")
 	print(response)

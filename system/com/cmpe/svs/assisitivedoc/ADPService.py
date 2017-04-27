@@ -82,7 +82,7 @@ def service(request, data):
 
     if(request == "saveDocumentName"):
         response = {"request": "TRUE"}
-        documentName = dataRequest['user']['documentName']
+        documentName = dataRequest['documentName']
     return response
 
 

@@ -8,16 +8,6 @@
 	<div style="width:100%; border-bottom: 1px solid yellow; margin-top: 25px;"></div>
 	<h3 class="white-text">{{ testBody }}</h3>
 
-<label ng-repeat="fun in userFunctions">
-	<button type="button" class="btn btn-info btn-lg" data-id="{{ fun.bText }}" title="{{ fun.desctiption }}" ng-click="formPrep(fun)">{{ fun.bText }}</button>
-
-</label>
-
- <div ng-repeat="object in userForm">
-          <label style="display:block;padding-top:15px;"> {{ object.field }}  <input ng-change="object.pwstrf(object)" type="{{ object.type }}" ng-model="object.value"><p>{{object.pwstr}}</p></label>
-        </div>
-        <button ng-click="finFunct()" name="functionName" id="functionName">{{ finText }}</button>
-
 </div>
 
 			

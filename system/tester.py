@@ -83,23 +83,23 @@ def getDocument(request):
 	response = ADPService.service("getDocument", data)
 	print("Returning data for getDocument command:")
 	print(response)
-	return HtppResponse(json.dumps(response))
+	return HttpResponse(response)
 
 
 
 def saveDocument(request):
 	myFile = request.body
-	response = ADPService.service("saveDocument", data)
+	response = ADPService.service("saveDocument", myFile)
 	print("Returning data for saveDocument command:")
 	print(response)
-	return HtppResponse(json.dumps(response))
+	return HttpResponse(json.dumps(response))
 
 def saveAnnotatedDocument(request):
 	myFile = request.body
-	response = ADPService.service("saveAnnotatedDocument", data)
+	response = ADPService.service("saveAnnotatedDocument", myFile)
 	print("Returning data for saveDocument command:")
 	print(response)
-	return HtppResponse(json.dumps(response))
+	return HttpResponse(json.dumps(response))
 
 def saveDocumentName(request):
 	body_unicode = request.body.decode('utf-8')
@@ -109,7 +109,7 @@ def saveDocumentName(request):
 	response = ADPService.service("saveDocumentName", data)
 	print("Returning data for saveDocumentName command:")
 	print(response)
-	return HtppResponse(json.dumps(response))
+	return HttpResponse(json.dumps(response))
 
 def createAccount(request):
 	body_unicode = request.body.decode('utf-8')

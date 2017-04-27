@@ -27,7 +27,7 @@ def getDocument(fs, username, documentName):
     
     if(fs.find_one({"documentName": documentName, "username": username})):
         documentData = fs.find_one({"documentName": documentName, "username": username})
-        response = {"request": "TRUE", "data": documentData} 
+        response = documentData 
     else:
         response = {"request": "FALSE", "error": "Document not found."}
     return response
@@ -62,7 +62,8 @@ def service(request, data):
     username = "kickthecann"
 
     if(request == "getDocument"):
-        response = getDocument(fs, username)
+        response = getDocument(fs, username,documentName)
+        documentName = "BLANK"
 
     if(request == "getDocumentNameList"):
         response = getDocumentNameList(fs, username)

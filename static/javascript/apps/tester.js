@@ -82,18 +82,12 @@ app.controller('testerCtrl',  ['$scope','$http', '$sce', function($scope,$http,$
 				};
 		};
 
-		$(document).on("click", ".open-Modal", function () {
-    		var functionName = $(this).data('id');
-    		$(".modal-body #functionName").val( functionName );
-    		$scope.functionName = functionName;
-		});
-
 		$scope.userFunctions = [
 			{	
 				bText : "Login",
 				targetForm : { 
 				username:{field:"Username", value:"", type:"text", key: 0},
-				password:{field:"Password", value:"", type:"text", key: 1},
+				password:{field:"Password", value:"", type:"password", key: 1},
 				stayLoggedIn:{field:"Stay Logged In?", value:"false", type:"checkbox", key: 6}
 				},
 				targetFunction : function() {
@@ -119,11 +113,9 @@ app.controller('testerCtrl',  ['$scope','$http', '$sce', function($scope,$http,$
 			{
 				bText : "Logout",
 				targetForm : {
-				username:{field:"Username", value:"", type:"text", key: 0}
 				},
 				targetFunction : function() {
 						$scope.dataPrep();
-						console.log("User logging out account with username: " + $scope.packet.username);
 						var data = {user: $scope.packet};
 						$scope.shower = data;
 						$http({
@@ -143,11 +135,9 @@ app.controller('testerCtrl',  ['$scope','$http', '$sce', function($scope,$http,$
 			{
 				bText : "Get Notifications",
 				targetForm : {
-				username:{field:"Username", value:"", type:"text", key: 0}
 				},
 				targetFunction : function() {
 						$scope.dataPrep();
-						console.log("Getting user notifications with username: " + $scope.packet.username);
 						var data = {user: $scope.packet};
 						$scope.shower = data;
 						$http({
@@ -167,12 +157,9 @@ app.controller('testerCtrl',  ['$scope','$http', '$sce', function($scope,$http,$
 
 			{
 				bText : "Remove All Notifications",
-				targetForm : {
-				username:{field:"Username", value:"", type:"text", key: 0}
-				},
+				targetForm : {				},
 				targetFunction : function() {
 						$scope.dataPrep();
-						console.log("Removing all notifications with username: " + $scope.packet.username);
 						var data = {user: $scope.packet};
 						$scope.shower = data;
 						$http({
@@ -192,12 +179,9 @@ app.controller('testerCtrl',  ['$scope','$http', '$sce', function($scope,$http,$
 
 			{
 				bText : "Remove Notification",
-				targetForm : {
-				username:{field:"Username", value:"", type:"text", key: 0}
-				},
+				targetForm : {	},
 				targetFunction : function() {
 						$scope.dataPrep();
-						console.log("Removing one notification with username: " + $scope.packet.username);
 						var data = {user: $scope.packet};
 						$scope.shower = data;
 						$http({
@@ -218,13 +202,11 @@ app.controller('testerCtrl',  ['$scope','$http', '$sce', function($scope,$http,$
 			{
 				bText : "Change Password",
 				targetForm : {
-				username:{field:"Username", value:"", type:"text", key: 0},
-				password:{field:"Password", value:"", type:"text", key: 1},
+				password:{field:"Password", value:"", type:"password", key: 1},
 				newPassword:{field:"New Password", value:'', type:"text", key: 7}
 				},
 				targetFunction : function() {
 						$scope.dataPrep();
-						console.log("Changing password with username: " + $scope.packet.username);
 						var data = {user: $scope.packet};
 						$scope.shower = data;
 						$http({
@@ -245,13 +227,11 @@ app.controller('testerCtrl',  ['$scope','$http', '$sce', function($scope,$http,$
 			{
 				bText : "Change Email",
 				targetForm : {
-				username:{field:"Username", value:"", type:"text", key: 0},
-				password:{field:"Password", value:"", type:"text", key: 1},
+				password:{field:"Password", value:"", type:"password", key: 1},
 				newEmail:{field:"New Email", value:"", type:"text", key: 8}
 				},
 				targetFunction : function() {
 						$scope.dataPrep();
-						console.log("Changing Email with username: " + $scope.packet.username);
 						var data = {user: $scope.packet};
 						$scope.shower = data;
 						$http({
@@ -272,13 +252,11 @@ app.controller('testerCtrl',  ['$scope','$http', '$sce', function($scope,$http,$
 			{
 				bText : "Change First Name",
 				targetForm : {
-				username:{field:"Username", value:"", type:"text", key: 0},
-				password:{field:"Password", value:"", type:"text", key: 1},
+				password:{field:"Password", value:"", type:"password", key: 1},
 				newFirstName:{field:"New First Name", value:"", type:"text", key: 9}
 				},
 				targetFunction : function() {
 						$scope.dataPrep();
-						console.log("Changing first name with username: " + $scope.packet.username);
 						var data = {user: $scope.packet};
 						$scope.shower = data;
 						$http({
@@ -299,13 +277,11 @@ app.controller('testerCtrl',  ['$scope','$http', '$sce', function($scope,$http,$
 			{
 				bText : "Change Last Name",
 				targetForm : {
-				username:{field:"Username", value:"", type:"text", key: 0},
-				password:{field:"Password", value:"", type:"text", key: 1},
+				password:{field:"Password", value:"", type:"password", key: 1},
 				newLastName:{field:"New Last Name", value:"", type:"text", key: 10}
 				},
 				targetFunction : function() {
 						$scope.dataPrep();
-						console.log("Changing Last with username: " + $scope.packet.username);
 						var data = {user: $scope.packet};
 						$scope.shower = data;
 						$http({
@@ -327,7 +303,40 @@ app.controller('testerCtrl',  ['$scope','$http', '$sce', function($scope,$http,$
 				bText : "Register",
 				targetForm : {
 				username:{field:"Username", value:"", type:"text", key: 0},
-				password:{field:"Password", value:"", type:"text", key: 1},
+				password:{field:"Password", value:"", type:"password", key: 1, pwstr : "", pwstrf: function(selfo) {
+						var score = 0;
+					   if (!selfo.value)
+					       return score;
+
+					   // award every unique letter until 5 repetitions
+					   var letters = new Object();
+					   for (var i=0; i<selfo.value.length; i++) {
+					       letters[selfo.value[i]] = (letters[selfo.value[i]] || 0) + 1;
+					       score += 5.0 / letters[selfo.value[i]];
+					   }
+
+					   // bonus points for mixing it up
+					   var variations = {
+					       digits: /\d/.test(selfo.value),
+					       lower: /[a-z]/.test(selfo.value),
+					       upper: /[A-Z]/.test(selfo.value),
+					       nonWords: /\W/.test(selfo.value),
+					   }
+
+					   variationCount = 0;
+					   for (var check in variations) {
+					       variationCount += (variations[check] == true) ? 1 : 0;
+					   }
+					   score += (variationCount - 1) * 10;
+
+				
+						if (score > 80)
+					       selfo.pwstr = "Strong";
+					   else if (score > 60)
+					       selfo.pwstr = "Good";
+					   else if (score >= 25)
+					       selfo.pwstr = "Weak";
+				}},
 				notifyEmailToggle:{field:"Receive Email Notifications?", value:"false", type:"checkbox", key: 2},
 				firstName:{field:"First Name", value:"", type:"text", key: 3},
 				lastName:{field:"Last Name", value:"", type:"text", key: 4},

@@ -62,7 +62,9 @@ def service(request, data):
     username = "kickthecann"
 
     if(request == "getDocument"):
-        response = getDocument(fs, username)
+        documentName = dataRequest['documentName']
+        response = getDocument(fs, username, documentName)
+        documentName = "BLANK"
 
     if(request == "getDocumentNameList"):
         response = getDocumentNameList(fs, username)

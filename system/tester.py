@@ -83,7 +83,7 @@ def getDocument(request):
 	response = ADPService.service("getDocument", data)
 	print("Returning data for getDocument command:")
 	print(response)
-	return (HttpResponse(data))
+	return HttpResponse(response)
 
 
 

@@ -1,7 +1,7 @@
 import pymongo
 from pymongo import MongoClient
 import json
-
+from ...utility import SVSSessionFactory
 
 def connectToMongoDB(databaseName):
     print("Connecting to MongoDB...")
@@ -13,7 +13,7 @@ def connectToMongoDB(databaseName):
     return db.Accounts
     
     
-def login(db, username, password):
+def login(db, username, password, httprequest):
     print("Authenticating Account..")
     if(db.find_one({"username": username})):
         accountInformation = db.find_one({"username": username})
@@ -22,6 +22,9 @@ def login(db, username, password):
                 accountInformation['isLoggedIn'] = "true"
                 print("Login Success: Account Information Authenticated.")
                 response = {"login": "TRUE"}
+                SVSSessionFactory.setInSession(httprequest, "username", accountInformation['username'])
+                print("STORED USERNAME IS: ")
+                print(SVSSessionFactory.getFromSession(httprequest, "username"))
             else:
                 print("Login Error: Incorrect Password.")
                 response = {"login": "FALSE", 
@@ -105,7 +108,7 @@ def logout(db, username):
     return response
 
 
-def service(request, data):
+def service(request, data, httprequest):
     global db
     accountInformation = data
 
@@ -113,7 +116,7 @@ def service(request, data):
         username = accountInformation['user']['username']
         username = username.lower()
         password = accountInformation['user']['password']
-        response = login(db, username, password)
+        response = login(db, username, password, httprequest)
 
     if(request == "createAccount"):
         username = accountInformation['user']['username']

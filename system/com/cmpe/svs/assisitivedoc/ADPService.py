@@ -9,6 +9,8 @@ import json
 import gridfs
 
 
+from ..utility import SVSSessionFactory
+
 
 def connectToMongoDB(databaseName):
 
@@ -107,7 +109,7 @@ def deleteDocument(fs, username, documentName):
 
 
 
-def service(request, data):
+def service(request, data, httprequest):
 
     global fs
 
@@ -119,12 +121,12 @@ def service(request, data):
 
     dataRequest = data
 
-    username = "kickthecann"
+    #username = "kickthecann"
 
 
 
     if(request == "getDocument"):
-
+        username = SVSSessionFactory.getFromSession(httprequest, "username")
         response = getDocument(fs, username,documentName)
 
         documentName = "BLANK"
@@ -132,13 +134,13 @@ def service(request, data):
 
 
     if(request == "getDocumentNameList"):
-
+        username = SVSSessionFactory.getFromSession(httprequest, "username")
         response = getDocumentNameList(fsfiles, username)
 
 
 
     if(request == "saveAnnotatedDocument"):     
-
+        username = SVSSessionFactory.getFromSession(httprequest, "username")
         response = adminSaveAnnotatedDocument(fs, username, documentName, documentData)  
 
         documentName = "BLANK1"
@@ -146,7 +148,7 @@ def service(request, data):
 
 
     if(request == "saveDocument"):
-
+        username = SVSSessionFactory.getFromSession(httprequest, "username")
         documentData = data
 
         response = saveDocument(fs, username, documentName, documentData)
@@ -158,7 +160,7 @@ def service(request, data):
 
 
     if(request == "deleteDocument"):    
-
+        username = SVSSessionFactory.getFromSession(httprequest, "username")
         response = deleteDocument(fs, username, documentName)
 
 

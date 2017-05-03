@@ -13,7 +13,7 @@ import urllib
 #our controller
 from .com.cmpe.svs.webcrawler.controllers import crawlerController
 
-from .com.cmpe.svs.accounts.controllers import AccountsController	# account controller
+from .com.cmpe.svs.accounts.service import MongoService
 from .com.cmpe.svs.utility import SVSEncryptionFactory, SVSSessionFactory 
 from .com.cmpe.svs.assisitivedoc import ADPService
 
@@ -67,9 +67,10 @@ def webcrawler(request):
 	return HttpResponse(response)
 
 def login(request):
+	httprequest = request
 	body_unicode = request.body.decode('utf-8')
 	data = json.loads(body_unicode)
-	response = AccountsController.controller("login", data);
+	response = MongoService.service("login", data, httprequest);
 
 	print("Returning data for login command:")
 	print(response)
@@ -77,8 +78,16 @@ def login(request):
 	return HttpResponse(json.dumps(response))
 
 
+def getDocumentNameList(request):
+	httprequest = request
+	response = ADPService.service("getDocumentNameList", " ",  httprequest)
+	print("Returning data for getDocumentName List:")
+	print(response)
+	return HttpResponse(response)
+
 def getDocument(request):
-	response = ADPService.service("getDocument", request)
+	httprequest = request
+	response = ADPService.service("getDocument", "", httprequest)
 	print("Returning data for getDocument command:")
 	print(response)
 	return HttpResponse(response)
@@ -86,40 +95,45 @@ def getDocument(request):
 
 
 def saveDocument(request):
+	httprequest  = request
 	myFile = request.body
-	response = ADPService.service("saveDocument", myFile)
+	response = ADPService.service("saveDocument", myFile, httprequest)
 	print("Returning data for saveDocument command:")
 	print(response)
 	return HttpResponse(json.dumps(response))
 
 def saveAnnotatedDocument(request):
+	httprequest =request
 	myFile = request.body
-	response = ADPService.service("saveAnnotatedDocument", myFile)
+	response = ADPService.service("saveAnnotatedDocument", myFile. httprequest)
 	print("Returning data for saveDocument command:")
 	print(response)
 	return HttpResponse(json.dumps(response))
 
 def saveDocumentName(request):
+	httprequest = request
 	body_unicode = request.body.decode('utf-8')
 	data = json.loads(body_unicode)
 	print("SAVE DOCUMENT NAME REQUEST: ")
 	print(data)
-	response = ADPService.service("saveDocumentName", data)
+	response = ADPService.service("saveDocumentName", data, httprequest)
 	print("Returning data for saveDocumentName command:")
 	print(response)
 	return HttpResponse(json.dumps(response))
 
 def createAccount(request):
+	httprequest = request
 	body_unicode = request.body.decode('utf-8')
 	data = json.loads(body_unicode)
-	response = AccountsController.controller("createAccount", data);
+	response = MongoService.service("createAccount", data, httprequest);
 	print(response)
 	return HttpResponse(json.dumps(response))
 
 def logout(request):
+	httprequest = request
 	body_unicode = request.body.decode('utf-8')
 	data = json.loads(body_unicode)
-	response = AccountsController.controller("logout", data);
+	response = MongoService.service("logout", data, httprequest);
 	print(response)
 	return HttpResponse(json.dumps(response))
 	
@@ -164,7 +178,6 @@ import urllib
 #our controller
 from .com.cmpe.svs.webcrawler.controllers import crawlerController
 
-from .com.cmpe.svs.accounts.controllers import AccountsController	# account controller
 from .com.cmpe.svs.utility import SVSEncryptionFactory, SVSSessionFactory
 
 #secret key cryptography

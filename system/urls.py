@@ -20,7 +20,8 @@ urlpatterns = [
     url(r'^getDocument$', tester.getDocument, name = 'getDocument'),
     url(r'^saveDocumentName$', tester.saveDocumentName, name = 'saveDocumentName'),
     url(r'^saveDocument$', tester.saveDocument, name = 'saveDocument'),
-    url(r'^saveAnnotatedDocument$', tester.saveAnnotatedDocument, name = 'saveAnnotatedDocument')
+    url(r'^saveAnnotatedDocument$', tester.saveAnnotatedDocument, name = 'saveAnnotatedDocument'),
+    url(r'^getDocumentNameList$', tester.getDocumentNameList, name = 'getDocumentNameList')
 
     #url(r'^logout$', tester.logout, name = 'logout')
    # url(r'^getNotifications$', tester.getNotifications, name = 'getNotifications')

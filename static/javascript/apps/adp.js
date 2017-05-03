@@ -86,8 +86,9 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
    }
 
 //wip
-   $scope.saveCurAnnotations = function(){
-        var annotations = anno.getAnnotations();
+   $scope.displayAnnotationObject = function(){
+       $scope.annotationsV = anno.getAnnotations();
+
    }
 
 //save a document with annotations to backend. admin function

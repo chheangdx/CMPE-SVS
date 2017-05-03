@@ -12,6 +12,7 @@
 	<p>{{annotationArray}}</p>
 	<button ng-click="getTestDoc()">TestDoc</button>
 	<button ng-click="getDocumentNameList()">getDocumentNameList</button>
+	<button ng-click="displayAnnotationObject()">displayAnnotationObject</button>
 <!-- 	<button ng-click="adminGetUncompletedDocuments()">adminGetUncompletedDocuments</button>
 	<button ng-click="adminGetCompletedDocuments()">adminGetCompletedDocuments</button>
 	<button ng-click="deleteDocument()">deleteDocument</button>
@@ -35,4 +36,6 @@
 		</tr>
 	</table>
 
-	{{myOrderBy}}
+	<p>Annotations: {{annotationsV}}
+	</p>
+	<p>Page: {{currentPage}}/{{pdf.numPages}}</p>

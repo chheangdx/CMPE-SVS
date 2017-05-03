@@ -3,7 +3,7 @@ var app = angular.module('CmpeSVSApp');
 app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($scope,$http,$filter) {
     
     $scope.myOrderBy = "dateCreated";
-    $scope.reverse
+    $scope.reverse = false;
     $scope.orderByMe = function(x) {
     $scope.myOrderBy = x;
     $scope.reverse = !$scope.reverse
@@ -12,13 +12,44 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
     $scope.documentNameList = [
     {
       documentName:"Hello.pdf",
-      status:"Good"
+      status:"Good",
+      uploadDate:1288323123006
     },
     {
       documentName:"Bye.pdf",
-      status:"Bad"
+      status:"Bad",
+      uploadDate:1218323123006
+    },
+    {
+      documentName:"Suc.pdf",
+      status:"hot",
+      uploadDate:1288166123006
+    },
+    {
+      documentName:"Aeeeaaa.pdf",
+      status:"not",
+      uploadDate:1285513123006
+    },
+    {
+      documentName:"dddaaa.pdf",
+      status:"not",
+      uploadDate:1283313123006
+    },
+    {
+      documentName:"bbbaaa.pdf",
+      status:"not",
+      uploadDate:1282213123006
+    },
+    {
+      documentName:"cccc.pdf",
+      status:"not",
+      uploadDate:1338113123006
     }
     ]
+
+    $scope.setDocumentName = function(passedDocumentName){
+      $scope.documentName = passedDocumentName;
+    }
 
 //get list of documents specific to user
    $scope.getDocumentNameList = function(){

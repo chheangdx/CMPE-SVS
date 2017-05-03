@@ -12,6 +12,7 @@
 	<p>{{annotationArray}}</p>
 	<button ng-click="getTestDoc()">TestDoc</button>
 	<button ng-click="getDocumentNameList()">getDocumentNameList</button>
+	<button ng-click="displayAnnotationObject()">displayAnnotationObject</button>
 <!-- 	<button ng-click="adminGetUncompletedDocuments()">adminGetUncompletedDocuments</button>
 	<button ng-click="adminGetCompletedDocuments()">adminGetCompletedDocuments</button>
 	<button ng-click="deleteDocument()">deleteDocument</button>
@@ -26,13 +27,21 @@
 
 	<table>
 		<tr>
-			<th ng-click="orderByMe('docName')">Document Name</th>
-			<th ng-click="orderByMe('status')">Date Created</th>
+			<th ng-click="orderByMe('documentName')">Document Name</th>
+			<th ng-click="orderByMe('status')">Status</th>
+			<th ng-click="orderByMe('uploadDate')">Upload Date</th>
+			<th>Select</th>
 		</tr>
 		<tr ng-repeat="doc in documentNameList | orderBy : myOrderBy:reverse | filter : searched">
 			<th>{{doc.documentName}}</th>
 			<th>{{doc.status}}</th>
+			<th>{{doc.uploadDate | date:'MM/dd/yyyy'}}</th>
+			<th><button ng-click="setDocumentName(doc.documentName)">Select</button></th>
 		</tr>
 	</table>
 
-	{{myOrderBy}}
+	<p>Annotations: {{annotationsV}}
+	</p>
+	<p>Page: {{currentPage}}/{{pdf.numPages}}</p>
+
+	<p>Chosen document name: {{documentName}}</p>

@@ -78,9 +78,7 @@ def login(request):
 
 
 def getDocument(request):
-	body_unicode = request.body.decode('utf-8')
-	data = json.loads(body_unicode)
-	response = ADPService.service("getDocument", data)
+	response = ADPService.service("getDocument", request)
 	print("Returning data for getDocument command:")
 	print(response)
 	return HttpResponse(response)
@@ -104,7 +102,7 @@ def saveAnnotatedDocument(request):
 def saveDocumentName(request):
 	body_unicode = request.body.decode('utf-8')
 	data = json.loads(body_unicode)
-	print("DOCUMENTNAME DATA: ")
+	print("SAVE DOCUMENT NAME REQUEST: ")
 	print(data)
 	response = ADPService.service("saveDocumentName", data)
 	print("Returning data for saveDocumentName command:")

@@ -11,13 +11,28 @@
 	<button ng-click="saveDocument()">saveDocument</button>
 	<p>{{annotationArray}}</p>
 	<button ng-click="getTestDoc()">TestDoc</button>
+	<button ng-click="getDocumentNameList()">getDocumentNameList</button>
 <!-- 	<button ng-click="adminGetUncompletedDocuments()">adminGetUncompletedDocuments</button>
 	<button ng-click="adminGetCompletedDocuments()">adminGetCompletedDocuments</button>
 	<button ng-click="deleteDocument()">deleteDocument</button>
-	<button ng-click="getDocumentNameList()">getDocumentNameList</button>
+	
 	<button ng-click="testFile()">Click to Test File Upload on backend</button>
 	<button ng-click="checkAnnotationsBackEnd()">Check Annotations</button>
  -->
 	<canvas id="the-canvas" style="border:1px  solid black; display:none;"></canvas>
 	<img id="pdfview"  style="border:1px  solid black;" data-original="http://stable-identifier/for-image" >
 
+	<label>Search Input<input type = "text" ng-model = "searched"></label>
+
+	<table>
+		<tr>
+			<th ng-click="orderByMe('docName')">Document Name</th>
+			<th ng-click="orderByMe('status')">Date Created</th>
+		</tr>
+		<tr ng-repeat="doc in documentNameList | orderBy : myOrderBy:reverse | filter : searched">
+			<th>{{doc.documentName}}</th>
+			<th>{{doc.status}}</th>
+		</tr>
+	</table>
+
+	{{myOrderBy}}

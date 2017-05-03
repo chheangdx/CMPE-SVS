@@ -1,6 +1,24 @@
 var app = angular.module('CmpeSVSApp');
 
 app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($scope,$http,$filter) {
+    
+    $scope.myOrderBy = "dateCreated";
+    $scope.reverse
+    $scope.orderByMe = function(x) {
+    $scope.myOrderBy = x;
+    $scope.reverse = !$scope.reverse
+    }
+
+    $scope.documentNameList = [
+    {
+      documentName:"Hello.pdf",
+      status:"Good"
+    },
+    {
+      documentName:"Bye.pdf",
+      status:"Bad"
+    }
+    ]
 
 //get list of documents specific to user
    $scope.getDocumentNameList = function(){
@@ -10,6 +28,8 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
           url : '/getDocumentNameList'
       }).then(function successCallback(response) {
         console.log(response);
+        //name list holds:
+        //name, date created, status, student name
         $scope.documentNameList = response.data
       }, function errorCallback(response) {
         console.log("HTTP File Response failed: " + response);

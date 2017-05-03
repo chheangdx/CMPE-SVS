@@ -83,7 +83,7 @@ def getDocumentNameList(request):
 	response = ADPService.service("getDocumentNameList", " ",  httprequest)
 	print("Returning data for getDocumentName List:")
 	print(response)
-	return HttpResponse(response)
+	return HttpResponse(json.dumps(response))
 
 def getDocument(request):
 	httprequest = request

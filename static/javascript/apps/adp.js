@@ -59,7 +59,6 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
           method : 'post',
           url : '/getDocumentNameList'
       }).then(function successCallback(response) {
-        console.log(response);
         //name list holds:
         //name, date created, status, student name
         $scope.documentNameList = response.data
@@ -79,8 +78,6 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
           url : '/saveDocumentName',
           data : data
       }).then(function successCallback(response) {
-        console.log(response);
-
         $scope.documentReturned = response.data
         $scope.documentGrab("/getDocument");   
 
@@ -96,7 +93,6 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
           method : 'post',
           url : '/adminGetUncompletedDocuments'
       }).then(function successCallback(response) {
-        console.log(response);
         $scope.documentNameList = response.data
       }, function errorCallback(response) {
         console.log("HTTP File Response failed: " + response);
@@ -110,7 +106,6 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
           method : 'post',
           url : '/adminGetCompletedDocuments'
       }).then(function successCallback(response) {
-        console.log(response);
         $scope.documentNameList = response.data
       }, function errorCallback(response) {
         console.log("HTTP File Response failed: " + response);
@@ -133,7 +128,6 @@ $scope.saveAnnotatedDocument = function(){
           url : '/saveAnnotatedDocumentName',
           data : data
       }).then(function successCallback(response) {
-        //console.log(response);
         $scope.annotationArray[$scope.currentPage-1] = anno.getAnnotations();
         var annotations = $scope.annotationArray
         $http({
@@ -142,7 +136,6 @@ $scope.saveAnnotatedDocument = function(){
             data : {'annotations': annotations}
         }).then(function successCallback(response) {
           $scope.uploadMutex = false;
-          console.log("Annotated document saved successfully.");
            if(!$scope.uploadMutex){
           $scope.uploadMutex = true;
           var file = $scope.myFile;
@@ -155,34 +148,36 @@ $scope.saveAnnotatedDocument = function(){
             url : '/saveAnnotatedDocument',
             data : fd
           }).then(function successCallback(response) {
-            console.log(response);
             $scope.uploadMutex = false;
           }, function errorCallback(response) {
             $scope.uploadMutex = false;
-            console.log("HTTP File Response failed: " + response);
+            console.log("HTTP saveAnnotatedDocument Response failed: " + response);
           });
         }
         }, function errorCallback(response) {
           $scope.uploadMutex = false;
-          console.log("HTTP File Response failed: " + response);
+          console.log("HTTP saveAnnotationAnnotations Response failed: " + response);
         });
 
       }, function errorCallback(response) {
-        console.log("HTTP File Response failed: " + response);
+        console.log("HTTP saveAnnotatedDocumentName Response failed: " + response);
       });        
 
    }
 
 //delete a document from the backend
    $scope.deleteDocument = function(){
-      $http({
+      var data  = {
+      'documentName' : $scope.documentName
+    };
+    $http({
           method : 'post',
-          url : '/deleteDocument'
+          url : '/deleteDocument',
+          data : data
       }).then(function successCallback(response) {
-        console.log("Delete document success.");
       }, function errorCallback(response) {
-        console.log("HTTP File Response failed: " + response);
-      });        
+        console.log("HTTP deleteDocument Response failed: " + response);
+    });        
    }
 
 //save a document to backend, from normal user
@@ -212,12 +207,12 @@ $scope.saveAnnotatedDocument = function(){
             $scope.uploadMutex = false;
           }, function errorCallback(response) {
             $scope.uploadMutex = false;
-            console.log("HTTP File Response failed: " + response);
+            console.log("HTTP saveDocument Response failed: " + response);
           });
         }
 
       }, function errorCallback(response) {
-        console.log("HTTP File Response failed: " + response);
+        console.log("HTTP saveDocumentName Response failed: " + response);
       });        
 
    }
@@ -244,14 +239,13 @@ $scope.saveAnnotatedDocument = function(){
   					data : {'annotations': annotations}
   			}).then(function successCallback(response) {
   			  $scope.uploadMutex = false;
-  				console.log(response);
   			}, function errorCallback(response) {
           $scope.uploadMutex = false;
-  				console.log("HTTP File Response failed: " + response);
+  				console.log("HTTP annotationTest Response failed: " + response);
   			});
   		}, function errorCallback(response) {
         $scope.uploadMutex = false;
-  			console.log("HTTP File Response failed: " + response);
+  			console.log("HTTP fileTest Response failed: " + response);
   		});
     }
 	};
@@ -281,14 +275,6 @@ $scope.saveAnnotatedDocument = function(){
 			}, function errorCallback(response) {
 				console.log("HTTP File Response failed: " + response);
 			});   	   
-//   	   $http({
-//   	   		   method : 'post',
-//   	   		   url : '/annotationTestGet'
-//   	   }).then(function successCallback(response) {
-//   	   	   console.log(response.data);
-//  	   }, function errorCallback(response) {
-//   	   	   console.log("HTTP File Response failed: " + response);
-//   	   });
    }
 
    $scope.getTestDoc = function(){
@@ -339,27 +325,31 @@ $scope.saveAnnotatedDocument = function(){
 
 
                 }, function errorCallback(response) {
-                    console.log("HTTP File Response failed: " + response);
+                    console.log("HTTP annotationTestGet Response failed: " + response);
                 });
           });
 
-        
-          for (var i = 0; i < 30; i++){
-              var annotation = $scope.annotationArray[$scope.currentPage-1][i];
-              if(!annotation)
-              {
-                i = 30;
-              }
-              else{
-                console.log("annotation add")
-                anno.addAnnotation(annotation);
+        try{
+            for (var i = 0; i < 30; i++){
+                var annotation = $scope.annotationArray[$scope.currentPage-1][i];
+                if(!annotation)
+                {
+                  i = 30;
+                }
+                else{
+                  console.log("annotation add")
+                  anno.addAnnotation(annotation);
+                }
               }
           }
+        catch(err){
+          console.log("No annotations available");
+        }
+
     });
    }
 
     $scope.documentGrab = function(url){
-      console.log("getting document from url:" + url)
 
             PDFJS.getDocument(url).then(function getPdfHelloWorld(pdf) {
             //
@@ -389,7 +379,7 @@ $scope.saveAnnotatedDocument = function(){
           }).then(function successCallback(response) {
             $scope.annotationArray = response.data
           }, function errorCallback(response) {
-            console.log("HTTP File Response failed: " + response);
+            console.log("HTTP getAnnotations Response failed: " + response);
         });
       }        
     }
@@ -458,18 +448,3 @@ function gd_uploadFile(name, contentType, data, callback) {
             console.log(arguments);
         });
 }
-
-//On upload
-/*$('#file')[0].onchange = function () {
-    var file = $('#file')[0].files[0];
-    if (file && file.type === 'image/jpeg') {
-        var reader = new FileReader();
-        reader.onloadend = function () {
-            var data = reader.result;
-            gd_uploadFile('img.jpg', 'image/jpeg', data, function () {
-                console.log(arguments);
-            });
-        }
-        reader.readAsDataURL(file);
-    }
-};*/

@@ -47,8 +47,9 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
     }
     ]
 
-    $scope.setDocumentName = function(passedDocumentName){
-      $scope.documentName = passedDocumentName;
+    $scope.setDocument = function(docObject){
+      $scope.documentName = docObject.documentName;
+      $scope.status = docObject.status;
     }
 
 //get list of documents specific to user
@@ -133,6 +134,7 @@ $scope.saveAnnotatedDocument = function(){
           data : data
       }).then(function successCallback(response) {
         //console.log(response);
+        $scope.annotationArray[$scope.currentPage-1] = anno.getAnnotations();
         var annotations = $scope.annotationArray
         $http({
             method : 'post',
@@ -358,19 +360,43 @@ $scope.saveAnnotatedDocument = function(){
 
     $scope.documentGrab = function(url){
       console.log("getting document from url:" + url)
+
             PDFJS.getDocument(url).then(function getPdfHelloWorld(pdf) {
             //
             // Fetch the page desired
             //
             $scope.pdf = pdf;
             console.log("Number of pages is " + $scope.pdf.numPages);
-            $scope.annotationArray = Array($scope.pdf.numPages);
+            if($scope.status == "incomplete"){
+              $scope.annotationArray = Array($scope.pdf.numPages);
+            }
+            else{
+              $scope.annotationsGrab();
+            }
             $scope.pageGrab(1);
-      });
+      }); 
+    }
+
+    $scope.annotationsGrab = function(){
+      if($scope.status != "incomplete"){
+        var data  = {
+        'documentName' : $scope.documentName
+        };
+        $http({
+              method : 'post',
+              url : '/getAnnotations',
+              data : data
+          }).then(function successCallback(response) {
+            $scope.annotationArray = response.data
+          }, function errorCallback(response) {
+            console.log("HTTP File Response failed: " + response);
+        });
+      }        
     }
 
    var init = function(){
       $scope.uploadMutex = false;
+      $scope.getDocumentNameList();
 	};
 
 	init();

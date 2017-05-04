@@ -16,7 +16,6 @@ app.controller('logoutCtrl',  ['$scope','$http', function($scope,$http) {
 				},
 				targetFunction : function() {
 						$scope.dataPrep();
-						console.log("User logging in account with username: " + $scope.packet.username);
 						var data = {user: $scope.packet};
 						$scope.shower = data;
 						$http({
@@ -321,11 +320,9 @@ app.controller('logoutCtrl',  ['$scope','$http', function($scope,$http) {
 		}
 
 		$scope.dataPrep = function() {
-			console.log("Begin dataprep of current userForm");
 			$scope.packet = {}
 			//This function takes one of the form objects and strips it down to the data to send to backend.
 			for ( var field in $scope.userForm) {
-				console.log("Handling field: " + field);
 				switch ($scope.userForm[field].key) {
 					case 0:
 						$scope.packet.username = $scope.userForm[field].value;

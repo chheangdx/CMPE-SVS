@@ -282,6 +282,7 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
 
    $scope.pageGrab = function(tarPage){
     $scope.annotationArray[$scope.currentPage-1] = anno.getAnnotations();
+    anno.removeAll();
     if(tarPage > 0 && tarPage <= $scope.pdf.numPages)
         $scope.pdf.getPage(tarPage).then(function getPageHelloWorld(page) {
           $scope.currentPage = tarPage;
@@ -295,15 +296,6 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
           canvas.height = viewport.height;
           canvas.width = viewport.width;
 
-          //
-          // Render PDF page into canvas context
-          //
-          var callback = function(){
-              var canvas = document.getElementById('the-canvas');
-              var image = document.getElementById('pdfview');
-              image.src = canvas.toDataURL();
-              anno.makeAnnotatable(document.getElementById('pdfview'));
-          };
           var renderContext = {
               canvasContext: context,
               viewport: viewport,
@@ -325,11 +317,27 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
                         annotation_0["src"] = "http://stable-identifier/for-image";
                         console.log(annotation_0);
                         anno.addAnnotation(annotation_0, null);
+                          
                     }
+
+
                 }, function errorCallback(response) {
                     console.log("HTTP File Response failed: " + response);
                 });
           });
+
+        
+          for (var i = 0; i < 30; i++){
+              var annotation = $scope.annotationArray[$scope.currentPage-1][i];
+              if(!annotation)
+              {
+                i = 30;
+              }
+              else{
+                console.log("annotation add")
+                anno.addAnnotation(annotation);
+              }
+          }
     });
    }
 

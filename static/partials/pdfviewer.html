@@ -30,13 +30,17 @@
 			<th ng-click="orderByMe('documentName')">Document Name</th>
 			<th ng-click="orderByMe('status')">Status</th>
 			<th ng-click="orderByMe('uploadDate')">Upload Date</th>
+			<th ng-click="orderByMe('category')">Category</th>
 			<th>Select</th>
+			<th>Delete</th>
 		</tr>
 		<tr ng-repeat="doc in documentNameList | orderBy : myOrderBy:reverse | filter : searched">
 			<th>{{doc.documentName}}</th>
 			<th>{{doc.status}}</th>
-			<th>{{doc.uploadDate | date:'MM/dd/yyyy'}}</th>
+			<th>{{doc.date | date:'MM/dd/yyyy'}}</th>
+			<th>{{doc.category}}</th>
 			<th><button ng-click="setDocumentName(doc.documentName)">Select</button></th>
+			<th><button ng-click="deleteDocument()">Delete</button></th>
 		</tr>
 	</table>
 
@@ -45,3 +49,5 @@
 	<p>Page: {{currentPage}}/{{pdf.numPages}}</p>
 
 	<p>Chosen document name: {{documentName}}</p>
+
+<p>{{length}}</p>

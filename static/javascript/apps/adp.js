@@ -123,21 +123,17 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
    }
 
 //save a document with annotations to backend. admin function
-   $scope.saveAnnotatedDocument = function(){
-    if(!$scope.uploadMutex){
-      $scope.uploadMutex = true;
-      var file = $scope.myFile;
-      var fd = new FormData();
-      
-      fd.append('file', file);
-         
-      $http({
-        method : 'post',
-        url : '/saveAnnotatedDocument',
-        data : fd
+$scope.saveAnnotatedDocument = function(){
+    var data  = {
+      'documentName' : $scope.documentName
+    };
+    $http({
+          method : 'post',
+          url : '/saveAnnotatedDocumentName',
+          data : data
       }).then(function successCallback(response) {
         //console.log(response);
-        var annotations = anno.getAnnotations();
+        var annotations = $scope.annotationArray
         $http({
             method : 'post',
             url : '/saveAnnotationAnnotations',
@@ -145,15 +141,34 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
         }).then(function successCallback(response) {
           $scope.uploadMutex = false;
           console.log("Annotated document saved successfully.");
+           if(!$scope.uploadMutex){
+          $scope.uploadMutex = true;
+          var file = $scope.myFile;
+          var fd = new FormData();
+          
+          fd.append('file', file);
+             
+          $http({
+            method : 'post',
+            url : '/saveAnnotatedDocument',
+            data : fd
+          }).then(function successCallback(response) {
+            console.log(response);
+            $scope.uploadMutex = false;
+          }, function errorCallback(response) {
+            $scope.uploadMutex = false;
+            console.log("HTTP File Response failed: " + response);
+          });
+        }
         }, function errorCallback(response) {
           $scope.uploadMutex = false;
           console.log("HTTP File Response failed: " + response);
         });
+
       }, function errorCallback(response) {
-        $scope.uploadMutex = false;
         console.log("HTTP File Response failed: " + response);
-      });
-    }
+      });        
+
    }
 
 //delete a document from the backend

@@ -357,7 +357,7 @@ $scope.saveAnnotatedDocument = function(){
             //
             $scope.pdf = pdf;
             console.log("Number of pages is " + $scope.pdf.numPages);
-            if($scope.status == "incomplete"){
+            if($scope.status == "Incomplete"){
               $scope.annotationArray = Array($scope.pdf.numPages);
             }
             else{
@@ -368,7 +368,7 @@ $scope.saveAnnotatedDocument = function(){
     }
 
     $scope.annotationsGrab = function(){
-      if($scope.status != "incomplete"){
+      if($scope.status != "Incomplete"){
         var data  = {
         'documentName' : $scope.documentName
         };

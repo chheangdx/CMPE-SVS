@@ -39,20 +39,15 @@ def connectToMongoDB(databaseName):
 
     
 
-def adminSaveAnnotatedDocument(fs, username, documentName, documentData, documentAnnotation):
-
-    documentLoop = True
-    tempDocumentName = documentName
-    count = 1
-    while(documentLoop):
-        if(fs.find_one({"documentName": tempDocumentName, "username": username})):
-            tempDocumentName = documentName + "(" + str(count) + ")"
-            count += 1
-        else:
-            documentLoop = False
-
+def adminSaveAnnotatedDocument(fs, username, documentName, category, documentData, documentAnnotation):
+    if(fs.find_one({"username": username}, {"documentName": documentName})):
+        documentInformation = fs.find_one({"username": username}, {"documentName": documentName})
+        date = documentInformation['date']
+        fs.delete({"username": username, "documentName": documentName})
+    else:
+        print("DOCUMENT COULD NOT BE FOUND.")
     
-    fs.put(documentData, username = username, documentName = tempDocumentName, documentAnnotation = documentAnnotation, status = "reviewed", date= time.strftime("%m/%d/%Y"), category = category)
+    fs.put(documentData, username = username, documentName = documentName, documentAnnotation = documentAnnotation, status = "Reviewed",date = date, annotatedate= time.strftime("%m/%d/%Y"), category = category)
 
     response = {"request": "TRUE"}
 
@@ -120,7 +115,7 @@ def saveDocument(fs, username, documentName, documentData, category):
             documentLoop = False
 
         
-    fs.put(documentData, username = username, documentName = tempDocumentName, status = "incomplete", date= time.strftime("%m/%d/%Y"), category = category)
+    fs.put(documentData, username = username, documentName = tempDocumentName, status = "Incomplete", date= time.strftime("%m/%d/%Y"), annotatedate = "00/00/00", category = category)
 
     response = {"request": "TRUE"}
 
@@ -151,7 +146,7 @@ def service(request, data, httprequest):
     global fs
     global db
     global documentName
-    global annotations
+    global documentAnnotation
     global annotatedDocumentName
     global fsfiles
     dataRequest = data
@@ -194,13 +189,13 @@ def service(request, data, httprequest):
 
         if(request == "saveAnnotationAnnotations"):
             response = {"request": "TRUE"}
-            annotations = dataRequest['annotations']
+            documentAnnotation = dataRequest['annotations']
             print("SAVED ANNOTATION IS : ")
-            print(annotations)
+            print(documentAnnotation)
 
         if(request == "saveAnnotatedDocument"):
             documentData = data
-            response = adminSaveAnnotatedDocument(fs, username, annotatedDocumentName, documentData, documentAnnotation)
+            response = adminSaveAnnotatedDocument(fs, username, annotatedDocumentName, " ", documentData, documentAnnotation)
             annotatedDocumentName = "BLANK"
             documentAnnotation = []
 

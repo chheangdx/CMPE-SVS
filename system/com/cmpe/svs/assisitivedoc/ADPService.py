@@ -8,6 +8,7 @@ import json
 
 import gridfs
 
+import time
 
 from ..utility import SVSSessionFactory
 
@@ -72,7 +73,7 @@ def getDocumentNameList(fsfiles, username):
 
     response = []
     for doc in fsfiles.find({"username": username}):
-            tempobject = {"documentName": doc['documentName'], "status": doc['status']}
+            tempobject = {"documentName": doc['documentName'], "status": doc['status'], "date": doc['date'], "category": doc['category']}
             response.append(tempobject)
 
     return response
@@ -81,9 +82,40 @@ def getDocumentNameList(fsfiles, username):
 
 
 
-def saveDocument(fs, username, documentName, documentData):
-
-    fs.put(documentData, username = username, documentName = documentName, status = "incomplete")
+def saveDocument(fs, username, documentName, documentData, category):
+    sampleAnnotations = {
+        "docName": "hello world",
+        "byPage": [
+            [
+                {
+                    "text": "This is an annotation",
+                    "position": "x:0, y:50"
+                },
+                {
+                    "text": "This is another annotation",
+                    "position": "x:10, y:200"
+                },
+                {
+                    "text": "This is a third annotation",
+                    "position": "x:50, y:75"
+                }
+            ],
+            [   
+                {
+                    "text": "This is definitely an annotation",
+                    "position": "x:0, y:50"
+                }
+            ],
+            [  
+                {
+                    "text": "This is an annotation on the third page",
+                    "position": "x:0, y:50"
+                }
+            ],
+        ]
+    }
+    #annotations = sampleAnnotations["byPage"]
+    fs.put(documentData, username = username, documentName = documentName, status = "incomplete", date= time.strftime("%m/%d/%Y"), category = category)
 
     response = {"request": "TRUE"}
 
@@ -151,7 +183,7 @@ def service(request, data, httprequest):
         username = SVSSessionFactory.getFromSession(httprequest, "username")
         documentData = data
 
-        response = saveDocument(fs, username, documentName, documentData)
+        response = saveDocument(fs, username, documentName, documentData, " ")
 
         documentName = "BLANK"
 
@@ -179,9 +211,6 @@ def service(request, data, httprequest):
 
 databaseName = 'TestDB'
 db = connectToMongoDB(databaseName)
-
 fsfiles = db.fs.files
-
 fs = gridfs.GridFS(db)
-
 documentName = ""

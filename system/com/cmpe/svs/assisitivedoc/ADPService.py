@@ -72,9 +72,12 @@ def getDocument(fs, username, documentName):
 def getDocumentNameList(fsfiles, username):
 
     response = []
-    for doc in fsfiles.find({"username": username}):
-            tempobject = {"documentName": doc['documentName'], "status": doc['status'], "date": doc['date'], "category": doc['category']}
-            response.append(tempobject)
+    if(fs.find_one({"username": username})):
+        for doc in fsfiles.find({"username": username}):
+                tempobject = {"documentName": doc['documentName'], "status": doc['status'], "date": doc['date'], "category": doc['category']}
+                response.append(tempobject)
+    else:
+        response = {"request": "FALSE", "error": "No documents found."}
 
     return response
 
@@ -115,7 +118,19 @@ def saveDocument(fs, username, documentName, documentData, category):
         ]
     }
     #annotations = sampleAnnotations["byPage"]
-    fs.put(documentData, username = username, documentName = documentName, status = "incomplete", date= time.strftime("%m/%d/%Y"), category = category)
+    documentLoop = True
+    tempDocumentName = documentName
+    count = 1
+    while(documentLoop):
+        if(fs.find_one({"documentName": tempDocumentName, "username": username})):
+            tempDocumentName = documentName + "(" + str(count) + ")"
+            count += 1
+        else:
+            documentLoop = False
+
+        
+
+    fs.put(documentData, username = username, documentName = tempDocumentName, status = "incomplete", date= time.strftime("%m/%d/%Y"), category = category)
 
     response = {"request": "TRUE"}
 
@@ -144,65 +159,45 @@ def deleteDocument(fs, username, documentName):
 def service(request, data, httprequest):
 
     global fs
-
     global db
-
     global documentName
-
     global fsfiles
-
     dataRequest = data
 
-    #username = "kickthecann"
+   
+
+    username = SVSSessionFactory.getFromSession(httprequest, "username", "BLANK")
+
+    if(username == "BLANK"):
+        response = {"request": "FALSE" , "error": "USER IS NOT LOGGED IN."}
+        raise Exception("YOU DONE GOOFED. NOT EVEN LOGGED IN BRO.")
+    else:
+
+        if(request == "getDocument"):
+            response = getDocument(fs, username,documentName)
+            documentName = "BLANK"
+
+        if(request == "getDocumentNameList"):
+            response = getDocumentNameList(fsfiles, username)
+
+        if(request == "saveAnnotatedDocument"):     
+            response = adminSaveAnnotatedDocument(fs, username, documentName, documentData)  
+            documentName = "BLANK"
 
 
+        if(request == "saveDocument"):
+            documentData = data
+            response = saveDocument(fs, username, documentName, documentData, " ")
+            documentName = "BLANK"
 
-    if(request == "getDocument"):
-        username = SVSSessionFactory.getFromSession(httprequest, "username")
-        response = getDocument(fs, username,documentName)
+        if(request == "deleteDocument"):    
+            response = deleteDocument(fs, username, documentName)
 
-        documentName = "BLANK"
+        if(request == "saveDocumentName"):
+            response = {"request": "TRUE"}
+            documentName = dataRequest['documentName']
 
-
-
-    if(request == "getDocumentNameList"):
-        username = SVSSessionFactory.getFromSession(httprequest, "username")
-        response = getDocumentNameList(fsfiles, username)
-
-
-
-    if(request == "saveAnnotatedDocument"):     
-        username = SVSSessionFactory.getFromSession(httprequest, "username")
-        response = adminSaveAnnotatedDocument(fs, username, documentName, documentData)  
-
-        documentName = "BLANK1"
-
-
-
-    if(request == "saveDocument"):
-        username = SVSSessionFactory.getFromSession(httprequest, "username")
-        documentData = data
-
-        response = saveDocument(fs, username, documentName, documentData, " ")
-
-        documentName = "BLANK"
-
-
-
-
-
-    if(request == "deleteDocument"):    
-        username = SVSSessionFactory.getFromSession(httprequest, "username")
-        response = deleteDocument(fs, username, documentName)
-
-
-
-    if(request == "saveDocumentName"):
-
-        response = {"request": "TRUE"}
-
-        documentName = dataRequest['documentName']
-
+    
     return response
 
 

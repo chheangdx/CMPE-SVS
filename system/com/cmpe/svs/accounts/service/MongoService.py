@@ -24,7 +24,7 @@ def login(db, username, password, httprequest):
                 response = {"login": "TRUE"}
                 SVSSessionFactory.setInSession(httprequest, "username", accountInformation['username'])
                 print("STORED USERNAME IS: ")
-                print(SVSSessionFactory.getFromSession(httprequest, "username"))
+                print(SVSSessionFactory.getFromSession(httprequest, "username", "BLANK"))
             else:
                 print("Login Error: Incorrect Password.")
                 response = {"login": "FALSE", 
@@ -99,12 +99,13 @@ def getLastName(db, username):
     accountInformation = db.find_one({"username": username})
     return accountInformation['lastName']
 
-def logout(db, username):
+def logout(db, username, httprequest):
     accountInformation = db.find_one({"username": username})
     accountInformation['isLoggedIn'] = "False"
     db.save(accountInformation)
     print("Account Logged In Status: ") + accountInformation['isLoggedIn']
     response = {"logout": "TRUE"}
+    SVSSessionFactory.deleteSession(httprequest, 'username')
     return response
 
 
@@ -131,7 +132,7 @@ def service(request, data, httprequest):
     if(request == "logout"):
         username = accountInformation['user']['username']
         username = username.lower()
-        response = logout(db, username)
+        response = logout(db, username, httprequest)
 
 
 

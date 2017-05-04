@@ -33,21 +33,27 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
 
 //retrieve a document picked from the document list
    $scope.getDocument = function(){
+    var data = {
+      'documentName' : $scope.documentName //Change this later to be selected value from doc
+    }
 
-      var data = {
-        'documentName' : $scope.documentName //Change this later to be selected value from doc
-      }
-      $http({
-          method : 'post',
-          url : '/saveDocumentName',
-          data : data
-      }).then(function successCallback(response) {
-        $scope.documentReturned = response.data
-        $scope.documentGrab("/getDocument");   
+    if($scope.status == "Incomplete"){
+      var url = '/saveDocumentName'  
+    }
+    else{
+      var url = '/saveAnnotatedDocumentName'
+    }  
+    $http({
+        method : 'post',
+        url : url
+        data : data
+    }).then(function successCallback(response) {
+      $scope.documentReturned = response.data
+      $scope.documentGrab("/getDocument");   
 
-      }, function errorCallback(response) {
-        console.log("HTTP File Response failed: " + response);
-      });        
+    }, function errorCallback(response) {
+      console.log("HTTP File Response failed: " + response);
+    });   
    }
 
 //get all existing documents that arent completed

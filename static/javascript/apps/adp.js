@@ -45,7 +45,7 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
     }  
     $http({
         method : 'post',
-        url : url
+        url : url,
         data : data
     }).then(function successCallback(response) {
       $scope.documentReturned = response.data

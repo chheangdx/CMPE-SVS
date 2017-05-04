@@ -70,7 +70,10 @@ def getAnnotations(fsfiles, username, documentName):
 
 def getDocument(fs, username, documentName):
 
-    
+    print("USER NAME:")
+    print(username)
+    print("doc name:")
+    print(documentName)
 
     if(fs.find_one({"documentName": documentName, "username": username})):
 
@@ -165,10 +168,14 @@ def service(request, data, httprequest):
 
         if(request == "getAnnotations"):
             response = getAnnotations(fsfiles, username, annotatedDocumentName )
+            annotatedDocumentName = "BLANK"
 
         if(request == "getDocument"):
-            response = getDocument(fs, username,documentName)
+            response = getDocument(fs, username, documentName)
             documentName = "BLANK"
+
+        if(request == "getAnnotatedDocument"):
+            response = getDocument(fs, username, annotatedDocumentName)
 
 
         if(request == "getDocumentNameList"):
@@ -201,6 +208,7 @@ def service(request, data, httprequest):
             response = adminSaveAnnotatedDocument(fs, username, annotatedDocumentName, " ", documentData, documentAnnotation, fsfiles)
             annotatedDocumentName = "BLANK"
             documentAnnotation = []
+            annotatedDocumentName = "BLANK"
 
 
     
@@ -214,6 +222,6 @@ databaseName = 'TestDB'
 db = connectToMongoDB(databaseName)
 fsfiles = db.fs.files
 fs = gridfs.GridFS(db)
-documentName = ""
-annotatedDocumentName = ""
+documentName = "BLANK"
+annotatedDocumentName = "BLANK"
 documentAnnotation  = []

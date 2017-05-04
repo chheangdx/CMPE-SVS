@@ -40,14 +40,14 @@ def connectToMongoDB(databaseName):
     
 
 def adminSaveAnnotatedDocument(fs, username, documentName, category, documentData, documentAnnotation):
-    if(fs.find_one({"username": username}, {"documentName": documentName})):
-        documentInformation = fs.find_one({"username": username}, {"documentName": documentName})
+    if(fs.find({"username": username}, {"documentName": documentName})):
+        documentInformation = fs.find({"username": username}, {"documentName": documentName})
         date = documentInformation['date']
         fs.delete({"username": username, "documentName": documentName})
     else:
         print("DOCUMENT COULD NOT BE FOUND.")
     
-    fs.put(documentData, username = username, documentName = documentName, documentAnnotation = documentAnnotation, status = "Reviewed",date = date, annotatedate= time.strftime("%m/%d/%Y"), category = category)
+    fs.put(documentData, username = username, documentName = documentName, documentAnnotation = documentAnnotation, status = "Reviewed",date = date, annotateDate= time.strftime("%m/%d/%Y"), category = category)
 
     response = {"request": "TRUE"}
 

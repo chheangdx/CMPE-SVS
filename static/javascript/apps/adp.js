@@ -9,43 +9,7 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
     $scope.reverse = !$scope.reverse
     }
 
-    $scope.documentNameList = [
-    {
-      documentName:"Hello.pdf",
-      status:"Good",
-      uploadDate:1288323123006
-    },
-    {
-      documentName:"Bye.pdf",
-      status:"Bad",
-      uploadDate:1218323123006
-    },
-    {
-      documentName:"Suc.pdf",
-      status:"hot",
-      uploadDate:1288166123006
-    },
-    {
-      documentName:"Aeeeaaa.pdf",
-      status:"not",
-      uploadDate:1285513123006
-    },
-    {
-      documentName:"dddaaa.pdf",
-      status:"not",
-      uploadDate:1283313123006
-    },
-    {
-      documentName:"bbbaaa.pdf",
-      status:"not",
-      uploadDate:1282213123006
-    },
-    {
-      documentName:"cccc.pdf",
-      status:"not",
-      uploadDate:1338113123006
-    }
-    ]
+    $scope.documentNameList = []
 
     $scope.setDocument = function(docObject){
       $scope.documentName = docObject.documentName;
@@ -386,8 +350,13 @@ $scope.saveAnnotatedDocument = function(){
 
    var init = function(){
       $scope.uploadMutex = false;
-      $scope.getDocumentNameList();
-	};
+      try{
+        $scope.getDocumentNameList();
+	     }
+       catch(err){
+        console.log("No documents in database");
+       }
+  };
 
 	init();
 		

@@ -66,6 +66,10 @@ def webcrawler(request):
 	#epilog 
 	return HttpResponse(response)
 
+
+
+
+
 def login(request):
 	httprequest = request
 	body_unicode = request.body.decode('utf-8')
@@ -77,6 +81,38 @@ def login(request):
 
 	return HttpResponse(json.dumps(response))
 
+
+def saveAnnotatedDocumentName(request):
+	httprequest = request
+	body_unicode = request.body.decode('utf-8')
+	data = json.loads(body_unicode)
+	print("SAVE ANNOTATED DOCUMENT NAME REQUEST: ")
+	print(data)
+	response = ADPService.service("saveAnnotatedDocumentName", data, httprequest)
+	print("Returning data for saveAnnotatedDocumentName command:")
+	print(response)
+	return HttpResponse(json.dumps(response))
+
+def saveAnnotationAnnotations(request):
+	httprequest = request
+	body_unicode = request.body.decode('utf-8')
+	data = json.loads(body_unicode)
+	print("SAVE ANNOTATED ANNOTATIONS REQUEST SENT TO BACKEND: ")
+	print(data)
+	response = ADPService.service("saveAnnotationAnnotations", data, httprequest)
+	print("Returning data for saveAnnotationAnnotations command:")
+	print(response)
+	return 0
+
+def saveAnnotatedDocument(request):
+	httprequest  = request
+	myFile = request.body
+	response = ADPService.service("saveAnnotatedDocument", myFile, httprequest)
+	print("Returning data for saveAnnotatedDocument command:")
+	print(response)
+	return HttpResponse(json.dumps(response))
+
+	
 
 def getDocumentNameList(request):
 	httprequest = request
@@ -92,7 +128,12 @@ def getDocument(request):
 	print(response)
 	return HttpResponse(response)
 
-
+def getAnnotations(request):
+	httprequest = request
+	response = ADPService.service("getAnnotatedDocument", "", httprequest)
+	print("Returning data for getAnnotation command:")
+	print(response)
+	return HttpResponse(response)
 
 def saveDocument(request):
 	httprequest  = request
@@ -102,13 +143,6 @@ def saveDocument(request):
 	print(response)
 	return HttpResponse(json.dumps(response))
 
-def saveAnnotatedDocument(request):
-	httprequest =request
-	myFile = request.body
-	response = ADPService.service("saveAnnotatedDocument", myFile. httprequest)
-	print("Returning data for saveDocument command:")
-	print(response)
-	return HttpResponse(json.dumps(response))
 
 def saveDocumentName(request):
 	httprequest = request

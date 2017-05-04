@@ -39,17 +39,36 @@ def connectToMongoDB(databaseName):
 
     
 
-def adminSaveAnnotatedDocument(fs, username, documentName, documentData):
+def adminSaveAnnotatedDocument(fs, username, documentName, documentData, documentAnnotation):
 
-    fs.put(documentData, username = username, documentName = documentName, status = "complete")
+    documentLoop = True
+    tempDocumentName = documentName
+    count = 1
+    while(documentLoop):
+        if(fs.find_one({"documentName": tempDocumentName, "username": username})):
+            tempDocumentName = documentName + "(" + str(count) + ")"
+            count += 1
+        else:
+            documentLoop = False
 
-    response = {"request": "TRUE"} 
+    
+    fs.put(documentData, username = username, documentName = tempDocumentName, documentAnnotation = documentAnnotation, status = "reviewed", date= time.strftime("%m/%d/%Y"), category = category)
+
+    response = {"request": "TRUE"}
 
     return response
 
 
 
+def getAnnotations(fs, username, documentName):
 
+    if(fs.find_one({"username": username}, {"documentName": documentName})):
+        documentInformation = fs.find_one({"username": username}, {"documentName": documentName})
+        response = {"documentAnnotation": documentInformation['documentAnnotation']}
+    else:
+        response = {"request": "FALSE", "error": "No documents found."}
+
+    return response
 
 def getDocument(fs, username, documentName):
 
@@ -66,6 +85,9 @@ def getDocument(fs, username, documentName):
         response = {"request": "FALSE", "error": "Document not found."}
 
     return response
+
+
+
 
 
 
@@ -86,38 +108,7 @@ def getDocumentNameList(fsfiles, username):
 
 
 def saveDocument(fs, username, documentName, documentData, category):
-    sampleAnnotations = {
-        "docName": "hello world",
-        "byPage": [
-            [
-                {
-                    "text": "This is an annotation",
-                    "position": "x:0, y:50"
-                },
-                {
-                    "text": "This is another annotation",
-                    "position": "x:10, y:200"
-                },
-                {
-                    "text": "This is a third annotation",
-                    "position": "x:50, y:75"
-                }
-            ],
-            [   
-                {
-                    "text": "This is definitely an annotation",
-                    "position": "x:0, y:50"
-                }
-            ],
-            [  
-                {
-                    "text": "This is an annotation on the third page",
-                    "position": "x:0, y:50"
-                }
-            ],
-        ]
-    }
-    #annotations = sampleAnnotations["byPage"]
+ 
     documentLoop = True
     tempDocumentName = documentName
     count = 1
@@ -129,7 +120,6 @@ def saveDocument(fs, username, documentName, documentData, category):
             documentLoop = False
 
         
-
     fs.put(documentData, username = username, documentName = tempDocumentName, status = "incomplete", date= time.strftime("%m/%d/%Y"), category = category)
 
     response = {"request": "TRUE"}
@@ -161,6 +151,8 @@ def service(request, data, httprequest):
     global fs
     global db
     global documentName
+    global annotations
+    global annotatedDocumentName
     global fsfiles
     dataRequest = data
 
@@ -173,17 +165,16 @@ def service(request, data, httprequest):
         raise Exception("YOU DONE GOOFED. NOT EVEN LOGGED IN BRO.")
     else:
 
+        if(request == "getAnnotations"):
+            response = getAnnotations(fs, username, annotatedDocumentName )
+
         if(request == "getDocument"):
             response = getDocument(fs, username,documentName)
             documentName = "BLANK"
 
+
         if(request == "getDocumentNameList"):
             response = getDocumentNameList(fsfiles, username)
-
-        if(request == "saveAnnotatedDocument"):     
-            response = adminSaveAnnotatedDocument(fs, username, documentName, documentData)  
-            documentName = "BLANK"
-
 
         if(request == "saveDocument"):
             documentData = data
@@ -197,6 +188,23 @@ def service(request, data, httprequest):
             response = {"request": "TRUE"}
             documentName = dataRequest['documentName']
 
+        if(request == "saveAnnotatedDocumentName"):
+            response = {"request": "TRUE"}
+            annotatedDocumentName = dataRequest['documentName']
+
+        if(request == "saveAnnotationAnnotations"):
+            response = {"request": "TRUE"}
+            annotations = dataRequest['annotations']
+            print("SAVED ANNOTATION IS : ")
+            print(annotations)
+
+        if(request == "saveAnnotatedDocument"):
+            documentData = data
+            response = adminSaveAnnotatedDocument(fs, username, annotatedDocumentName, documentData, documentAnnotation)
+            annotatedDocumentName = "BLANK"
+            documentAnnotation = []
+
+
     
     return response
 
@@ -209,3 +217,5 @@ db = connectToMongoDB(databaseName)
 fsfiles = db.fs.files
 fs = gridfs.GridFS(db)
 documentName = ""
+annotatedDocumentName = ""
+documentAnnotation  = []

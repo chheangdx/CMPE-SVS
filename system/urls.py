@@ -21,9 +21,11 @@ urlpatterns = [
     url(r'^saveDocumentName$', tester.saveDocumentName, name = 'saveDocumentName'),
     url(r'^saveDocument$', tester.saveDocument, name = 'saveDocument'),
     url(r'^saveAnnotatedDocument$', tester.saveAnnotatedDocument, name = 'saveAnnotatedDocument'),
-    url(r'^getDocumentNameList$', tester.getDocumentNameList, name = 'getDocumentNameList')
-
-    #url(r'^logout$', tester.logout, name = 'logout')
+    url(r'^getDocumentNameList$', tester.getDocumentNameList, name = 'getDocumentNameList'),
+    url(r'^saveAnnotatedDocumentName$', tester.saveAnnotatedDocumentName, name = 'saveAnnotatedDocumentName'),
+    url(r'^saveAnnotationAnnotations$', tester.saveAnnotationAnnotations, name = 'saveAnnotationAnnotations'),
+    url(r'^saveAnnotatedDocument$', tester.saveAnnotatedDocument, name = 'saveAnnotatedDocument'),
+    url(r'^logout$', tester.logout, name = 'logout')
    # url(r'^getNotifications$', tester.getNotifications, name = 'getNotifications')
    # url(r'^removeAllNotifications$', tester.removeAllNotifications, name = 'removeAllNotifications')
   

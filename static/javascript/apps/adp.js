@@ -38,10 +38,30 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
     }
 
     if($scope.status == "Incomplete"){
-      var url = '/saveDocumentName'  
+      $http({
+        method : 'post',
+        url : '/saveDocumentName'
+        data : data
+      }).then(function successCallback(response) {
+        $scope.documentReturned = response.data
+        $scope.documentGrab("/getDocument");   
+
+      }, function errorCallback(response) {
+        console.log("HTTP File Response failed: " + response);
+      });   
     }
     else{
-      var url = '/saveAnnotatedDocumentName'
+      $http({
+        method : 'post',
+        url : '/saveAnnotatedDocumentName'
+        data : data
+      }).then(function successCallback(response) {
+      $scope.documentReturned = response.data
+      $scope.documentGrab("/getDocument");   
+
+      }, function errorCallback(response) {
+        console.log("HTTP File Response failed: " + response);
+      });   
     }  
     $http({
         method : 'post',
@@ -49,7 +69,7 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
         data : data
     }).then(function successCallback(response) {
       $scope.documentReturned = response.data
-      $scope.documentGrab("/getDocument");   
+      $scope.documentGrab("/getAnnotatedDocument");   
 
     }, function errorCallback(response) {
       console.log("HTTP File Response failed: " + response);

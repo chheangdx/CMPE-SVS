@@ -140,7 +140,7 @@ def getAnnotations(request):
 	response = ADPService.service("getAnnotations", "", httprequest)
 	print("Returning data for getAnnotation command:")
 	print(response)
-	return HttpResponse(response)
+	return HttpResponse(json.dumps(response))
 
 def saveDocument(request):
 	httprequest  = request

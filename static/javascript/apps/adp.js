@@ -40,7 +40,7 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
     if($scope.status == "Incomplete"){
       $http({
         method : 'post',
-        url : '/saveDocumentName'
+        url : '/saveDocumentName',
         data : data
       }).then(function successCallback(response) {
         $scope.documentReturned = response.data
@@ -53,27 +53,16 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
     else{
       $http({
         method : 'post',
-        url : '/saveAnnotatedDocumentName'
+        url : '/saveAnnotatedDocumentName',
         data : data
       }).then(function successCallback(response) {
       $scope.documentReturned = response.data
-      $scope.documentGrab("/getDocument");   
+      $scope.documentGrab("/getAnnotatedDocument");   
 
       }, function errorCallback(response) {
         console.log("HTTP File Response failed: " + response);
       });   
     }  
-    $http({
-        method : 'post',
-        url : url,
-        data : data
-    }).then(function successCallback(response) {
-      $scope.documentReturned = response.data
-      $scope.documentGrab("/getAnnotatedDocument");   
-
-    }, function errorCallback(response) {
-      console.log("HTTP File Response failed: " + response);
-    });   
    }
 
 //get all existing documents that arent completed
@@ -273,8 +262,11 @@ $scope.saveAnnotatedDocument = function(){
       $scope.documentGrab(url)
    }
 
-   $scope.pageGrab = function(tarPage){
-    $scope.annotationArray[$scope.currentPage-1] = anno.getAnnotations();
+   $scope.pageGrab = function(tarPage,begin=false){
+    if(!begin){
+      $scope.annotationArray[$scope.currentPage-1] = anno.getAnnotations();
+    }
+
     anno.removeAll();
     if(tarPage > 0 && tarPage <= $scope.pdf.numPages)
         $scope.pdf.getPage(tarPage).then(function getPageHelloWorld(page) {
@@ -318,23 +310,30 @@ $scope.saveAnnotatedDocument = function(){
                     console.log("HTTP annotationTestGet Response failed: " + response);
                 });
           });
-
-        try{
-            for (var i = 0; i < 30; i++){
-                var annotation = $scope.annotationArray[$scope.currentPage-1][i];
-                if(!annotation)
-                {
-                  i = 30;
-                }
-                else{
-                  console.log("annotation add")
-                  anno.addAnnotation(annotation);
-                }
-              }
+          if(!begin){
+            curpage = $scope.currentPage-1
           }
-        catch(err){
-          console.log("No annotations available");
-        }
+          else{
+            curpage = 0
+          }
+          console.log("leng:"+$scope.annotationArray[curpage].length+"\n")
+          try{
+              for (var i = 0; i < $scope.annotationArray[curpage].length; i++){
+
+                  var annotation = $scope.annotationArray[curpage][i];
+                  if(!annotation)
+                  {
+                    i = 30;
+                  }
+                  else{
+                    console.log("annotation add")
+                    anno.addAnnotation(annotation);
+                  }
+                }
+            }
+            catch(err){
+              console.log("No annotations available" + err);
+            }
 
     });
    }
@@ -353,7 +352,7 @@ $scope.saveAnnotatedDocument = function(){
             else{
               $scope.annotationsGrab();
             }
-            $scope.pageGrab(1);
+            $scope.pageGrab(1, true); //true because this is the beginning
       }); 
     }
 
@@ -367,7 +366,7 @@ $scope.saveAnnotatedDocument = function(){
               url : '/getAnnotations',
               data : data
           }).then(function successCallback(response) {
-            $scope.annotationArray = response.data
+            $scope.annotationArray = response.data['documentAnnotation']
           }, function errorCallback(response) {
             console.log("HTTP getAnnotations Response failed: " + response);
         });

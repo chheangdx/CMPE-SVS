@@ -25,7 +25,8 @@ urlpatterns = [
     url(r'^saveAnnotatedDocumentName$', tester.saveAnnotatedDocumentName, name = 'saveAnnotatedDocumentName'),
     url(r'^saveAnnotationAnnotations$', tester.saveAnnotationAnnotations, name = 'saveAnnotationAnnotations'),
     url(r'^saveAnnotatedDocument$', tester.saveAnnotatedDocument, name = 'saveAnnotatedDocument'),
-    url(r'^logout$', tester.logout, name = 'logout')
+    url(r'^logout$', tester.logout, name = 'logout'),
+    url(r'^getAnnotations$', tester.getAnnotations, name = 'getAnnotations')
    # url(r'^getNotifications$', tester.getNotifications, name = 'getNotifications')
    # url(r'^removeAllNotifications$', tester.removeAllNotifications, name = 'removeAllNotifications')
   

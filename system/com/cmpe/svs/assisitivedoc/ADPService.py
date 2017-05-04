@@ -39,29 +39,32 @@ def connectToMongoDB(databaseName):
 
     
 
-def adminSaveAnnotatedDocument(fs, username, documentName, category, documentData, documentAnnotation):
-    if(fs.find({"username": username}, {"documentName": documentName})):
-        documentInformation = fs.find({"username": username}, {"documentName": documentName})
-        date = documentInformation['date']
-        fs.delete({"username": username, "documentName": documentName})
+def adminSaveAnnotatedDocument(fs, username, documentName, category, documentData, documentAnnotation,fsfiles):
+
+
+    if(fsfiles.find_one({"username": username, "documentName": documentName})):
+        documentInformation = fsfiles.find_one({"username": username, "documentName": documentName})
+        tempdate = documentInformation['date']
+        fs.delete(documentInformation['_id'])
+        fs.put(documentData, username = username, documentName = documentName, documentAnnotation = documentAnnotation, status = "Reviewed",date = tempdate, annotateDate= time.strftime("%m/%d/%Y"), category = category)
+        response = {"request": "TRUE"}
     else:
-        print("DOCUMENT COULD NOT BE FOUND.")
-    
-    fs.put(documentData, username = username, documentName = documentName, documentAnnotation = documentAnnotation, status = "Reviewed",date = date, annotateDate= time.strftime("%m/%d/%Y"), category = category)
-
-    response = {"request": "TRUE"}
-
+        response = {"request": "FALSE", "error": "Previous document could not be found."}
     return response
 
 
 
-def getAnnotations(fs, username, documentName):
+def getAnnotations(fsfiles, username, documentName):    
+    print("USER NAME:")
+    print(username)
+    print("doc name:")
+    print(documentName)
 
-    if(fs.find_one({"username": username}, {"documentName": documentName})):
-        documentInformation = fs.find_one({"username": username}, {"documentName": documentName})
+    if(fsfiles.find_one({"username": username, "documentName": documentName})):
+        documentInformation = fsfiles.find_one({"username": username, "documentName": documentName})
         response = {"documentAnnotation": documentInformation['documentAnnotation']}
     else:
-        response = {"request": "FALSE", "error": "No documents found."}
+        response = {"request": "FALSE", "error": "No annotation documents found."}
 
     return response
 
@@ -89,7 +92,7 @@ def getDocument(fs, username, documentName):
 def getDocumentNameList(fsfiles, username):
 
     response = []
-    if(fs.find_one({"username": username})):
+    if(fsfiles.find_one({"username": username})):
         for doc in fsfiles.find({"username": username}):
                 tempobject = {"documentName": doc['documentName'], "status": doc['status'], "date": doc['date'], "category": doc['category']}
                 response.append(tempobject)
@@ -161,7 +164,7 @@ def service(request, data, httprequest):
     else:
 
         if(request == "getAnnotations"):
-            response = getAnnotations(fs, username, annotatedDocumentName )
+            response = getAnnotations(fsfiles, username, annotatedDocumentName )
 
         if(request == "getDocument"):
             response = getDocument(fs, username,documentName)
@@ -195,7 +198,7 @@ def service(request, data, httprequest):
 
         if(request == "saveAnnotatedDocument"):
             documentData = data
-            response = adminSaveAnnotatedDocument(fs, username, annotatedDocumentName, " ", documentData, documentAnnotation)
+            response = adminSaveAnnotatedDocument(fs, username, annotatedDocumentName, " ", documentData, documentAnnotation, fsfiles)
             annotatedDocumentName = "BLANK"
             documentAnnotation = []
 

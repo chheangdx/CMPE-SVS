@@ -91,12 +91,6 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
       });        
    }
 
-//wip
-   $scope.displayAnnotationObject = function(){
-       $scope.annotationsV = anno.getAnnotations();
-
-   }
-
 //save a document with annotations to backend. admin function
 $scope.saveAnnotatedDocument = function(){
     var data  = {
@@ -183,6 +177,7 @@ $scope.saveAnnotatedDocument = function(){
             data : fd
           }).then(function successCallback(response) {
             console.log(response);
+            $scope.getDocumentNameList();
             $scope.uploadMutex = false;
           }, function errorCallback(response) {
             $scope.uploadMutex = false;
@@ -291,24 +286,8 @@ $scope.saveAnnotatedDocument = function(){
                 var image = document.getElementById('pdfview');
                 image.src = canvas.toDataURL('image/jpeg');
                // anno.makeAnnotatable(document.getElementById('pdfview'));
-                $http({
-                      method : 'post',
-                      url : '/annotationTestGet'
-                }).then(function successCallback(response) {
-                    anno.makeAnnotatable(document.getElementById('pdfview'));
-                    if(response.data.length > 0){
-                        console.log(response.data[0]);
-                        var annotation_0 = response.data[0];
-                        annotation_0["src"] = "http://stable-identifier/for-image";
-                        console.log(annotation_0);
-                        anno.addAnnotation(annotation_0, null);
-                          
-                    }
-
-
-                }, function errorCallback(response) {
-                    console.log("HTTP annotationTestGet Response failed: " + response);
-                });
+               
+               anno.makeAnnotatable(document.getElementById('pdfview'));
           });
           if(!begin){
             curpage = $scope.currentPage-1
@@ -316,10 +295,9 @@ $scope.saveAnnotatedDocument = function(){
           else{
             curpage = 0
           }
-          console.log("leng:"+$scope.annotationArray[curpage].length+"\n")
+          console.log("leng:"+$scope.annotationArray[curpage]+"\n")
           try{
-              for (var i = 0; i < $scope.annotationArray[curpage].length; i++){
-
+              for (var i = 0; i < 30; i++){
                   var annotation = $scope.annotationArray[curpage][i];
                   if(!annotation)
                   {
@@ -348,11 +326,12 @@ $scope.saveAnnotatedDocument = function(){
             console.log("Number of pages is " + $scope.pdf.numPages);
             if($scope.status == "Incomplete"){
               $scope.annotationArray = Array($scope.pdf.numPages);
+              $scope.pageGrab(1, true); //true because this is the beginning
             }
             else{
               $scope.annotationsGrab();
             }
-            $scope.pageGrab(1, true); //true because this is the beginning
+            
       }); 
     }
 
@@ -366,7 +345,8 @@ $scope.saveAnnotatedDocument = function(){
               url : '/getAnnotations',
               data : data
           }).then(function successCallback(response) {
-            $scope.annotationArray = response.data['documentAnnotation']
+            $scope.annotationArray = response.data['documentAnnotation'];
+            $scope.pageGrab(1, true); //true because this is the beginning
           }, function errorCallback(response) {
             console.log("HTTP getAnnotations Response failed: " + response);
         });

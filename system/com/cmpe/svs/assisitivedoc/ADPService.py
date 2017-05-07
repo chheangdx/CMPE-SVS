@@ -68,7 +68,6 @@ def getAnnotations(fsfiles, username, documentName):
         response = {"documentAnnotation": documentInformation['documentAnnotation']}
     else:
         response = {"request": "FALSE", "error": "No annotation documents found."}
-
     return response
 
 def getDocument(fs, username, documentName):

@@ -81,6 +81,38 @@ def login(request):
 
 	return HttpResponse(json.dumps(response))
 
+def getCategory(request):
+	httprequest = request
+	body_unicode = request.body.decode('utf-8')
+	data = json.loads(body_unicode)
+	response = MongoService.service("getCategory", data, httprequest);
+
+	print("Returning data for getCategory command:")
+	print(response)
+
+	return HttpResponse(json.dumps(response))
+
+def addCategory(request):
+	httprequest = request
+	body_unicode = request.body.decode('utf-8')
+	data = json.loads(body_unicode)
+	response = MongoService.service("addCategory", data, httprequest);
+
+	print("Returning data for getCategory command:")
+	print(response)
+
+	return HttpResponse(json.dumps(response))
+
+def deleteCategory(request):
+	httprequest = request
+	body_unicode = request.body.decode('utf-8')
+	data = json.loads(body_unicode)
+	response = MongoService.service("deleteCategory", data, httprequest);
+
+	print("Returning data for deleteCategory command:")
+	print(response)
+
+	return HttpResponse(json.dumps(response))
 
 def saveAnnotatedDocumentName(request):
 	httprequest = request

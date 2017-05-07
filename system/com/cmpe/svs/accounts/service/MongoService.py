@@ -34,7 +34,47 @@ def login(db, username, password, httprequest):
         response = {"login": "FALSE",
                     "error:": "Username does not exist."}
     return response
-    
+
+def addCategory(db, username, category):
+    print("Updating Category List...")
+    if(db.find_one({"username": username})):
+        accountInformation = db.find_one({"username": username})
+        categoryList = accountInformation['categoryList']
+        categoryList.append(category)
+        db.save(accountInformation)
+        response = {"categoryList": accountInformation['categoryList']}
+    else:
+        response = {"request": "FALSE", "error": "ADMIN ACCOUNT INACCESSIBLE."}
+
+    return response
+
+def deleteCategory(db, username, category):
+    print("Deleting Category: ")
+    print(category)
+    if(db.find_one({"username": username})):
+        accountInformation = db.find_one({"username": username})
+        categoryList = accountInformation['categoryList']
+        categoryList.remove(category)
+        accountInformation['categoryList'] = categoryList
+        db.save(accountInformation)
+        response = {"categoryList": accountInformation['categoryList'] }
+    else:
+        response = {"request": "FALSE", "error": "ADMIN ACCOUNT INACCESSIBLE."}
+
+    return response
+
+
+def getCategory(db, username):
+    print("Getting Category..")
+    if(db.find_one({"username": username})):
+        accountInformation = db.find_one({"username": username})
+        categoryList = accountInformation['categoryList']
+        response = {"categoryList": accountInformation['categoryList']}
+    else:
+        response = {"request": "FALSE", "error": "ADMIN ACCOUNT INACCESSIBLE."}
+
+    return response
+
 def createAccount(db, username, password, email, firstName, lastName, isLoggedIn):
     accountInformation = {  "username":     username,
                             "password":     password,
@@ -113,6 +153,8 @@ def service(request, data, httprequest):
     global db
     accountInformation = data
 
+    username = SVSSessionFactory.getFromSession(httprequest, "username", "BLANK")
+
     if(request == "login"):
         username = accountInformation['user']['username']
         username = username.lower()
@@ -128,13 +170,24 @@ def service(request, data, httprequest):
         lastName = accountInformation['user']['lastName']
         isLoggedIn = "true"
         response = createAccount(db, username, password, email, firstName, lastName, isLoggedIn)
-    
-    if(request == "logout"):
-        username = accountInformation['user']['username']
-        username = username.lower()
-        response = logout(db, username, httprequest)
+
+    if(username == "BLANK"):
+        response = {"request": "FALSE" , "error": "USER IS NOT LOGGED IN."}
+        raise Exception("YOU DONE GOOFED. NOT EVEN LOGGED IN BRO.")
+    else:
+        if(request == "logout"):
+            username = username.lower()
+            response = logout(db, username, httprequest)
 
 
+        if(request == "addCategory"):
+            response = addCategory(db, username, data['category'])
+
+        if(request == "deleteCategory"):
+            response = deleteCategory(db, username, data['category'])
+
+        if(request == "getCategory"):
+            response = getCategory(db, username)
 
     return response
 

@@ -39,14 +39,14 @@ def connectToMongoDB(databaseName):
 
     
 
-def adminSaveAnnotatedDocument(fs, username, documentName, category,  documentAnnotation,fsfiles):
+def adminSaveAnnotatedDocument(fs, username, documentName, category, status,  documentAnnotation,fsfiles):
 
 
     if(fsfiles.find_one({"username": username, "documentName": documentName})):
         documentInformation = fsfiles.find_one({"username": username, "documentName": documentName})
         documentInformation['annotateDate'] = time.strftime("%m/%d/%Y")
         documentInformation['documentAnnotation'] = documentAnnotation
-        documentInformation['status'] = "Reviewed"
+        documentInformation['status'] = status
         print("**************ADMIN SAVE ANNOTATED DOCUMENT CHEKCER**************")
         print(documentInformation)
         fsfiles.save(documentInformation)
@@ -157,6 +157,7 @@ def service(request, data, httprequest):
     global documentAnnotation
     global annotatedDocumentName
     global fsfiles
+    glboal temporaryStatus
     dataRequest = data
 
    
@@ -187,6 +188,7 @@ def service(request, data, httprequest):
             documentData = data
             response = saveDocument(fs, username, documentName, documentData, " ")
             documentName = "BLANK"
+            temporaryStatus = "BLANK"
 
         if(request == "deleteDocument"):    
             response = deleteDocument(fs, username, documentName)
@@ -194,17 +196,19 @@ def service(request, data, httprequest):
         if(request == "saveDocumentName"):
             response = {"request": "TRUE"}
             documentName = dataRequest['documentName']
+            temporaryCategory = dataRequest['category']
 
-        if(request == "saveAnnotatedDocumentName"):
-            response = {"request": "TRUE"}
+
+        if(request == "saveAnnotatedDocument"):
             annotatedDocumentName = dataRequest['documentName']
-
-        if(request == "saveAnnotationAnnotations"):
             documentAnnotation = dataRequest['annotations']
-            response = adminSaveAnnotatedDocument(fs, username, annotatedDocumentName, " ", documentAnnotation, fsfiles)
+            category = dataRequest['category']
+            status = dataRequest['status']
+            response = adminSaveAnnotatedDocument(fs, username, annotatedDocumentName, category, status, documentAnnotation, fsfiles)
             annotatedDocumentName = "BLANK"
             documentAnnotation = []
             annotatedDocumentName = "BLANK"
+            status = "BLANK"
 
       
 
@@ -222,4 +226,5 @@ fsfiles = db.fs.files
 fs = gridfs.GridFS(db)
 documentName = "BLANK"
 annotatedDocumentName = "BLANK"
+temporaryCategory = "BLANK"
 documentAnnotation  = []

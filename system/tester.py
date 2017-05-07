@@ -138,9 +138,10 @@ def saveAnnotationAnnotations(request):
 
 def saveAnnotatedDocument(request):
 	httprequest  = request
-	myFile = request.body
-	response = ADPService.service("saveAnnotatedDocument", myFile, httprequest)
-	print("Returning data for saveAnnotatedDocument command:")
+	body_unicode = request.body.decode('utf-8')
+	data = json.loads(body_unicode)
+	response = ADPService.service("saveAnnotatedDocument", data, httprequest)
+	print("Returning data for saveAnnotatedDocumentcommand:")
 	print(response)
 	return HttpResponse(json.dumps(response))
 

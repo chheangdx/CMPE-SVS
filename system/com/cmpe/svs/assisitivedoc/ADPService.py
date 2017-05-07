@@ -39,14 +39,14 @@ def connectToMongoDB(databaseName):
 
     
 
-def adminSaveAnnotatedDocument(fs, username, documentName, category, documentData, documentAnnotation,fsfiles):
+def adminSaveAnnotatedDocument(fs, username, documentName, category,  documentAnnotation,fsfiles):
 
 
     if(fsfiles.find_one({"username": username, "documentName": documentName})):
         documentInformation = fsfiles.find_one({"username": username, "documentName": documentName})
-        tempdate = documentInformation['date']
-        fs.delete(documentInformation['_id'])
-        fs.put(documentData, username = username, documentName = documentName, documentAnnotation = documentAnnotation, status = "Reviewed",date = tempdate, annotateDate= time.strftime("%m/%d/%Y"), category = category)
+        documentInformation['annotateDate'] = time.strftime("%m/%d/%Y")
+        documentInformation['documentAnnotation'] = documentAnnotation
+        fsfiles.save(documentData, username = username, documentName = documentName, documentAnnotation = documentAnnotation, status = "Reviewed",date = tempdate, annotateDate= time.strftime("%m/%d/%Y"), category = category)
         response = {"request": "TRUE"}
     else:
         response = {"request": "FALSE", "error": "Previous document could not be found."}
@@ -121,7 +121,7 @@ def saveDocument(fs, username, documentName, documentData, category):
             documentLoop = False
 
         
-    fs.put(documentData, username = username, documentName = tempDocumentName, status = "Incomplete", date= time.strftime("%m/%d/%Y"), annotatedate = "00/00/00", category = category)
+    fs.put(documentData, username = username, documentName = tempDocumentName, status = "Incomplete", date= time.strftime("%m/%d/%Y"), annotatedate = "00/00/00", documentAnnotation = " ", category = category)
 
     response = {"request": "TRUE"}
 

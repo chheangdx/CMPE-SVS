@@ -46,7 +46,10 @@ def adminSaveAnnotatedDocument(fs, username, documentName, category,  documentAn
         documentInformation = fsfiles.find_one({"username": username, "documentName": documentName})
         documentInformation['annotateDate'] = time.strftime("%m/%d/%Y")
         documentInformation['documentAnnotation'] = documentAnnotation
-        fsfiles.save(documentData, username = username, documentName = documentName, documentAnnotation = documentAnnotation, status = "Reviewed",date = tempdate, annotateDate= time.strftime("%m/%d/%Y"), category = category)
+        documentInformation['status'] = "Reviewed"
+        print("**************ADMIN SAVE ANNOTATED DOCUMENT CHEKCER**************")
+        print(documentInformation)
+        fsfiles.save(documentInformation)
         response = {"request": "TRUE"}
     else:
         response = {"request": "FALSE", "error": "Previous document could not be found."}
@@ -97,7 +100,7 @@ def getDocumentNameList(fsfiles, username):
     response = []
     if(fsfiles.find_one({"username": username})):
         for doc in fsfiles.find({"username": username}):
-                tempobject = {"documentName": doc['documentName'], "status": doc['status'], "date": doc['date'], "category": doc['category']}
+                tempobject = {"documentName": doc['documentName'], "status": doc['status'], "date": doc['date'], "category": doc['category'], "annotateDate": doc['annotateDate']}
                 response.append(tempobject)
     else:
         response = {"request": "FALSE", "error": "No documents found."}
@@ -121,7 +124,7 @@ def saveDocument(fs, username, documentName, documentData, category):
             documentLoop = False
 
         
-    fs.put(documentData, username = username, documentName = tempDocumentName, status = "Incomplete", date= time.strftime("%m/%d/%Y"), annotatedate = "00/00/00", documentAnnotation = " ", category = category)
+    fs.put(documentData, username = username, documentName = tempDocumentName, status = "Incomplete", date= time.strftime("%m/%d/%Y"), annotateDate = "00/00/00", documentAnnotation = " ", category = category)
 
     response = {"request": "TRUE"}
 
@@ -198,17 +201,13 @@ def service(request, data, httprequest):
             annotatedDocumentName = dataRequest['documentName']
 
         if(request == "saveAnnotationAnnotations"):
-            response = {"request": "TRUE"}
             documentAnnotation = dataRequest['annotations']
-            print("SAVED ANNOTATION IS : ")
-            print(documentAnnotation)
-
-        if(request == "saveAnnotatedDocument"):
-            documentData = data
-            response = adminSaveAnnotatedDocument(fs, username, annotatedDocumentName, " ", documentData, documentAnnotation, fsfiles)
+            response = adminSaveAnnotatedDocument(fs, username, annotatedDocumentName, " ", documentAnnotation, fsfiles)
             annotatedDocumentName = "BLANK"
             documentAnnotation = []
             annotatedDocumentName = "BLANK"
+
+      
 
 
     

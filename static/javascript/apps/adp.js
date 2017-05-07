@@ -1,7 +1,46 @@
 var app = angular.module('CmpeSVSApp');
 
 app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($scope,$http,$filter) {
-    
+    $scope.addCategory = function(){
+      var data = {'category' : $scope.categoryInput}
+      $http({
+          method : 'post',
+          url : '/addCategory',
+          data: data
+      }).then(function successCallback(response) {
+        $scope.categoryList = response.data
+      }, function errorCallback(response) {
+        console.log("HTTP Category List Response failed: " + response);
+      });        
+    };
+
+    $scope.deleteCategory = function(category){
+      var data = {'category' : $scope.categoryInput}
+      $http({
+          method : 'post',
+          url : '/deleteCategory',
+          data: data
+      }).then(function successCallback(response) {
+        $scope.categoryList = response.data
+      }, function errorCallback(response) {
+        console.log("HTTP Category List Response failed: " + response);
+      });        
+    };
+
+    $scope.getCategory = function(category){
+      var data = {'category' : $scope.categoryInput}
+      $http({
+          method : 'post',
+          url : '/getCategory',
+          data: data
+      }).then(function successCallback(response) {
+        $scope.categoryList = response.data
+      }, function errorCallback(response) {
+        console.log("HTTP Category List Response failed: " + response);
+      });        
+    };
+
+    $scope.categoryList = [];
     $scope.myOrderBy = "dateCreated";
     $scope.reverse = false;
     $scope.orderByMe = function(x) {
@@ -108,27 +147,8 @@ $scope.saveAnnotatedDocument = function(){
             url : '/saveAnnotationAnnotations',
             data : {'annotations': annotations}
         }).then(function successCallback(response) {
-          $scope.uploadMutex = false;
-           if(!$scope.uploadMutex){
-          $scope.uploadMutex = true;
-          var file = $scope.myFile;
-          var fd = new FormData();
-          
-          fd.append('file', file);
-             
-          $http({
-            method : 'post',
-            url : '/saveAnnotatedDocument',
-            data : fd
-          }).then(function successCallback(response) {
-            $scope.uploadMutex = false;
-          }, function errorCallback(response) {
-            $scope.uploadMutex = false;
-            console.log("HTTP saveAnnotatedDocument Response failed: " + response);
-          });
-        }
-        }, function errorCallback(response) {
-          $scope.uploadMutex = false;
+     }, function errorCallback(response) {
+
           console.log("HTTP saveAnnotationAnnotations Response failed: " + response);
         });
 
@@ -138,10 +158,12 @@ $scope.saveAnnotatedDocument = function(){
 
    }
 
+
+
 //delete a document from the backend
-   $scope.deleteDocument = function(){
+   $scope.deleteDocument = function(doc){
       var data  = {
-      'documentName' : $scope.documentName
+      'documentName' : doc.documentName
     };
     $http({
           method : 'post',
@@ -191,39 +213,6 @@ $scope.saveAnnotatedDocument = function(){
 
    }
 
-//test uploading of a document
-  $scope.testFile = function(){
-    if(!$scope.uploadMutex){
-      $scope.uploadMutex = true;
-  		var file = $scope.myFile;
-  		var fd = new FormData();
-  		
-      fd.append('file', file);
-         
-  		$http({
-  			method : 'post',
-  			url : '/fileTest',
-  			data : fd
-  		}).then(function successCallback(response) {
-  			//console.log(response);
-  			var annotations = anno.getAnnotations();
-  			$http({
-  					method : 'post',
-  					url : '/annotationTest',
-  					data : {'annotations': annotations}
-  			}).then(function successCallback(response) {
-  			  $scope.uploadMutex = false;
-  			}, function errorCallback(response) {
-          $scope.uploadMutex = false;
-  				console.log("HTTP annotationTest Response failed: " + response);
-  			});
-  		}, function errorCallback(response) {
-        $scope.uploadMutex = false;
-  			console.log("HTTP fileTest Response failed: " + response);
-  		});
-    }
-	};
-
    $scope.nextPage = function(){
     $scope.pageGrab($scope.currentPage + 1)
    }
@@ -234,27 +223,6 @@ $scope.saveAnnotatedDocument = function(){
 
    $scope.checkAnnotations = function(){
    		console.log(anno.getAnnotations());   
-   }
-
-   $scope.checkAnnotationsBackEnd = function(){
-   	   		var annotations = anno.getAnnotations();
-			//annotations[0]['text'] = sjcl.encrypt("password", annotations[0]['text']);
-			$http({
-					method : 'post',
-					url : '/annotationTest',
-					data : {'annotations': annotations}
-			}).then(function successCallback(response) {
-			
-				console.log(response);
-			}, function errorCallback(response) {
-				console.log("HTTP File Response failed: " + response);
-			});   	   
-   }
-
-   $scope.getTestDoc = function(){
-      var url = "/fileTestGet";
-      PDFJS.workerSrc = "/static/javascript/adp-js/pdf.worker.js";
-      $scope.documentGrab(url)
    }
 
    $scope.pageGrab = function(tarPage,begin=false){
@@ -284,10 +252,10 @@ $scope.saveAnnotatedDocument = function(){
           task.promise.then(function(){
                 var canvas = document.getElementById('the-canvas');
                 var image = document.getElementById('pdfview');
-                image.src = canvas.toDataURL('image/jpeg');
-               // anno.makeAnnotatable(document.getElementById('pdfview'));
-               
-               anno.makeAnnotatable(document.getElementById('pdfview'));
+                image.onload = function() {
+                  anno.makeAnnotatable(document.getElementById('pdfview'));
+                }
+                image.src = canvas.toDataURL('image/jpeg');         
           });
           if(!begin){
             curpage = $scope.currentPage-1
@@ -382,43 +350,3 @@ app.directive('fileModel', ['$parse', function ($parse) {
        }
     };
  }]);
-
-
-
-function gd_uploadFile(name, contentType, data, callback) {
-    const boundary = '-------314159265358979323846';
-    const delimiter = "\r\n--" + boundary + "\r\n";
-    const close_delim = "\r\n--" + boundary + "--";
-
-    contentType = contentType || "text/html";
-    var metadata = {
-        name: name,
-        'mimeType': contentType
-    };
-
-    var multipartRequestBody =
-        delimiter +  'Content-Type: application/json\r\n\r\n' +
-        JSON.stringify(metadata) +
-        delimiter +
-        'Content-Type: ' + contentType + '\r\n';
-
-    //Transfer images as base64 string.
-    if (contentType.indexOf('image/') === 0) {
-        var pos = data.indexOf('base64,');
-        multipartRequestBody += 'Content-Transfer-Encoding: base64\r\n' + '\r\n' +
-            data.slice(pos < 0 ? 0 : (pos + 'base64,'.length));
-    } else {
-        multipartRequestBody +=  + '\r\n' + data;
-    }
-    multipartRequestBody += close_delim;
-
-    if (!callback) { callback = function(file) { console.log("Update Complete ", file) }; }
-
-    superagent.post('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart').
-        set('Content-Type', 'multipart/form-data;  boundary="' + boundary + '"').
-        set('Authorization', 'Bearer ' + gapi.auth.getToken().access_token).
-        send(multipartRequestBody).
-        end(function () {
-            console.log(arguments);
-        });
-}

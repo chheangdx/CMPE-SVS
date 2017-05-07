@@ -1,4 +1,13 @@
 	<div>
+	<input type=text ng-model=categoryInput><button ng-click=addCategory()>Add Category</button>
+	<p ng-repeat="category in categoryList">{{category}}<button ng-click="deleteCategory(category)">Delete Category</button></p>
+	<select ng-model="selectedCategory">
+	<option ng-repeat="category in categoryList">{{category}}</option>
+	</select>
+	</div>
+
+
+	<div>
 	<label class="marginRight15">File Upload</label><input type="file" name="files" file-model = "myFile" />
 	<label class="marginRight15">File Name</label><input ng-model=documentName>
 	</div>
@@ -15,10 +24,6 @@
 	<button ng-click="displayAnnotationObject()">displayAnnotationObject</button>
 <!-- 	<button ng-click="adminGetUncompletedDocuments()">adminGetUncompletedDocuments</button>
 	<button ng-click="adminGetCompletedDocuments()">adminGetCompletedDocuments</button>
-	<button ng-click="deleteDocument()">deleteDocument</button>
-	
-	<button ng-click="testFile()">Click to Test File Upload on backend</button>
-	<button ng-click="checkAnnotationsBackEnd()">Check Annotations</button>
  -->
 	<canvas id="the-canvas" style="border:1px  solid black; display:none;"></canvas>
 	<img id="pdfview"  style="border:1px  solid black;" data-original="http://stable-identifier/for-image" >
@@ -42,7 +47,7 @@
 			<th>{{doc.annotateDate | date:'MM/dd/yyyy'}}</th>
 			<th>{{doc.category}}</th>
 			<th><button ng-click="setDocument(doc)">Select</button></th>
-			<th><button ng-click="deleteDocument()">Delete</button></th>
+			<th><button ng-click="deleteDocument(doc)">Delete</button></th>
 		</tr>
 	</table>
 

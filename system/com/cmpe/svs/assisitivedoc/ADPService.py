@@ -47,6 +47,7 @@ def adminSaveAnnotatedDocument(fs, username, documentName, category, status,  do
         documentInformation['annotateDate'] = time.strftime("%m/%d/%Y")
         documentInformation['documentAnnotation'] = documentAnnotation
         documentInformation['status'] = status
+        documentInformation['category'] = category
         print("**************ADMIN SAVE ANNOTATED DOCUMENT CHEKCER**************")
         print(documentInformation)
         fsfiles.save(documentInformation)
@@ -205,6 +206,12 @@ def service(request, data, httprequest):
             response = {"request": "TRUE"}
             documentName = dataRequest['documentName']
             temporaryCategory = dataRequest['category']
+
+
+        if(request == "saveAnnotatedDocumentName"):
+            response = {"request": "TRUE"}
+            annotatedDocumentName = dataRequest['documentName']
+     
 
 
         if(request == "saveAnnotatedDocument"):

@@ -157,7 +157,7 @@ def service(request, data, httprequest):
     global documentAnnotation
     global annotatedDocumentName
     global fsfiles
-    global temporaryStatus
+    global temporaryCategory
     dataRequest = data
 
    

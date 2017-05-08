@@ -133,10 +133,10 @@ def saveDocument(fs, username, documentName, documentData, category):
 
 
 
-def deleteDocument(fs, username, documentName):
+def deleteDocument(fs, username, documentName, fsfiles):
 
-    if(fs.find_one({"documentName": documentName, "username": username})):
-        documentInformation = fs.find_one({"documentName": documentName, "username": username})
+    if(fsfiles.find_one({"documentName": documentName, "username": username})):
+        documentInformation = fsfiles.find_one({"documentName": documentName, "username": username})
         tag = documentInformation['_id']
         fs.delete(tag)
         response = {"request": "TRUE"}
@@ -198,7 +198,7 @@ def service(request, data, httprequest):
 
         if(request == "deleteDocument"):    
             documentName = dataRequest['documentName']
-            response = deleteDocument(fs, username, documentName)
+            response = deleteDocument(fs, username, documentName, fsfiles)
             documentName = "BLANK"
 
         if(request == "saveDocumentName"):

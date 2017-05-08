@@ -30,7 +30,8 @@ urlpatterns = [
     url(r'^getAnnotatedDocument$', tester.getAnnotatedDocument, name = 'getAnnotatedDocument'),
     url(r'^addCategory$', tester.addCategory, name = "addCategory"),
     url(r'^deleteCategory$', tester.deleteCategory, name = "deleteCategory"),
-    url(r'^getCategory$', tester.getCategory, name = "getCategory")
+    url(r'^getCategory$', tester.getCategory, name = "getCategory"),
+    url(r'^deleteDocument$', tester.deleteDocument, name = "deleteDocument")
    # url(r'^getNotifications$', tester.getNotifications, name = 'getNotifications')
    # url(r'^removeAllNotifications$', tester.removeAllNotifications, name = 'removeAllNotifications')
   

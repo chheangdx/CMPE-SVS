@@ -159,6 +159,16 @@ def getDocument(request):
 	print(response)
 	return HttpResponse(response)
 
+def deleteDocument(request):
+	httprequest = request
+	body_unicode = request.body.decode('utf-8')
+	data = json.loads(body_unicode)
+	response = ADPService.service("deleteDocument", data, httprequest)
+	print("Returning data for deleteDocument command:")
+	print(response)
+	return HttpResponse(json.dumps(response))
+
+	
 def getAnnotatedDocument(request):
 	httprequest = request
 	response = ADPService.service("getAnnotatedDocument", "", httprequest)

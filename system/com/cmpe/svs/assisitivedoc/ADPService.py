@@ -135,10 +135,16 @@ def saveDocument(fs, username, documentName, documentData, category):
 
 def deleteDocument(fs, username, documentName):
 
-    fs.delete({"username": username, "documentName": documentName})
+    if(fs.find_one({"documentName": documentName, "username": username})):
+        documentInformation = fs.find_one({"documentName": documentName, "username": username})
+        tag = documentInformation['_id']
+        fs.delete(tag)
+        response = {"request": "TRUE"}
 
-    response = {"request": "TRUE"}
+    else:
 
+        response = {"request": "FALSE", "error": "Document not found."}
+  
     return response
 
 

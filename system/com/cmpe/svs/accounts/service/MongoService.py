@@ -2,6 +2,7 @@ import pymongo
 from pymongo import MongoClient
 import json
 from ...utility import SVSSessionFactory
+from ...utility import SVSEncryptionFactory
 
 def connectToMongoDB(databaseName):
     print("Connecting to MongoDB...")
@@ -169,7 +170,18 @@ def service(request, data, httprequest):
         firstName = accountInformation['user']['firstName']
         lastName = accountInformation['user']['lastName']
         isLoggedIn = "true"
+
+        password = SVSEncryptionFactory.svsSign(password, "password", False)
+        password = SVSEncryptionFactory.svsEncrypt(password,"password")
+        password = SVSEncryptionFactory.svsSign(password, "password", True)
+
+
+
+
         response = createAccount(db, username, password, email, firstName, lastName, isLoggedIn)
+
+
+ 
 
     if(username == "BLANK"):
         response = {"request": "FALSE" , "error": "USER IS NOT LOGGED IN."}

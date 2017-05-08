@@ -170,6 +170,7 @@ $scope.saveAnnotatedDocument = function(){
           url : '/deleteDocument',
           data : data
       }).then(function successCallback(response) {
+        $scope.getDocumentNameList();
       }, function errorCallback(response) {
         console.log("HTTP deleteDocument Response failed: " + response);
     });        

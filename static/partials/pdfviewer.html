@@ -1,30 +1,32 @@
 	<div>
 	<input type=text ng-model=categoryInput><button ng-click=addCategory()>Add Category</button>
 	<p ng-repeat="category in categoryList">{{category}}<button ng-click="deleteCategory(category)">Delete Category</button></p>
-	<select ng-model="selectedCategory">
-	<option ng-repeat="category in categoryList">{{category}}</option>
-	</select>
+	
 	</div>
 
 
 	<div>
-	<label class="marginRight15">File Upload</label><input type="file" name="files" file-model = "myFile" />
-	<label class="marginRight15">File Name</label><input ng-model=documentName>
+	<form name="docInput">
+		<label class="marginRight15">File Upload</label><input type="file" name="files" file-model = "myFile" />
+		<label class="marginRight15">File Name</label><input ng-model=documentName>
+		<label>Category Selection: </label><select ng-model="selectedCategory">
+		<option ng-repeat="category in categoryList">{{category}}</option>
+		</select>
+	</form>	
+
+	<label>Status Selection: </label><select ng-model="statusChoice">
+		<option ng-repeat="choice in choiceList">{{choice}}</option>
+		</select>
 	</div>
-	<button ng-click="previousPage()">Previous Page</button>
-	<button ng-click="nextPage()">Next Page</button>
+	<button ng-click="previousPage()" ng-disabled="docUp">Previous Page</button>
+	<button ng-click="nextPage()" ng-disabled="docUp">Next Page</button>
 
 	
 	<button ng-click="getDocument()">getDocument</button>
-	<button ng-click="saveAnnotatedDocument()">saveAnnotatedDocument</button>
-	<button ng-click="saveDocument()">saveDocument</button>
-	
-	<button ng-click="getTestDoc()">TestDoc</button>
+	<button ng-click="saveAnnotatedDocument()" ng-disabled="docUp">saveAnnotatedDocument</button>
+	<button ng-click="saveDocument()" ng-disabled="!docInput.$valid">saveDocument</button>
 	<button ng-click="getDocumentNameList()">getDocumentNameList</button>
-	<button ng-click="displayAnnotationObject()">displayAnnotationObject</button>
-<!-- 	<button ng-click="adminGetUncompletedDocuments()">adminGetUncompletedDocuments</button>
-	<button ng-click="adminGetCompletedDocuments()">adminGetCompletedDocuments</button>
- -->
+
 	<canvas id="the-canvas" style="border:1px  solid black; display:none;"></canvas>
 	<img id="pdfview"  style="border:1px  solid black;" data-original="http://stable-identifier/for-image" >
 
@@ -50,5 +52,4 @@
 			<th><button ng-click="deleteDocument(doc)">Delete</button></th>
 		</tr>
 	</table>
-
 

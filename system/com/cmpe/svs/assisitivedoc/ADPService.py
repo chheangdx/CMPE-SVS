@@ -157,7 +157,7 @@ def service(request, data, httprequest):
     global documentAnnotation
     global annotatedDocumentName
     global fsfiles
-    glboal temporaryStatus
+    global temporaryStatus
     dataRequest = data
 
    
@@ -186,7 +186,7 @@ def service(request, data, httprequest):
 
         if(request == "saveDocument"):
             documentData = data
-            response = saveDocument(fs, username, documentName, documentData, " ")
+            response = saveDocument(fs, username, documentName, documentData, temporaryCategory)
             documentName = "BLANK"
             temporaryStatus = "BLANK"
 

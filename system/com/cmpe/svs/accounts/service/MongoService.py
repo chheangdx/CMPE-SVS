@@ -19,7 +19,12 @@ def login(db, username, password, httprequest):
     if(db.find_one({"username": username})):
         accountInformation = db.find_one({"username": username})
         if (accountInformation['username'] == username):
-            if (accountInformation['password'] == password):
+            temporaryPassword =  accountInformation['password']
+            temporaryPassword = SVSEncryptionFactory.svsUnsign(temporaryPassword, "password", True)
+            temporaryPassword = SVSEncryptionFactory.svsDecrypt(temporaryPassword, "password", True)
+            temporaryPassword = SVSEncryptionFactory.svsUnsign(temporaryPassword, "password", False)
+
+            if (password == temporaryPassword):
                 accountInformation['isLoggedIn'] = "true"
                 print("Login Success: Account Information Authenticated.")
                 response = {"login": "TRUE"}

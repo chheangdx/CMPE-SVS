@@ -156,7 +156,7 @@ def getDocument(request):
 	httprequest = request
 	response = ADPService.service("getDocument", "", httprequest)
 	print("Returning data for getDocument command:")
-	print(response)
+
 	return HttpResponse(response)
 
 def deleteDocument(request):
@@ -168,12 +168,12 @@ def deleteDocument(request):
 	print(response)
 	return HttpResponse(json.dumps(response))
 
-	
+
 def getAnnotatedDocument(request):
 	httprequest = request
 	response = ADPService.service("getAnnotatedDocument", "", httprequest)
 	print("Returning data for getAnnotatedDocument command:")
-	print(response)
+
 	return HttpResponse(response)
 
 def getAnnotations(request):

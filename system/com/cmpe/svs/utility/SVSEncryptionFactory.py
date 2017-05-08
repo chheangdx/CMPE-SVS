@@ -4,7 +4,7 @@ from django.core import signing
 from simplecrypt import encrypt, decrypt
 from binascii import hexlify, unhexlify
 
-debug = 1
+debug = False
 
 #Signage
 #required parameter: text

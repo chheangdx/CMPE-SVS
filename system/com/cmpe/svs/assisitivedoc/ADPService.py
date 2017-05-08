@@ -11,6 +11,11 @@ import gridfs
 import time
 
 from ..utility import SVSSessionFactory
+from ..utility import SVSEncryptionFactory
+
+from django.core.mail import send_mail
+
+from ..accounts.service import MongoService
 
 
 def connectToMongoDB(databaseName):
@@ -48,9 +53,18 @@ def adminSaveAnnotatedDocument(fs, username, documentName, category, status,  do
         documentInformation['documentAnnotation'] = documentAnnotation
         documentInformation['status'] = status
         documentInformation['category'] = category
-        print("**************ADMIN SAVE ANNOTATED DOCUMENT CHEKCER**************")
-        print(documentInformation)
         fsfiles.save(documentInformation)
+
+       # if(documentInformation['status'] == "Reviewed"):
+        #    studentEmail = MongoService.getEmail(documentInformation['username'])
+         #   send_mail(subject='SVS NOTIFICATION: YOUR DOCUMENT: ' + documentInformation['documentName'] + ' HAS BEEN REVIEWED', message='Check it out.', from_email='svs@gmail.com', recipient_list=[], 
+          #  fail_silently=False, auth_user='from@gmail.com', auth_password='thePasswordFor_from@gmail.com')
+
+
+
+
+
+
         response = {"request": "TRUE"}
     else:
         response = {"request": "FALSE", "error": "Previous document could not be found."}
@@ -80,8 +94,11 @@ def getDocument(fs, username, documentName):
 
     if(fs.find_one({"documentName": documentName, "username": username})):
 
-        documentData = fs.find_one({"documentName": documentName, "username": username})
-
+        documentData = fs.find_one({"documentName": documentName, "username": username}).read()
+       
+        documentData = SVSEncryptionFactory.svsUnsign(documentData, "document", True)
+        documentData = SVSEncryptionFactory.svsDecrypt(documentData, "document", True)
+        documentData = SVSEncryptionFactory.svsUnsign(documentData, "document", True)
         response =  documentData
 
     else:
@@ -123,7 +140,10 @@ def saveDocument(fs, username, documentName, documentData, category):
         else:
             documentLoop = False
 
-        
+    documentData = SVSEncryptionFactory.svsSign(documentData, "document", True)
+    documentData = SVSEncryptionFactory.svsEncrypt(documentData, "document")
+    documentData = SVSEncryptionFactory.svsSign(documentData, "document", True)
+ 
     fs.put(documentData, username = username, documentName = tempDocumentName, status = "Incomplete", date= time.strftime("%m/%d/%Y"), annotateDate = "00/00/00", documentAnnotation = " ", category = category)
 
     response = {"request": "TRUE"}

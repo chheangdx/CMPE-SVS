@@ -8,41 +8,36 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
           url : '/addCategory',
           data: data
       }).then(function successCallback(response) {
-        $scope.categoryList = response.data
+        $scope.categoryList = response.data['categoryList']
       }, function errorCallback(response) {
         console.log("HTTP Category List Response failed: " + response);
       });        
     };
 
     $scope.deleteCategory = function(category){
-      var data = {'category' : $scope.categoryInput}
+      var data = {'category' : category}
       $http({
           method : 'post',
           url : '/deleteCategory',
           data: data
       }).then(function successCallback(response) {
-        $scope.categoryList = response.data
+        $scope.categoryList = response.data['categoryList']
       }, function errorCallback(response) {
         console.log("HTTP Category List Response failed: " + response);
       });        
     };
 
-    $scope.getCategory = function(category){
-      var data = {'category' : $scope.categoryInput}
+    $scope.getCategory = function(){
       $http({
           method : 'post',
-          url : '/getCategory',
-          data: data
+          url : '/getCategory'
       }).then(function successCallback(response) {
-        $scope.categoryList = response.data
+        $scope.categoryList = response.data['categoryList']
       }, function errorCallback(response) {
         console.log("HTTP Category List Response failed: " + response);
       });        
     };
 
-    $scope.categoryList = [];
-    $scope.myOrderBy = "dateCreated";
-    $scope.reverse = false;
     $scope.orderByMe = function(x) {
     $scope.myOrderBy = x;
     $scope.reverse = !$scope.reverse
@@ -53,6 +48,7 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
     $scope.setDocument = function(docObject){
       $scope.documentName = docObject.documentName;
       $scope.status = docObject.status;
+      $scope.getDocument(docObject);
     }
 
 //get list of documents specific to user
@@ -71,9 +67,10 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
    }
 
 //retrieve a document picked from the document list
-   $scope.getDocument = function(){
+   $scope.getDocument = function(docObject){
     var data = {
-      'documentName' : $scope.documentName //Change this later to be selected value from doc
+      'documentName' : docObject.documentName, //Change this later to be selected value from doc
+      'category' : "blankuuuu"
     }
 
     if($scope.status == "Incomplete"){
@@ -104,61 +101,25 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
     }  
    }
 
-//get all existing documents that arent completed
-   $scope.adminGetUncompletedDocuments = function(){
-
-      $http({
-          method : 'post',
-          url : '/adminGetUncompletedDocuments'
-      }).then(function successCallback(response) {
-        $scope.documentNameList = response.data
-      }, function errorCallback(response) {
-        console.log("HTTP File Response failed: " + response);
-      });        
-   }
-
-//get all existing documents that are completed
-   $scope.adminGetCompletedDocuments = function(){
-
-      $http({
-          method : 'post',
-          url : '/adminGetCompletedDocuments'
-      }).then(function successCallback(response) {
-        $scope.documentNameList = response.data
-      }, function errorCallback(response) {
-        console.log("HTTP File Response failed: " + response);
-      });        
-   }
-
 //save a document with annotations to backend. admin function
 $scope.saveAnnotatedDocument = function(){
+    $scope.annotationArray[$scope.currentPage-1] = anno.getAnnotations();
     var data  = {
-      'documentName' : $scope.documentName
+      'documentName' : $scope.documentName,
+      'annotations': $scope.annotationArray,
+      'status' : $scope.statusChoice,
+      'category' : $scope.selectedCategory
     };
     $http({
           method : 'post',
-          url : '/saveAnnotatedDocumentName',
+          url : '/saveAnnotatedDocument',
           data : data
       }).then(function successCallback(response) {
-        $scope.annotationArray[$scope.currentPage-1] = anno.getAnnotations();
-        var annotations = $scope.annotationArray
-        $http({
-            method : 'post',
-            url : '/saveAnnotationAnnotations',
-            data : {'annotations': annotations}
-        }).then(function successCallback(response) {
-     }, function errorCallback(response) {
-
-          console.log("HTTP saveAnnotationAnnotations Response failed: " + response);
-        });
-
+        $scope.getDocumentNameList();
       }, function errorCallback(response) {
         console.log("HTTP saveAnnotatedDocumentName Response failed: " + response);
-      });        
-
+      });
    }
-
-
 
 //delete a document from the backend
    $scope.deleteDocument = function(doc){
@@ -170,6 +131,7 @@ $scope.saveAnnotatedDocument = function(){
           url : '/deleteDocument',
           data : data
       }).then(function successCallback(response) {
+        $scope.getDocumentNameList();
       }, function errorCallback(response) {
         console.log("HTTP deleteDocument Response failed: " + response);
     });        
@@ -178,7 +140,8 @@ $scope.saveAnnotatedDocument = function(){
 //save a document to backend, from normal user
     $scope.saveDocument = function(){
     var data  = {
-      'documentName' : $scope.documentName
+      'documentName' : $scope.documentName,
+      'category' : $scope.selectedCategory
     };
     $http({
           method : 'post',
@@ -198,7 +161,6 @@ $scope.saveAnnotatedDocument = function(){
             url : '/saveDocument',
             data : fd
           }).then(function successCallback(response) {
-            console.log(response);
             $scope.getDocumentNameList();
             $scope.uploadMutex = false;
           }, function errorCallback(response) {
@@ -219,10 +181,6 @@ $scope.saveAnnotatedDocument = function(){
 
    $scope.previousPage = function(){
     $scope.pageGrab($scope.currentPage - 1)
-   }
-
-   $scope.checkAnnotations = function(){
-   		console.log(anno.getAnnotations());   
    }
 
    $scope.pageGrab = function(tarPage,begin=false){
@@ -278,7 +236,7 @@ $scope.saveAnnotatedDocument = function(){
                 }
             }
             catch(err){
-              console.log("No annotations available" + err);
+              console.log("No annotations available");
             }
 
     });
@@ -291,7 +249,6 @@ $scope.saveAnnotatedDocument = function(){
             // Fetch the page desired
             //
             $scope.pdf = pdf;
-            console.log("Number of pages is " + $scope.pdf.numPages);
             if($scope.status == "Incomplete"){
               $scope.annotationArray = Array($scope.pdf.numPages);
               $scope.pageGrab(1, true); //true because this is the beginning
@@ -299,7 +256,8 @@ $scope.saveAnnotatedDocument = function(){
             else{
               $scope.annotationsGrab();
             }
-            
+
+            $scope.docUp = false;
       }); 
     }
 
@@ -323,6 +281,15 @@ $scope.saveAnnotatedDocument = function(){
 
    var init = function(){
       $scope.uploadMutex = false;
+      $scope.categoryList = [];
+      $scope.myOrderBy = "dateCreated";
+      $scope.reverse = false;
+      $scope.docUp = true;
+      $scope.getCategory();
+      $scope.choiceList = [
+        'Incomplete',
+        'Reviewed'
+      ]
       try{
         $scope.getDocumentNameList();
 	     }

@@ -24,7 +24,6 @@ app.controller('logoutCtrl',  ['$scope','$http', function($scope,$http) {
 						            data: data
 						        }).then(function successCallback(response) {
 						            //successfully got a response
-						            console.log(response);
 						         	$scope.message = response.data
 						        }, function errorCallback(response) {
 						            //usually happens when an exception is thrown
@@ -47,7 +46,6 @@ app.controller('logoutCtrl',  ['$scope','$http', function($scope,$http) {
 						            data: data
 						        }).then(function successCallback(response) {
 						            //successfully got a response
-						            console.log(response);
 						            $scope.message = response.data
 						        }, function errorCallback(response) {
 						            //usually happens when an exception is thrown
@@ -68,8 +66,6 @@ app.controller('logoutCtrl',  ['$scope','$http', function($scope,$http) {
 						            url: '/getNotifications',
 						            data: data
 						        }).then(function successCallback(response) {
-						            //successfully got a response
-						            console.log(response);
 						            $scope.message = response.data
 						        }, function errorCallback(response) {
 						            //usually happens when an exception is thrown
@@ -293,7 +289,6 @@ app.controller('logoutCtrl',  ['$scope','$http', function($scope,$http) {
 				},
 				targetFunction : function() {
 						$scope.dataPrep();
-						console.log("Checking if user is logged in with username: " + $scope.userForm.username.value);
 						var data = {user: $scope.packet};
 						$scope.shower = data;	
 						$http({
@@ -302,7 +297,6 @@ app.controller('logoutCtrl',  ['$scope','$http', function($scope,$http) {
 					            data: data
 					        }).then(function successCallback(response) {
 					            //successfully got a response
-					            console.log(response);
 					            $scope.message = response.data
 					        }, function errorCallback(response) {
 					            //usually happens when an exception is thrown
@@ -313,7 +307,6 @@ app.controller('logoutCtrl',  ['$scope','$http', function($scope,$http) {
 		]
 
 		$scope.formPrep = function(target) {
-			console.log("Clearing user form");
 			$scope.finText = target.bText;
 			$scope.userForm = angular.copy(target.targetForm);
 			$scope.finFunct = target.targetFunction;

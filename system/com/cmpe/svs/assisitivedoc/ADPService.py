@@ -191,7 +191,9 @@ def service(request, data, httprequest):
             temporaryStatus = "BLANK"
 
         if(request == "deleteDocument"):    
+            documentName = dataRequest['documentName']
             response = deleteDocument(fs, username, documentName)
+            documentName = "BLANK"
 
         if(request == "saveDocumentName"):
             response = {"request": "TRUE"}

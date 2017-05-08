@@ -212,32 +212,36 @@ $scope.saveAnnotatedDocument = function(){
                 var image = document.getElementById('pdfview');
                 image.onload = function() {
                   anno.makeAnnotatable(document.getElementById('pdfview'));
+
+                  //adding previous annotation block
+                  if(!begin){
+                    curpage = $scope.currentPage-1
+                  }
+                  else{
+                    curpage = 0
+                  }
+                  console.log("leng:"+$scope.annotationArray[curpage]+"\n")
+                  try{
+                      for (var i = 0; i < 30; i++){
+                          var annotation = $scope.annotationArray[curpage][i];
+                          if(!annotation)
+                          {
+                            i = 30;
+                          }
+                          else{
+                            console.log("annotation add")
+                            anno.addAnnotation(annotation);
+                          }
+                        }
+                    }
+                    catch(err){
+                      console.log("No annotations available");
+                    }
+
                 }
                 image.src = canvas.toDataURL('image/jpeg');         
           });
-          if(!begin){
-            curpage = $scope.currentPage-1
-          }
-          else{
-            curpage = 0
-          }
-          console.log("leng:"+$scope.annotationArray[curpage]+"\n")
-          try{
-              for (var i = 0; i < 30; i++){
-                  var annotation = $scope.annotationArray[curpage][i];
-                  if(!annotation)
-                  {
-                    i = 30;
-                  }
-                  else{
-                    console.log("annotation add")
-                    anno.addAnnotation(annotation);
-                  }
-                }
-            }
-            catch(err){
-              console.log("No annotations available");
-            }
+          
 
     });
    }

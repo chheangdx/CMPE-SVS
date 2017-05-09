@@ -55,10 +55,12 @@ def adminSaveAnnotatedDocument(fs, username, documentName, category, status,  do
         documentInformation['category'] = category
         fsfiles.save(documentInformation)
 
-       # if(documentInformation['status'] == "Reviewed"):
-        #    studentEmail = MongoService.getEmail(documentInformation['username'])
-         #   send_mail(subject='SVS NOTIFICATION: YOUR DOCUMENT: ' + documentInformation['documentName'] + ' HAS BEEN REVIEWED', message='Check it out.', from_email='svs@gmail.com', recipient_list=[], 
-          #  fail_silently=False, auth_user='from@gmail.com', auth_password='thePasswordFor_from@gmail.com')
+        if(documentInformation['status'] == "Reviewed"):
+            studentEmail = MongoService.getEmail(documentInformation['username'])
+            adminEmail = MongoService.getEmail("admin")
+            adminEmailPassword = MongoService.getEmailPassword("admin")
+            send_mail(subject='SVS NOTIFICATION: YOUR DOCUMENT: ' + documentInformation['documentName'] + ' HAS BEEN REVIEWED', message='Please mark the document as complete if you are satisfied with the review.', from_email= adminEmail, recipient_list=[studentEmail], 
+            fail_silently=False, auth_user= adminEmail, auth_password= adminEmailPassword)
 
 
 
@@ -145,6 +147,11 @@ def saveDocument(fs, username, documentName, documentData, category):
     documentData = SVSEncryptionFactory.svsSign(documentData, "document", True)
  
     fs.put(documentData, username = username, documentName = tempDocumentName, status = "Incomplete", date= time.strftime("%m/%d/%Y"), annotateDate = "00/00/00", documentAnnotation = " ", category = category)
+
+    adminEmail = MongoService.getEmail("admin")
+    adminEmailPassword = MongoService.getEmailPassword("admin")
+    send_mail(subject='SVS NOTIFICATION: A DOCUMENT HAS BEEN UPLOADED: ' + documentInformation['documentName'] + ' FOR REVIEW', message='Please mark the document as reviewed when finished.', from_email= adminEmail, recipient_list=[adminEmail], 
+    fail_silently=False, auth_user= adminEmail, auth_password= adminEmailPassword)
 
     response = {"request": "TRUE"}
 

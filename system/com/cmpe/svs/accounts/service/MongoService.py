@@ -129,6 +129,11 @@ def setLastName(db, username, lastName):
     db.save(accountInformation)
     print("Account Editing Success: Last name changed.")
 
+def getEmailPassword(db, username):
+    accountInformation = db.find_one({"username": username})
+    return accountInformation['emailPassword']
+
+
 def getEmail(db, username):
     accountInformation = db.find_one({"username": username})
     return accountInformation['email']

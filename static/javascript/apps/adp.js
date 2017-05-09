@@ -2,16 +2,23 @@ var app = angular.module('CmpeSVSApp');
 
 app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($scope,$http,$filter) {
     $scope.addCategory = function(){
-      var data = {'category' : $scope.categoryInput}
-      $http({
-          method : 'post',
-          url : '/addCategory',
-          data: data
-      }).then(function successCallback(response) {
-        $scope.categoryList = response.data['categoryList']
-      }, function errorCallback(response) {
-        console.log("HTTP Category List Response failed: " + response);
-      });        
+      //if a category is in the list already, don't continue
+      if($scope.categoryList.indexOf($scope.categoryInput) == -1) {
+        var data = {'category' : $scope.categoryInput}
+        $http({
+            method : 'post',
+            url : '/addCategory',
+            data: data
+        }).then(function successCallback(response) {
+          $scope.categoryList = response.data['categoryList']
+        }, function errorCallback(response) {
+          console.log("HTTP Category List Response failed: " + response);
+        });      
+
+        }
+        else{
+          console.log("category already in list")
+        }  
     };
 
     $scope.deleteCategory = function(category){
@@ -32,7 +39,13 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
           method : 'post',
           url : '/getCategory'
       }).then(function successCallback(response) {
-        $scope.categoryList = response.data['categoryList']
+        if(response.data['categoryList'])
+          {
+            $scope.categoryList = response.data['categoryList']
+          }
+          else{
+            console.log("Category List undefined")
+          }
       }, function errorCallback(response) {
         console.log("HTTP Category List Response failed: " + response);
       });        

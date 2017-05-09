@@ -131,12 +131,14 @@ def setLastName(db, username, lastName):
 
 def getEmailPassword(db, username):
     accountInformation = db.find_one({"username": username})
-    return accountInformation['emailPassword']
+    emailPassword = accountInformation['emailPassword']
+    return emailPassword
 
 
 def getEmail(db, username):
     accountInformation = db.find_one({"username": username})
-    return accountInformation['email']
+    email = accountInformation['email']
+    return email
 
 def getPassword(db, username):
     accountInformation = db.find_one({"username": username})
@@ -203,16 +205,16 @@ def service(request, data, httprequest):
 
 
         if(request == "addCategory"):
-            response = addCategory(db, username, data['category'])
+            response = addCategory(db, "admin", data['category'])
 
         if(request == "deleteCategory"):
-            response = deleteCategory(db, username, data['category'])
+            response = deleteCategory(db, "admin", data['category'])
 
         if(request == "getCategory"):
-            response = getCategory(db, username)
+            response = getCategory(db, "admin")
 
     return response
 
 
 databaseName = 'TestDB'
-db = connectToMongoDB(databaseName)
+

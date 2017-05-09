@@ -41,11 +41,19 @@ def connectToMongoDB(databaseName):
 
 
 
-
+def connectToMongoDBAccounts(databaseName):
+    print("Connecting to MongoDB...")
+    client = MongoClient('aws-us-east-1-portal.17.dblayer.com', 15319)
+    if not client:
+        print("MongoDB Error: Could not connect to DB.")
+    db = client[databaseName]
+    db.authenticate('cann', 'cannpassword', mechanism = 'SCRAM-SHA-1')
+    return db.Accounts
+    
     
 
 def adminSaveAnnotatedDocument(fs, username, documentName, category, status,  documentAnnotation,fsfiles):
-
+    global dbaccounts
 
     if(fsfiles.find_one({"username": username, "documentName": documentName})):
         documentInformation = fsfiles.find_one({"username": username, "documentName": documentName})
@@ -56,10 +64,10 @@ def adminSaveAnnotatedDocument(fs, username, documentName, category, status,  do
         fsfiles.save(documentInformation)
 
         if(documentInformation['status'] == "Reviewed"):
-            studentEmail = MongoService.getEmail(documentInformation['username'])
-            adminEmail = MongoService.getEmail("admin")
-            adminEmailPassword = MongoService.getEmailPassword("admin")
-            send_mail(subject='SVS NOTIFICATION: YOUR DOCUMENT: ' + documentInformation['documentName'] + ' HAS BEEN REVIEWED', message='Please mark the document as complete if you are satisfied with the review.', from_email= adminEmail, recipient_list=[studentEmail], 
+            studentEmail = MongoService.getEmail(dbaccounts, documentInformation['username'])
+            adminEmail = MongoService.getEmail(dbaccounts, "admin")
+            adminEmailPassword = MongoService.getEmailPassword(dbaccounts,"admin")
+            send_mail(subject='SVS NOTIFICATION: YOUR DOCUMENT: "' + documentInformation['documentName'] + '" HAS BEEN REVIEWED', message='Please mark the document as complete if you are satisfied with the review.', from_email= adminEmail, recipient_list=[studentEmail], 
             fail_silently=False, auth_user= adminEmail, auth_password= adminEmailPassword)
 
 
@@ -148,9 +156,9 @@ def saveDocument(fs, username, documentName, documentData, category):
  
     fs.put(documentData, username = username, documentName = tempDocumentName, status = "Incomplete", date= time.strftime("%m/%d/%Y"), annotateDate = "00/00/00", documentAnnotation = " ", category = category)
 
-    adminEmail = MongoService.getEmail("admin")
-    adminEmailPassword = MongoService.getEmailPassword("admin")
-    send_mail(subject='SVS NOTIFICATION: A DOCUMENT HAS BEEN UPLOADED: ' + documentInformation['documentName'] + ' FOR REVIEW', message='Please mark the document as reviewed when finished.', from_email= adminEmail, recipient_list=[adminEmail], 
+    adminEmail = MongoService.getEmail(dbaccounts, "admin")
+    adminEmailPassword = MongoService.getEmailPassword(dbaccounts, "admin")
+    send_mail(subject='SVS NOTIFICATION: A DOCUMENT HAS BEEN UPLOADED: "' + documentName + '" FOR REVIEW', message='Please mark the document as reviewed when finished.', from_email= adminEmail, recipient_list=[adminEmail], 
     fail_silently=False, auth_user= adminEmail, auth_password= adminEmailPassword)
 
     response = {"request": "TRUE"}
@@ -264,6 +272,7 @@ def service(request, data, httprequest):
 
 databaseName = 'TestDB'
 db = connectToMongoDB(databaseName)
+dbaccounts = connectToMongoDBAccounts(databaseName)
 fsfiles = db.fs.files
 fs = gridfs.GridFS(db)
 documentName = "BLANK"

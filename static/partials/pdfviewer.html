@@ -1,4 +1,4 @@
-	<div>
+	<!-- <div>
 	<input type=text ng-model=categoryInput><button ng-click=addCategory()>Add Category</button>
 	<p ng-repeat="category in categoryList">{{category}}<button ng-click="deleteCategory(category)">Delete Category</button></p>
 	
@@ -29,27 +29,214 @@
 
 	<canvas id="the-canvas" style="border:1px  solid black; display:none;"></canvas>
 	<img id="pdfview"  style="border:1px  solid black;" data-original="http://stable-identifier/for-image" >
+ -->
+ <style>.bootstrap-iso .formden_header h2, .bootstrap-iso .formden_header p, .bootstrap-iso form{font-family: Arial, Helvetica, sans-serif; color: black}.bootstrap-iso form button, .bootstrap-iso form button:hover{color: #000000 !important;} .asteriskField{color: red;}</style>
+ 
+<style>
+         * {
+         box-sizing: border-box;
+         }
+         #myInput {
+         background-image: url('static/css/searchicon.png');
+         background-position: 10px 10px;
+         background-repeat: no-repeat;
+         width: 100%;
+         font-size: 16px;
+         padding: 12px 20px 12px 40px;
+         border: 1px solid #ddd;
+         margin-bottom: 12px;
+         }
+         #myTable {
+         border-collapse: collapse;
+         width: 100%;
+         border: 1px solid #ddd;
+         font-size: 18px;
+         }
+         #myTable th, #myTable td {
+         text-align: left;
+         padding: 12px;
+         }
+         #myTable tr {
+         border-bottom: 1px solid #ddd;
+         }
+         #myTable tr.header, #myTable tr:hover {
+         background-color: #f1f1f1;
+         }
+      </style>
 
-	<label>Search Input<input type = "text" ng-model = "searched"></label>
+ <!-- 
+         ================================================== 
+             Global Page Section Start
+         ================================================== -->
+      <section class="global-page-header">
+         <div class="container">
+            <div class="row">
+               <div class="col-md-12">
+                  <div class="block">
+                     <h2>Assistive Document Preparation</h2>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
+      <!--/#page-header-->
+      <!-- Modal -->
+      <div class="modal fade" id="myModal" role="dialog">
+         <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+               <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <h4 class="modal-title">File Upload</h4>
+               </div>
+               <div class="modal-body">
+                  <div class="bootstrap-iso">
+                     <div class="container-fluid">
+                        <div class="row">
+                           <div class="col-md-6 col-sm-6 col-xs-12">
+                              <form method="post" name="docInput">
+                                 <div class="form-group ">
+                                    <label class="control-label requiredField" for="name">
+                                    File Name
+                                    <span class="asteriskField">
+                                    *
+                                    </span>
+                                    </label>
+                                    <input class="form-control" id="name" name="name" ng-model=documentName type="text"/>
+                                    <span class="help-block" id="hint_name">
+                                    Name of document to upload
+                                    </span>
+                                 </div>
+                                 <div class="form-group ">
+                                    <label class="control-label requiredField" for="select">
+                                    Category Selection
+                                    <span class="asteriskField">
+                                    *
+                                    </span>
+                                    </label>
+                                    <select class="select form-control" id="select" name="select" ng-model="selectedCategory">
+									<option ng-repeat="category in categoryList">{{category}}</option>
+									</select>
+                                    <span class="help-block" id="hint_select">
+                                    Category to classify document under
+                                    </span>
+                                 </div>
+                                 <div class="form-group ">
+                                    <label class="control-label">Select File</label>
+                                    <input type="file" class="file-loading" name="files" file-model = "myFile" />
+                                    <div id="errorBlock" class="help-block"></div>
+                                 </div>
+                                 <div class="form-group" style = "color: black;">
+                                    <div>
+                                       <button class="btn btn-default btn-sm" name="submit" type="submit">
+                                       <span class="glyphicon glyphicon-upload" style = "color: black;"></span> Upload
+                                       </button>
+                                    </div>
+                                 </div>
+                              </form>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+               </div>
+            </div>
+         </div>
+      </div>
+      </div>
+<!--                 <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal" style = "text-align: center; position: absolute; top: 330px; left: 50%;">
+                    Upload Documents 
+                    <span class="glyphicon glyphicon-upload" style = "color: white;">
+                   </span>
+                </button>    -->   
+      <section id="contact-section">
+         <div class="container">
+         <div class="row">
+            <div class="col-md-6">
+                <div style = "float: left; width: 75%; color: gray;">
+               <h2 class="subtitle  wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".3s" style = "">Your Documents
 
-	<table>
-		<tr>
-			<th ng-click="orderByMe('documentName')">Document Name</th>
-			<th ng-click="orderByMe('status')">Status</th>
-			<th ng-click="orderByMe('uploadDate')">Upload Date</th>
-			<th ng-click="orderByMe('annotateDate')">Annotate Date</th>
-			<th ng-click="orderByMe('category')">Category</th>
-			<th>Select</th>
-			<th>Delete</th>
-		</tr>
-		<tr ng-repeat="doc in documentNameList | orderBy : myOrderBy:reverse | filter : searched">
-			<th>{{doc.documentName}}</th>
-			<th>{{doc.status}}</th>
-			<th>{{doc.uploadDate | date:'MM/dd/yyyy'}}</th>
-			<th>{{doc.annotateDate | date:'MM/dd/yyyy'}}</th>
-			<th>{{doc.category}}</th>
-			<th><button ng-click="setDocument(doc)">Select</button></th>
-			<th><button ng-click="deleteDocument(doc)">Delete</button></th>
-		</tr>
-	</table>
+               </h2>
+               </div>
+               <div style = "float: right; width: 25%; color: green; margin-top: 20px;">
+                    <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">
+                    Upload Documents 
+                    <span class="glyphicon glyphicon-upload" style = "color: white;">
+                   </span>
+                </button>                   
+               </div>
 
+               <div class="block" style = "clear: both;">
+                  <!-- HTML Form (wrapped in a .bootstrap-iso div) -->
+                  <div style = "clear: both;" class="block; text-align:center; margin:auto;">
+                     <!--<div class="container">-->
+                     <input type="text" ng-model = "searched" id="myInput" placeholder="Search for document" title="Type in a name">
+                     <table id="myTable" style = "text-align: center;">
+                     <thead>
+						<tr>
+							<th ng-click="orderByMe('documentName')">Document Name</th>
+							<th ng-click="orderByMe('status')">Status</th>
+							<th ng-click="orderByMe('uploadDate')">Upload Date</th>
+							<th ng-click="orderByMe('annotateDate')">Annotate Date</th>
+							<th ng-click="orderByMe('category')">Category</th>
+							<th>Delete</th>
+						</tr>
+                  </thead>
+                  <tbody>
+						<tr ng-repeat="doc in documentNameList | orderBy : myOrderBy:reverse | filter : searched" ng-click="setDocument(doc)">
+							<th>{{doc.documentName}}</th>
+							<th>{{doc.status}}</th>
+							<th>{{doc.uploadDate | date:'MM/dd/yyyy'}}</th>
+							<th>{{doc.annotateDate | date:'MM/dd/yyyy'}}</th>
+							<th>{{doc.category}}</th>
+							<th><button ng-click="deleteDocument(doc)">Delete</button></th>
+						</tr>
+                  </tbody>
+					</table>
+                     <br>
+                     <!--</div>-->
+                  </div>
+               </div>
+            </div>
+            <div class="col-md-6">
+               <div class="map-area">
+                  <h2 class="subtitle  wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".3s" style = "text-align: center;">Document Preview</h2>
+                  <div>
+                     <div class="form-group" rows="5" style = "height: 500px;">
+                        <canvas id="the-canvas" style="border:1px  solid black; display:none;"></canvas>
+						<img id="pdfview"  style="border:1px  solid black;" data-original="http://stable-identifier/for-image" >
+                     </div>
+                  </div>
+                  <div style = "float: left; width: 33.3%;">
+                     <button type="button" class="btn btn-default btn-sm" style = "float: left;" ng-click="previousPage()" ng-disabled="docUp">
+                     <span class="glyphicon glyphicon-menu-left" ></span> Previous Page
+                     </button>                            
+                  </div>
+                  <div style = "float: right; width: 33.3%;">
+                     <button type="button" class="btn btn-default btn-sm" style = "float: right;" ng-click="nextPage()" ng-disabled="docUp">
+                     Next Page <span class="glyphicon glyphicon-menu-right"></span>
+                     </button>                            
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
+
+      <footer id="footer">
+         <div class="container">
+            <div class="col-md-8">
+               <p class="copyright">Copyright: <span>2017</span> . Design and Developed by SVS Team</p>
+            </div>
+            <div class="col-md-4">
+               <ul >
+                  <li>
+                     <a href = "https://sites.google.com/a/sjsu.edu/smart-visitor-system/home">
+                        <p class = "copyright">Visit our page!</p>
+                     </a>
+                  </li>
+               </ul>
+            </div>
+         </div>
+      </footer>

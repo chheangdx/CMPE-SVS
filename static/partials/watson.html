@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<!-- <div class="container-fluid">
 	<h1 class="white-text">Watson Q&A</h1>
 	<div style="background-color:white; margin-bottom:25px;">
 		<p>I am Watson, the front line of the Computer Engineering Department Office.</p>
@@ -23,4 +23,84 @@
 		<div style="height:100px;background-color:white; margin-bottom:25px;" class="col-xs-offset-1 col-xs-3 col-sm-offset-1 col-sm-3 col-md-offset-1 col-md-3 col-lg-offset-1 col-lg-3">
 		</div>
 	</div>
-</div>
+</div> -->
+
+<section class="global-page-header">
+      <div class="container">
+         <!--<div class="row">-->
+         <div class="col-md-12">
+            <div class="block">
+               <div style = "float: left;  width: 60%;">
+                  <h2 style = "float: right;">Watson Q&A</h2>
+               </div>
+               <div style = "float: right; width: 40%;">
+                  <img src = "static/gif/watson.gif" width = "80px" height = "80px" style = "float: left;">
+               </div>
+               <ol class="breadcrumb" style = "clear: both;">
+                  <li class="active">
+                     Ask Watson any question regarding SJSU or the Computer Engineering Department
+                  </li>
+               </ol>
+            </div>
+         </div>
+         <!--</div>-->
+      </div>
+   </section>
+   <!--/#Page header-->
+   <section id="service-page" class="pages service-page" style = "text-align: center; background: black;">
+      <div class="container">
+         <div class="row">
+            <div id="custom-search-input">
+               <div class="input-group col-md-12">
+                  <input type="text" ng-model="query.queryIn" class="search-query form-control" placeholder="Enter your question here..." />
+                  <span class="input-group-btn">
+                  <button class="btn btn-info" ng-click="ask()" type="button">
+                  <a style="color: white;">Ask</a>
+                  </button>
+                  </span>
+               </div>
+            </div>
+         </div>
+      </div>
+   </section>
+   <section>
+      <div id = "results" class="container">
+         <div class="section-heading">
+            <h1  class="title wow fadeInDown" data-wow-delay=".3s">Results</h1>
+         </div>
+         <div class="row">
+            <div class="form-group">
+               <label for="comment">Answer 1:</label>
+               <textarea class="form-control" rows="5" id="comment" readonly="checked" ></textarea>
+            </div>
+         </div>
+         <div class="row">
+            <div class="form-group">
+               <label for="comment">Answer 2:</label>
+               <textarea class="form-control" rows="5" id="comment" readonly="checked" ></textarea>
+            </div>
+         </div>
+         <div class="row">
+            <div class="form-group">
+               <label for="comment">Answer 3:</label>
+               <textarea class="form-control" rows="5" id="comment" readonly="checked" ></textarea>
+            </div>
+         </div>
+      </div>
+   </section>
+   <footer id="footer">
+      <div class="container">
+         <div class="col-md-8">
+            <p class="copyright">Copyright: <span>2017</span> . Design and Developed by SVS Team</p>
+         </div>
+         <div class="col-md-4">
+            <ul >
+               <li>
+                  <a href = "https://sites.google.com/a/sjsu.edu/smart-visitor-system/home">
+                     <p class = "copyright">Visit our page!</p>
+                  </a>
+               </li>
+            </ul>
+         </div>
+      </div>
+   </footer>

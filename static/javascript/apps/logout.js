@@ -4,7 +4,7 @@ app.config(function($httpProvider){
     $httpProvider.defaults.headers.post['X-CSRFToken'] = $('meta[name=csrf_token]').attr('content');
 });
 
-app.controller('logoutCtrl',  ['$scope','$http', function($scope,$http) {
+app.controller('setingsCtrl',  ['$scope','$http', function($scope,$http) {
 
 		$scope.userFunctions = [
 			{	
@@ -363,5 +363,11 @@ app.controller('logoutCtrl',  ['$scope','$http', function($scope,$http) {
 				email:{field:"Email", value:"", type:"text", key: 5},
 				stayLoggedIn:{field:"Stay Logged In?", value:"false", type:"checkbox", key: 6}
 		};
+
+	var init = function(){
+
+  	};
+
+	init();
 
 }]);

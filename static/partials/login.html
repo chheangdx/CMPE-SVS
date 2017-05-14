@@ -1,0 +1,143 @@
+
+      <section class="global-page-header" style ="margin-bottom: 0px;">
+         <div class="container">
+            <div class="row">
+               <div class="col-md-12">
+                  <div class="block">
+                     <h2>Login/Registration</h2>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
+      <!--/#Page header-->
+      <section id="service-page" class="pages service-page" style = "background: #DFE2DB;">
+         <div class="container">
+         <div class="row">
+            <div id = "login" style = "display: visible;" class="col-md-6 col-md-offset-3">
+               <div class="panel panel-login">
+                  <div class="panel-heading">
+                     <div class="row">
+                        <div class="col-xs-12">
+                           <a href="#" class="active" id="login-form-link">Login</a>
+                        </div>
+                     </div>
+                     <hr>
+                  </div>
+                  <div class="panel-body">
+                     <div class="row">
+                        <div class="col-lg-12">
+                           <form id="login-form" action="" method="post" role="form" ">
+                              <div class="form-group">
+                                 <input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username" value="">
+                              </div>
+                              <div class="form-group">
+                                 <input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password">
+                              </div>
+                              <div class="form-group text-center">
+                                 <input type="checkbox" tabindex="3" class="" name="remember" id="remember">
+                                 <label for="remember"> Remember Me</label>
+                              </div>
+                              <div class="form-group">
+                                 <div class="row">
+                                    <div class="col-sm-6 col-sm-offset-3">
+                                       <input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="Log In">
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="form-group">
+                                 <div class="row">
+                                    <div class="col-lg-12">
+                                       <div class="text-center">
+                                          <a tabindex="5" class="forgot-password">Forgot Password?</a>
+                                          <br>
+                                          <a onClick= "toggleLoginRegistration()" tabindex="5" class="forgot-password">Click here to Register</a>                                                                
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </form>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <!--Registration -->
+         <div class="row">
+            <div id = "registration" style="display: none;" class="col-md-6 col-md-offset-3">
+               <div class="panel panel-login">
+                  <div class="panel-heading">
+                     <div class="row">
+                        <div class="col-xs-12">
+                           <a href="#" class = "active" id="register-form-link">Register</a>
+                        </div>
+                     </div>
+                     <hr>
+                  </div>
+                  <div class="panel-body">
+                     <div class="row">
+                        <div class="col-lg-12">
+                           <form id="register-form" action="" method="post" role="form" >
+                              <div class="form-group">
+                                 <input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username" value="">
+                              </div>
+                              <div class="form-group">
+                                 <input type="email" name="email" id="email" tabindex="1" class="form-control" placeholder="Email Address" value="">
+                              </div>
+                              <!--type is email because CSS is written for it -->
+                              <div class="form-group">
+                                 <input type="email" name="fName" id="fName" tabindex="1" class="form-control" placeholder="First Name" value="">
+                              </div>
+                              <div class="form-group">
+                                 <input type="email" name="lName" id="lName" tabindex="1" class="form-control" placeholder="Last Name" value="">
+                              </div>
+                              <div class="form-group">
+                                 <input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password">
+                              </div>
+                              <div class="form-group">
+                                 <input type="password" name="confirm-password" id="confirm-password" tabindex="2" class="form-control" placeholder="Confirm Password">
+                              </div>
+                              <div class="form-group text-center">
+                                 <input type="checkbox" tabindex="3" class="" name="remember" id="remember">
+                                 <label for="remember"> Remember Me</label>
+                              </div>
+                              <div class="form-group">
+                                 <div class="row">
+                                    <div class="col-sm-6 col-sm-offset-3">
+                                       <input type="submit" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-register" value="Register Now">
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="form-group">
+                                 <div class="row">
+                                    <div class="col-lg-12">
+                                       <div class="text-center">
+                                          <a onClick= "toggleLoginRegistration()" tabindex="5" class="forgot-password">Have an account?  Click here to Login</a>                                                                
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </form>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
+      <section>
+         <div class="container">
+            <div class="row">
+               <div class="form-group" style = "visibility: hidden;">
+                  <textarea class="form-control" rows="5" id="comment" readonly="checked" ></textarea>
+               </div>
+            </div>
+            <div class="row" style = "visibility: hidden;">
+               <div class="form-group">
+                  <textarea class="form-control" rows="5" id="comment" readonly="checked" ></textarea>
+               </div>
+            </div>
+         </div>
+      </section>
+      

@@ -134,6 +134,15 @@ def getEmailPassword(db, username):
     emailPassword = accountInformation['emailPassword']
     return emailPassword
 
+def getUserInformation(db, username):
+    accountInformation = db.find_one({"username": username})
+    return accountInformation
+
+
+def getUsername(db, httprequest):
+    return SVSSessionFactory.getFromSession(httprequest, "username", "BLANK")
+
+
 
 def getEmail(db, username):
     accountInformation = db.find_one({"username": username})
@@ -182,14 +191,9 @@ def service(request, data, httprequest):
         firstName = accountInformation['user']['firstName']
         lastName = accountInformation['user']['lastName']
         isLoggedIn = "true"
-
         password = SVSEncryptionFactory.svsSign(password, "password", False)
         password = SVSEncryptionFactory.svsEncrypt(password,"password")
         password = SVSEncryptionFactory.svsSign(password, "password", True)
-
-
-
-
         response = createAccount(db, username, password, email, firstName, lastName, isLoggedIn)
 
 
@@ -202,7 +206,6 @@ def service(request, data, httprequest):
         if(request == "logout"):
             username = username.lower()
             response = logout(db, username, httprequest)
-
 
         if(request == "addCategory"):
             response = addCategory(db, "admin", data['category'])
@@ -217,4 +220,4 @@ def service(request, data, httprequest):
 
 
 databaseName = 'TestDB'
-
+db = connectToMongoDB(databaseName)

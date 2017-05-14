@@ -9,37 +9,23 @@ import json
 import gridfs
 
 import time
-
 from ..utility import SVSSessionFactory
 from ..utility import SVSEncryptionFactory
-
 from django.core.mail import send_mail
-
 from ..accounts.service import MongoService
 
 
 def connectToMongoDB(databaseName):
-
     print("Connecting to MongoDB...documents")
-
     client = MongoClient('aws-us-east-1-portal.17.dblayer.com', 15319)
-
     if not client:
-
         print("MongoDB Error: Could not connect to DB.")
-
     db = client[databaseName]
-
     db.authenticate('cann', 'cannpassword', mechanism = 'SCRAM-SHA-1')
-
     if not(db):
-
     	print("error")
 
     return db
-
-
-
 
 def connectToMongoDBAccounts(databaseName):
     print("Connecting to MongoDB...")
@@ -50,44 +36,26 @@ def connectToMongoDBAccounts(databaseName):
     db.authenticate('cann', 'cannpassword', mechanism = 'SCRAM-SHA-1')
     return db.Accounts
     
-    
-
 def adminSaveAnnotatedDocument(fs, username, documentName, category, status,  documentAnnotation,fsfiles):
     global dbaccounts
-
     if(fsfiles.find_one({"username": username, "documentName": documentName})):
         documentInformation = fsfiles.find_one({"username": username, "documentName": documentName})
-        documentInformation['annotateDate'] = time.strftime("%m/%d/%Y")
         documentInformation['documentAnnotation'] = documentAnnotation
         documentInformation['status'] = status
         documentInformation['category'] = category
         fsfiles.save(documentInformation)
-
         if(documentInformation['status'] == "Reviewed"):
             studentEmail = MongoService.getEmail(dbaccounts, documentInformation['username'])
             adminEmail = MongoService.getEmail(dbaccounts, "admin")
             adminEmailPassword = MongoService.getEmailPassword(dbaccounts,"admin")
             send_mail(subject='SVS NOTIFICATION: YOUR DOCUMENT: "' + documentInformation['documentName'] + '" HAS BEEN REVIEWED', message='Please mark the document as complete if you are satisfied with the review.', from_email= adminEmail, recipient_list=[studentEmail], 
             fail_silently=False, auth_user= adminEmail, auth_password= adminEmailPassword)
-
-
-
-
-
-
-        response = {"request": "TRUE"}
+            response = {"request": "TRUE"}
     else:
         response = {"request": "FALSE", "error": "Previous document could not be found."}
     return response
 
-
-
 def getAnnotations(fsfiles, username, documentName):    
-    print("USER NAME:")
-    print(username)
-    print("doc name:")
-    print(documentName)
-
     if(fsfiles.find_one({"username": username, "documentName": documentName})):
         documentInformation = fsfiles.find_one({"username": username, "documentName": documentName})
         response = {"documentAnnotation": documentInformation['documentAnnotation']}
@@ -96,50 +64,34 @@ def getAnnotations(fsfiles, username, documentName):
     return response
 
 def getDocument(fs, username, documentName):
-
-    print("USER NAME:")
-    print(username)
-    print("doc name:")
-    print(documentName)
-
     if(fs.find_one({"documentName": documentName, "username": username})):
-
         documentData = fs.find_one({"documentName": documentName, "username": username}).read()
-       
         documentData = SVSEncryptionFactory.svsUnsign(documentData, "document", True)
         documentData = SVSEncryptionFactory.svsDecrypt(documentData, "document", True)
         documentData = SVSEncryptionFactory.svsUnsign(documentData, "document", True)
         response =  documentData
-
     else:
-
         response = {"request": "FALSE", "error": "Document not found."}
-
     return response
 
-
-
-
-
+def adminGetDocumentNameList(fsfiles, username):
+    response = []
+    for doc in fsfiles.find():
+         tempobject = {"username": doc['username'], "documentName": doc['documentName'], "status": doc['status'], "date": doc['date'], "category": doc['category']}
+         response.append(tempobject)
+    return response
 
 def getDocumentNameList(fsfiles, username):
-
     response = []
     if(fsfiles.find_one({"username": username})):
         for doc in fsfiles.find({"username": username}):
-                tempobject = {"documentName": doc['documentName'], "status": doc['status'], "date": doc['date'], "category": doc['category'], "annotateDate": doc['annotateDate']}
+                tempobject = {"documentName": doc['documentName'], "status": doc['status'], "date": doc['date'], "category": doc['category']}
                 response.append(tempobject)
     else:
         response = {"request": "FALSE", "error": "No documents found."}
-
     return response
 
-
-
-
-
 def saveDocument(fs, username, documentName, documentData, category):
- 
     documentLoop = True
     tempDocumentName = documentName
     count = 1
@@ -149,50 +101,31 @@ def saveDocument(fs, username, documentName, documentData, category):
             count += 1
         else:
             documentLoop = False
-
     documentData = SVSEncryptionFactory.svsSign(documentData, "document", True)
     documentData = SVSEncryptionFactory.svsEncrypt(documentData, "document")
     documentData = SVSEncryptionFactory.svsSign(documentData, "document", True)
- 
-    fs.put(documentData, username = username, documentName = tempDocumentName, status = "Incomplete", date= time.strftime("%m/%d/%Y"), annotateDate = "00/00/00", documentAnnotation = " ", category = category)
-
+    fs.put(documentData, username = username, documentName = tempDocumentName, status = "Incomplete", date= time.strftime("%m/%d/%Y"), documentAnnotation = " ", category = category)
     adminEmail = MongoService.getEmail(dbaccounts, "admin")
     adminEmailPassword = MongoService.getEmailPassword(dbaccounts, "admin")
     send_mail(subject='SVS NOTIFICATION: A DOCUMENT HAS BEEN UPLOADED: "' + documentName + '" FOR REVIEW', message='Please mark the document as reviewed when finished.', from_email= adminEmail, recipient_list=[adminEmail], 
     fail_silently=False, auth_user= adminEmail, auth_password= adminEmailPassword)
-
     response = {"request": "TRUE"}
-
     return response
 
 
 
-
-
 def deleteDocument(fs, username, documentName, fsfiles):
-
     if(fsfiles.find_one({"documentName": documentName, "username": username})):
         documentInformation = fsfiles.find_one({"documentName": documentName, "username": username})
         tag = documentInformation['_id']
         fs.delete(tag)
         response = {"request": "TRUE"}
-
     else:
-
         response = {"request": "FALSE", "error": "Document not found."}
-  
     return response
 
 
-
-
-
-
-
-
-
 def service(request, data, httprequest):
-
     global fs
     global db
     global documentName
@@ -202,7 +135,6 @@ def service(request, data, httprequest):
     global temporaryCategory
     dataRequest = data
 
-   
 
     username = SVSSessionFactory.getFromSession(httprequest, "username", "BLANK")
 
@@ -248,7 +180,6 @@ def service(request, data, httprequest):
             annotatedDocumentName = dataRequest['documentName']
      
 
-
         if(request == "saveAnnotatedDocument"):
             annotatedDocumentName = dataRequest['documentName']
             documentAnnotation = dataRequest['annotations']
@@ -261,12 +192,7 @@ def service(request, data, httprequest):
             status = "BLANK"
 
       
-
-
-    
     return response
-
-
 
 
 

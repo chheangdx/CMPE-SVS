@@ -55,14 +55,14 @@
                                     </tr>
                                     <tr>
                                        <td>Email</td>
-                                       <td><input type='email' class = "form-control" name="email" ng-model=currentUser.email ng-disabled = !enableFields></td>
+                                       <td><input type='email' class = "form-control" name="email" ng-model=currentUser.email ng-disabled = !enableFields ng-pattern="emailPattern"></td>
                                     </tr>
                                     </tr>
                                  </tbody>
                               </table>
-                              <table class="table table-user-information" ng-show="(enableFields&&(userInput.password.$valid || userInput.email.$valid))" style  = "color: black;">
+                              <table class="table table-user-information" ng-show="(enableFields)" style  = "color: black;">
                                  <tbody>
-                                    <tr ng-show="((userInput.password.$dirty && userInput.password.$valid) || (userInput.email.$dirty && userInput.email.$valid))">
+                                    <tr ng-show="((userInput.password.$dirty && userInput.password.$error.pattern) || (userInput.email.$dirty && userInput.email.$error.pattern))">
                                        <td>Confirm Password</td>
                                        <td><input type='password' class = "form-control" name="confirmpass" ng-model=confirmedPass ></td>
                                     </tr>
@@ -74,7 +74,7 @@
                                     <tr>
                                     	<td ng-show="(!samePass && userInput.reconfirmedPass.$valid && userInput.password.$valid && userInput.reconfirmedPass.$dirty)">* Passwords must match</td>
                                     </tr>
-                                    <tr ng-show="(userInput.email.$valid && userInput.email.dirty)">
+                                    <tr ng-show="(userInput.email.$error.pattern && userInput.email.dirty)">
                                        <td>Confirm Email</td>
                                        <td><input class = "form-control" name="password" value="" ></td>
                                     </tr>

@@ -1,38 +1,6 @@
 var app = angular.module('CmpeSVSApp');
 
 app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($scope,$http,$filter) {
-    $scope.addCategory = function(){
-      //if a category is in the list already, don't continue
-      if($scope.categoryList.indexOf($scope.categoryInput) == -1) {
-        var data = {'category' : $scope.categoryInput}
-        $http({
-            method : 'post',
-            url : '/addCategory',
-            data: data
-        }).then(function successCallback(response) {
-          $scope.categoryList = response.data['categoryList']
-        }, function errorCallback(response) {
-          console.log("HTTP Category List Response failed: " + response);
-        });      
-
-        }
-        else{
-          console.log("category already in list")
-        }  
-    };
-
-    $scope.deleteCategory = function(category){
-      var data = {'category' : category}
-      $http({
-          method : 'post',
-          url : '/deleteCategory',
-          data: data
-      }).then(function successCallback(response) {
-        $scope.categoryList = response.data['categoryList']
-      }, function errorCallback(response) {
-        console.log("HTTP Category List Response failed: " + response);
-      });        
-    };
 
     $scope.getCategory = function(){
       $http({
@@ -73,7 +41,13 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
       }).then(function successCallback(response) {
         //name list holds:
         //name, date created, status, student name
-        $scope.documentNameList = response.data
+        if(response.data.request){
+          $scope.documentNameList = response.data.documentList
+          console.log(response.data.documentList)
+        }
+        else{
+          $scope.documentNameList = []
+        }
       }, function errorCallback(response) {
         console.log("HTTP File Response failed: " + response);
       });        
@@ -112,26 +86,6 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
         console.log("HTTP File Response failed: " + response);
       });   
     }  
-   }
-
-//save a document with annotations to backend. admin function
-$scope.saveAnnotatedDocument = function(){
-    $scope.annotationArray[$scope.currentPage-1] = anno.getAnnotations();
-    var data  = {
-      'documentName' : $scope.documentName,
-      'annotations': $scope.annotationArray,
-      'status' : $scope.statusChoice,
-      'category' : $scope.selectedCategory
-    };
-    $http({
-          method : 'post',
-          url : '/saveAnnotatedDocument',
-          data : data
-      }).then(function successCallback(response) {
-        $scope.getDocumentNameList();
-      }, function errorCallback(response) {
-        console.log("HTTP saveAnnotatedDocumentName Response failed: " + response);
-      });
    }
 
 //delete a document from the backend
@@ -234,25 +188,29 @@ $scope.saveAnnotatedDocument = function(){
                     curpage = 0
                   }
                   console.log("leng:"+$scope.annotationArray[curpage]+"\n")
+
+                   $scope.docUp = false;
+                  $scope.borderStyle = {'border':'1px solid black'}
+
                   try{
                       for (var i = 0; i < 30; i++){
+                        if (typeof $scope.annotationArray[curpage][i] != 'undefined'){
                           var annotation = $scope.annotationArray[curpage][i];
-                          if(!annotation)
-                          {
-                            i = 30;
-                          }
-                          else{
-                            console.log("annotation add")
-                            anno.addAnnotation(annotation);
-                          }
+                          console.log("annotation add")
+                          anno.addAnnotation(annotation);
                         }
+                        else{
+                          throw "Out of annotations to grab"
+                        }
+                      }
                     }
                     catch(err){
-                      console.log("No annotations available");
+                      console.log(err);
                     }
-
+               
                 }
-                image.src = canvas.toDataURL('image/jpeg');         
+                image.src = canvas.toDataURL('image/jpeg'); 
+
           });
           
 
@@ -274,7 +232,7 @@ $scope.saveAnnotatedDocument = function(){
               $scope.annotationsGrab();
             }
 
-            $scope.docUp = false;
+            
       }); 
     }
 
@@ -299,7 +257,7 @@ $scope.saveAnnotatedDocument = function(){
    var init = function(){
       $scope.uploadMutex = false;
       $scope.categoryList = [];
-      $scope.myOrderBy = "dateCreated";
+      $scope.myOrderBy = "date";
       $scope.reverse = false;
       $scope.docUp = true;
       $scope.getCategory();

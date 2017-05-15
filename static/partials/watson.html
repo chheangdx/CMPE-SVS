@@ -68,22 +68,10 @@
          <div class="section-heading">
             <h1  class="title wow fadeInDown" data-wow-delay=".3s">Results</h1>
          </div>
-         <div class="row">
+         <div class="row" ng-repeat="answer in answers">
             <div class="form-group">
-               <label for="comment">Answer 1:</label>
-               <textarea class="form-control" rows="5" id="comment" readonly="checked" ></textarea>
-            </div>
-         </div>
-         <div class="row">
-            <div class="form-group">
-               <label for="comment">Answer 2:</label>
-               <textarea class="form-control" rows="5" id="comment" readonly="checked" ></textarea>
-            </div>
-         </div>
-         <div class="row">
-            <div class="form-group">
-               <label for="comment">Answer 3:</label>
-               <textarea class="form-control" rows="5" id="comment" readonly="checked" ></textarea>
+               <label for="comment">Answer {{$index + 1}}:</label>
+               <textarea class="form-control" rows="5" id="comment" readonly="checked" ng-model=answer ></textarea>
             </div>
          </div>
       </div>

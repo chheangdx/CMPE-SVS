@@ -114,7 +114,7 @@ def getDocumentNameList(fsfiles, username):
         for doc in fsfiles.find({"username": username}):
                 tempobject = {"documentName": doc['documentName'], "status": doc['status'], "date": doc['date'], "category": doc['category']}
                 docList.append(tempobject)
-        response = {"request": True, "docuemtList": docList}
+        response = {"request": True, "documentList": docList}
     else:
         response = {"request": False, "error": "No documents found."}
     return response

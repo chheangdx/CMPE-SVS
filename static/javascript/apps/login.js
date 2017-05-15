@@ -16,6 +16,24 @@ function toggleLoginRegistration(){
 
 app.controller('loginCtrl',  ['$scope','$http', function($scope,$http) {
 
+    $scope.register = function() {
+      var data = {user: $scope.currentRegister};
+       $http({
+                 method: 'post',
+                 url: '/createAccount',
+                 data: data
+             }).then(function successCallback(response) {
+                 //successfully got a response
+                 if((response.data.createAccount.localeCompare("'FALSE'") == 0))
+                 $scope.username = $scope.currentRegister.username
+                 $scope.password = $scope.currentRegister.password
+                 $scope.loginUser();
+             }, function errorCallback(response) {
+                 //usually happens when an exception is thrown
+                 console.error(response);
+             });
+    }
+
     $scope.loginUser = function() {
         var data = {user:{
             username: $scope.username,
@@ -43,6 +61,10 @@ app.controller('loginCtrl',  ['$scope','$http', function($scope,$http) {
         $scope.loginUser();
         console.log("Enter event triggered");
       }
+    }
+
+    $scope.pwchecker = function() {
+        $scope.samePassRegister = ($scope.confirmPassword.localeCompare($scope.currentRegister.newPassword) == 0)
     }
 
 	var init = function(){

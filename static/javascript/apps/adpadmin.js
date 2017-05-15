@@ -11,6 +11,8 @@ app.controller('assistDocPrepAdminCtrl',  ['$scope','$http', '$filter', function
             data: data
         }).then(function successCallback(response) {
           $scope.categoryList = response.data['categoryList']
+          $('#addCategory').modal('hide');
+          $scope.categoryInput = ""
         }, function errorCallback(response) {
           console.log("HTTP Category List Response failed: " + response);
         });      
@@ -21,14 +23,16 @@ app.controller('assistDocPrepAdminCtrl',  ['$scope','$http', '$filter', function
         }  
     };
 
-    $scope.deleteCategory = function(category){
-      var data = {'category' : category}
+    $scope.deleteCategory = function(){
+      var data = {'category' : $scope.selectedRemoveCategory}
       $http({
           method : 'post',
           url : '/deleteCategory',
           data: data
       }).then(function successCallback(response) {
         $scope.categoryList = response.data['categoryList']
+        $('#removeCategory').modal('hide');
+        $scope.selectedRemoveCategory = ""
       }, function errorCallback(response) {
         console.log("HTTP Category List Response failed: " + response);
       });        
@@ -64,39 +68,46 @@ app.controller('assistDocPrepAdminCtrl',  ['$scope','$http', '$filter', function
       $scope.status = docObject.status;
       $scope.statusNewChoice = docObject.status
       $scope.selectedNewCategory = docObject.category
-      $scope.getDocument(docObject);
+      $scope.adminGetDocument(docObject);
     }
 
 //get list of documents specific to user
-   $scope.getDocumentNameList = function(){
+   $scope.adminGetDocumentList = function(){
 
       $http({
           method : 'post',
-          url : '/getDocumentNameList'
+          url : '/adminGetDocumentList'
       }).then(function successCallback(response) {
         //name list holds:
         //name, date created, status, student name
-        $scope.documentNameList = response.data
+        if(response.data.request){
+          $scope.documentNameList = response.data.documentList
+          console.log(response.data.documentList)
+        }
+        else{
+          $scope.documentNameList = []
+        }
       }, function errorCallback(response) {
         console.log("HTTP File Response failed: " + response);
       });        
    }
 
 //retrieve a document picked from the document list
-   $scope.getDocument = function(docObject){
+   $scope.admingGetDocument = function(docObject){
     var data = {
       'documentName' : docObject.documentName, //Change this later to be selected value from doc
+      'username' : docObject.username,
       'category' : "blankuuuu"
     }
 
     if($scope.status == "Incomplete"){
       $http({
         method : 'post',
-        url : '/saveDocumentName',
+        url : '/adminSaveDocumentName',
         data : data
       }).then(function successCallback(response) {
         $scope.documentReturned = response.data
-        $scope.documentGrab("/getDocument");   
+        $scope.documentGrab("/adminGetDocument");   
 
       }, function errorCallback(response) {
         console.log("HTTP File Response failed: " + response);
@@ -105,11 +116,11 @@ app.controller('assistDocPrepAdminCtrl',  ['$scope','$http', '$filter', function
     else{
       $http({
         method : 'post',
-        url : '/saveAnnotatedDocumentName',
+        url : '/adminSaveAnnotatedDocumentName',
         data : data
       }).then(function successCallback(response) {
       $scope.documentReturned = response.data
-      $scope.documentGrab("/getAnnotatedDocument");   
+      $scope.documentGrab("/adminGetAnnotatedDocument");   
 
       }, function errorCallback(response) {
         console.log("HTTP File Response failed: " + response);
@@ -131,64 +142,10 @@ $scope.saveAnnotatedDocument = function(){
           url : '/saveAnnotatedDocument',
           data : data
       }).then(function successCallback(response) {
-        $scope.getDocumentNameList();
+        $scope.adminGetDocumentList();
       }, function errorCallback(response) {
         console.log("HTTP saveAnnotatedDocumentName Response failed: " + response);
       });
-   }
-
-//delete a document from the backend
-   $scope.deleteDocument = function(doc){
-      var data  = {
-      'documentName' : doc.documentName
-    };
-    $http({
-          method : 'post',
-          url : '/deleteDocument',
-          data : data
-      }).then(function successCallback(response) {
-        $scope.getDocumentNameList();
-      }, function errorCallback(response) {
-        console.log("HTTP deleteDocument Response failed: " + response);
-    });        
-   }
-
-//save a document to backend, from normal user
-    $scope.saveDocument = function(){
-    var data  = {
-      'documentName' : $scope.documentName,
-      'category' : $scope.selectedCategory
-    };
-    $http({
-          method : 'post',
-          url : '/saveDocumentName',
-          data : data
-      }).then(function successCallback(response) {
-
-        if(!$scope.uploadMutex){
-          $scope.uploadMutex = true;
-          var file = $scope.myFile;
-          var fd = new FormData();
-          
-          fd.append('file', file);
-             
-          $http({
-            method : 'post',
-            url : '/saveDocument',
-            data : fd
-          }).then(function successCallback(response) {
-            $scope.getDocumentNameList();
-            $scope.uploadMutex = false;
-          }, function errorCallback(response) {
-            $scope.uploadMutex = false;
-            console.log("HTTP saveDocument Response failed: " + response);
-          });
-        }
-
-      }, function errorCallback(response) {
-        console.log("HTTP saveDocumentName Response failed: " + response);
-      });        
-
    }
 
    $scope.nextPage = function(){
@@ -302,7 +259,7 @@ $scope.saveAnnotatedDocument = function(){
    var init = function(){
       $scope.uploadMutex = false;
       $scope.categoryList = [];
-      $scope.myOrderBy = "dateCreated";
+      $scope.myOrderBy = "date";
       $scope.reverse = false;
       $scope.docUp = true;
       $scope.getCategory();
@@ -315,7 +272,7 @@ $scope.saveAnnotatedDocument = function(){
         'Reviewed'
       ]
       try{
-        $scope.getDocumentNameList();
+        $scope.adminGetDocumentList();
 	     }
        catch(err){
         console.log("No documents in database");

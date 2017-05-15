@@ -62,11 +62,11 @@
           <label class="control-label requiredField" for="text">
                Enter category name
                </label>
-               <input class="form-control" id="text" name="text" type="text"/>
+               <input ng-model="categoryInput" class="form-control" id="text" name="text" type="text"/>
       </div>
       <div class="form-group">
          <div>
-            <button class="btn btn-primary " name="submit" type="submit">
+            <button class="btn btn-primary " name="submit" ng-click="addCategory()">
             Add Category
             </button>
          </div>
@@ -92,11 +92,13 @@
           <label class="control-label requiredField" for="text">
                Enter category name
                </label>
-               <input class="form-control" id="text" name="text" type="text"/>
+               <select ng-model="selectedRemoveCategory" class="select form-control" id="select" name="select">
+               <option ng-repeat="category in categoryList">{{category}}</option>
+            </select>
       </div>
       <div class="form-group">
          <div>
-            <button class="btn btn-primary " name="submit" type="submit">
+            <button class="btn btn-primary " name="submit" ng-click="deleteCategory()">
             Remove Category
             </button>
          </div>
@@ -154,7 +156,7 @@
                   <tr>
                      <th ng-click="orderByMe('username')">Username</th>
                      <th ng-click="orderByMe('documentName')">Document Name</th>
-                     <th ng-click="orderByMe('uploadDate')">Date Submitted</th>
+                     <th ng-click="orderByMe('date')">Date Submitted</th>
                      <th ng-click="orderByMe('category')">Category</th>
                      <th ng-click="orderByMe('status')">Status</th>
                   </tr>
@@ -163,7 +165,7 @@
                   <tr ng-repeat="doc in documentNameList | orderBy : myOrderBy:reverse | filter : searched" ng-click="setDocument(doc)">
                      <th>{{doc.username}}</th>
                      <th>{{doc.documentName}}</th>
-                     <th>{{doc.uploadDate | date:'MM/dd/yyyy'}}</th>
+                     <th>{{doc.date | date:'MM/dd/yyyy'}}</th>
                      <th>{{doc.category}}</th>
                      <th>{{doc.status}}</th>
                   </tr>

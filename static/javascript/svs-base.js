@@ -96,10 +96,11 @@ app.controller('CmpeSVSCtrl',  ['$scope','$http', function($scope,$http) {
         var data = {}
         $http({
                 method: 'post',
-                url: '/whoami',
+                url: '/whoAmI',
                 data: data
             }).then(function successCallback(response) {
                 var whodis = response.data['username']
+                $scope.imloggedin = true
                 if (whodis === 'admin')
                 {
                     $scope.imadmin = true;
@@ -109,7 +110,8 @@ app.controller('CmpeSVSCtrl',  ['$scope','$http', function($scope,$http) {
                     $scope.imadmin = false;
                 }
             }, function errorCallback(response) {
-            
+              $scope.imadmin = false;
+              $scope.imloggedin = false;
             });
     }
 

@@ -1,72 +1,73 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>{% block title %}{% endblock %}</title>
-	<meta name="csrf_token" content="{{ csrf_token }}">
-	{% include 'base/statics.html' %}
-	
-	<script>console.log("{{staticpath}}"); var staticpath = {{staticpath}};</script>
-
-  </head>
-  <body ng-app="CmpeSVSApp">
-	<header ng-controller="CmpeSVSCtrl" id="top-bar" class="navbar-fixed-top animated-header">
-         <div class="container">
-            <div class="navbar-header">
-               <!-- responsive nav button -->
-               <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-               <span class="sr-only">Toggle navigation</span>
-               <span class="icon-bar"></span>
-               <span class="icon-bar"></span>
-               <span class="icon-bar"></span>
-               </button>
-               <!-- /responsive nav button -->
-               <!-- logo -->
-               <!--The navbar-brand class messes up the height of the nav bar. -->
-               <!--<div class="navbar-brand" >-->
-               <div class="" >
-                  <a href="index.html">
-                  <img src="static/images/SVS_logo.png" alt="" width = "120px" height = "60px">
-                  </a>
-               </div>
-               <!-- /logo -->
-            </div>
-            <!-- main menu -->
-            <nav class="collapse navbar-collapse navbar-right" role="navigation">
-               <div class="main-menu">
-                  <ul class="nav navbar-nav navbar-right">
-                     <li><a ui-sref="welcome" >Home</a></li>
-                     <li><a ui-sref="watson">Watson Q&A</a></li>
-                     <li><a ui-sref="prescreen">ADP</a></li>
-                     <li><a ui-sref="prescreenadmin">ADP</a></li>
-                     <li><a ui-sref="settings">User Accounts</a></li>
-                     <li><a ui-sref="aboutus">About US</a></li>
-                  </ul>
-               </div>
-            </nav>
-            <!-- /main nav -->
-         </div>
-    </header>
-      <div id="main" style = "position: relative;">
-		    <div ui-view style = "position: absolute; width: 100%; left: 0; right:0;"></div>
-		</div>
-<!--     <footer id="footer" style = "">
-         <div class="container">
-            <div class="col-md-8">
-               <p class="copyright">Copyright: <span>2017</span> . Design and Developed by SVS Team</p>
-            </div>
-            <div class="col-md-4">
-               <ul >
-                  <li>
-                     <a href = "https://sites.google.com/a/sjsu.edu/smart-visitor-system/home">
-                        <p class = "copyright">Visit our page!</p>
-                     </a>
-                  </li>
-               </ul>
-            </div>
-         </div>
-      </footer> -->
-  </body>
-
-</html>
-
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>{% block title %}{% endblock %}</title>
+	<meta name="csrf_token" content="{{ csrf_token }}">
+	{% include 'base/statics.html' %}
+	
+	<script>console.log("{{staticpath}}"); var staticpath = {{staticpath}};</script>
+
+  </head>
+  <body ng-app="CmpeSVSApp">
+	<header ng-controller="CmpeSVSCtrl" id="top-bar" class="navbar-fixed-top animated-header">
+         <div class="container">
+            <div class="navbar-header">
+               <!-- responsive nav button -->
+               <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+               <span class="sr-only">Toggle navigation</span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               </button>
+               <!-- /responsive nav button -->
+               <!-- logo -->
+               <!--The navbar-brand class messes up the height of the nav bar. -->
+               <!--<div class="navbar-brand" >-->
+               <div class="" >
+                  <a href="index.html">
+                  <img src="static/images/SVS_logo.png" alt="" width = "120px" height = "60px">
+                  </a>
+               </div>
+               <!-- /logo -->
+            </div>
+            <!-- main menu -->
+            <nav class="collapse navbar-collapse navbar-right" role="navigation">
+               <div class="main-menu">
+                  <ul class="nav navbar-nav navbar-right">
+                     <li><a ui-sref="welcome" >Home</a></li>
+                     <li><a ui-sref="watson">Watson Q&A</a></li>
+                     <li ng-hide=imadmin><a ui-sref="prescreen">ADP</a></li>
+                     <li ng-show=imadmin><a ui-sref="prescreenadmin">ADP</a></li>
+                     <li ng-hide=imloggedin><a ui-sref="login">Login/Register</a></li>
+                     <li ng-show=imloggedin><a ui-sref="settings">User Accounts</a></li>
+                     <li><a ui-sref="aboutus">About US</a></li>
+                  </ul>
+               </div>
+            </nav>
+            <!-- /main nav -->
+         </div>
+    </header>
+      <div id="main" style = "position: relative;">
+		    <div ui-view style = "position: absolute; width: 100%; left: 0; right:0;"></div>
+		</div>
+<!--     <footer id="footer" style = "">
+         <div class="container">
+            <div class="col-md-8">
+               <p class="copyright">Copyright: <span>2017</span> . Design and Developed by SVS Team</p>
+            </div>
+            <div class="col-md-4">
+               <ul >
+                  <li>
+                     <a href = "https://sites.google.com/a/sjsu.edu/smart-visitor-system/home">
+                        <p class = "copyright">Visit our page!</p>
+                     </a>
+                  </li>
+               </ul>
+            </div>
+         </div>
+      </footer> -->
+  </body>
+
+</html>
+

@@ -179,7 +179,6 @@
 							<th ng-click="orderByMe('documentName')">Document Name</th>
 							<th ng-click="orderByMe('status')">Status</th>
 							<th ng-click="orderByMe('uploadDate')">Upload Date</th>
-							<th ng-click="orderByMe('annotateDate')">Annotate Date</th>
 							<th ng-click="orderByMe('category')">Category</th>
 							<th>Delete</th>
 						</tr>
@@ -189,7 +188,6 @@
 							<th>{{doc.documentName}}</th>
 							<th>{{doc.status}}</th>
 							<th>{{doc.uploadDate | date:'MM/dd/yyyy'}}</th>
-							<th>{{doc.annotateDate | date:'MM/dd/yyyy'}}</th>
 							<th>{{doc.category}}</th>
 							<th><button ng-click="deleteDocument(doc)">Delete</button></th>
 						</tr>

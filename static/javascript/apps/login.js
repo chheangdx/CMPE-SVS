@@ -16,7 +16,20 @@ function toggleLoginRegistration(){
 
 app.controller('loginCtrl',  ['$scope','$http', function($scope,$http) {
 
-
+    $scope.loginUser = function() {}
+        var data = {
+            username: $scope.username,
+            password: $scope.password
+            };
+        $http({
+                    method: 'post',
+                    url: '/login',
+                    data: data
+                }).then(function successCallback(response) {
+                    location.reload();
+                }, function errorCallback(response) {
+                    console.error(response);
+                });
 
 	var init = function(){
 		

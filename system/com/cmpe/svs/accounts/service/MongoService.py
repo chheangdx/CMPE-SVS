@@ -124,7 +124,7 @@ def getEmail(db, username):
 def getEmailPassword(db, username):
     accountInformation = db.find_one({"username": username})
     return accountInformation['emailPassword']
-    
+
 def addCategory(db, username, category):
     print("Updating Category List...")
     if(db.find_one({"username": username})):
@@ -134,7 +134,7 @@ def addCategory(db, username, category):
         db.save(accountInformation)
         response = {"categoryList": accountInformation['categoryList']}
     else:
-        response = {"request": "FALSE", "error": "ADMIN ACCOUNT INACCESSIBLE."}
+        response = {"request": False, "error": "ADMIN ACCOUNT INACCESSIBLE."}
 
     return response
 
@@ -149,7 +149,7 @@ def deleteCategory(db, username, category):
         db.save(accountInformation)
         response = {"categoryList": accountInformation['categoryList'] }
     else:
-        response = {"request": "FALSE", "error": "ADMIN ACCOUNT INACCESSIBLE."}
+        response = {"request": False, "error": "ADMIN ACCOUNT INACCESSIBLE."}
 
     return response
 
@@ -161,7 +161,7 @@ def getCategory(db, username):
         categoryList = accountInformation['categoryList']
         response = {"categoryList": accountInformation['categoryList']}
     else:
-        response = {"request": "FALSE", "error": "ADMIN ACCOUNT INACCESSIBLE."}
+        response = {"request": False, "error": "ADMIN ACCOUNT INACCESSIBLE."}
 
     return response
 

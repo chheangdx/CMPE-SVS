@@ -53,12 +53,12 @@ def createAccount(db, username, password, email, firstName, lastName, isLoggedIn
     print("Creating Account..")
     if( db.find_one({"username": username})):
         print("Account Creation Error: Username already exists.")
-        response = {"createAccount": "FALSE", 
+        response = {"createAccount": False, 
                             "error": "Username already exists." }
     else:
         result = db.insert_one(accountInformation)
         print("Account Creation Success: Account created.")
-        response = {"createAccount": "TRUE"}        
+        response = {"createAccount": True}        
     return response
 
 def editAccountInformation(db, username, email, oldPassword, newPassword, firstName, lastName):

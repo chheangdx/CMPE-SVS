@@ -75,10 +75,8 @@ def login(request):
 	body_unicode = request.body.decode('utf-8')
 	data = json.loads(body_unicode)
 	response = MongoService.service("login", data, httprequest);
-
 	print("Returning data for login command:")
 	print(response)
-
 	return HttpResponse(json.dumps(response))
 
 def getCategory(request):

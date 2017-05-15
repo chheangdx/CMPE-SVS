@@ -120,6 +120,11 @@ def getAccountInformation(db, username):
 def getEmail(db, username):
     accountInformation = db.find_one({"username": username})
     return accountInformation['email']
+
+def getEmailPassword(db, username):
+    accountInformation = db.find_one({"username": username})
+    return accountInformation['emailPassword']
+    
 def addCategory(db, username, category):
     print("Updating Category List...")
     if(db.find_one({"username": username})):

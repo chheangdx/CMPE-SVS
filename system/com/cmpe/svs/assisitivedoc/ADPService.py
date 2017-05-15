@@ -61,7 +61,7 @@ def getAnnotations(fsfiles, username, documentName):
         documentInformation = fsfiles.find_one({"username": username, "documentName": documentName})
         response = {"documentAnnotation": documentInformation['documentAnnotation']}
     else:
-        response = {"request": "FALSE", "error": "No annotation documents found."}
+        response = {"request": False, "error": "No annotation documents found."}
     return response
 
 def getDocument(fs, username, documentName):
@@ -72,24 +72,30 @@ def getDocument(fs, username, documentName):
         documentData = SVSEncryptionFactory.svsUnsign(documentData, "document", True)
         response =  documentData
     else:
-        response = {"request": "FALSE", "error": "Document not found."}
+        response = {"request": False, "error": "Document not found."}
     return response
 
 def adminGetDocumentList(fsfiles):
-    response = []
-    for doc in fsfiles.find():
-         tempobject = {"username": doc['username'], "documentName": doc['documentName'], "status": doc['status'], "date": doc['date'], "category": doc['category']}
-         response.append(tempobject)
+    docList = []
+    if(fsfiles.find()):
+        for doc in fsfiles.find():
+             tempobject = {"username": doc['username'], "documentName": doc['documentName'], "status": doc['status'], "date": doc['date'], "category": doc['category']}
+             docList.append(tempobject)
+
+        response = {"request": True, "documentList": docList}
+    else:
+         response = {"request": False, "error": "No documents found."}
     return response
 
 def getDocumentNameList(fsfiles, username):
-    response = []
+    docList = []
     if(fsfiles.find_one({"username": username})):
         for doc in fsfiles.find({"username": username}):
                 tempobject = {"documentName": doc['documentName'], "status": doc['status'], "date": doc['date'], "category": doc['category']}
-                response.append(tempobject)
+                docList.append(tempobject)
+        response = {"request": True, "docuemtList": docList}
     else:
-        response = {"request": "FALSE", "error": "No documents found."}
+        response = {"request": False, "error": "No documents found."}
     return response
 
 def saveDocument(fs, username, documentName, documentData, category):

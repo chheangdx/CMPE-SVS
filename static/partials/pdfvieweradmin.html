@@ -47,14 +47,76 @@
       </div>
    </div>
 </section>
+
+
+<!-- Add Category Modal-->
+<div id="addCategory" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Add Category</h4>
+      </div>
+      <div class="modal-body">
+      <div class="form-group ">
+          <label class="control-label requiredField" for="text">
+               Enter category name
+               </label>
+               <input class="form-control" id="text" name="text" type="text"/>
+      </div>
+      <div class="form-group">
+         <div>
+            <button class="btn btn-primary " name="submit" type="submit">
+            Add Category
+            </button>
+         </div>
+      </div>      
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+    </div>
+    </div>
+    
+    <!-- Delete Category Modal-->
+<div id="removeCategory" class="modal fade" role="dialog">
+  <div class="modal-dialog">    
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Remove Category</h4>
+      </div>
+      <div class="modal-body">
+      <div class="form-group ">
+          <label class="control-label requiredField" for="text">
+               Enter category name
+               </label>
+               <input class="form-control" id="text" name="text" type="text"/>
+      </div>
+      <div class="form-group">
+         <div>
+            <button class="btn btn-primary " name="submit" type="submit">
+            Remove Category
+            </button>
+         </div>
+      </div>      
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>    
+
+  </div>
+</div>
 <section id="contact-section" style = "">
    <div class="container">
    <div class="row">
       <div class="col-md-6">
          <h2 class="subtitle  wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".3s" style = "text-align: center">Student Files</h2>
-         <div style = "width: 50%; float: left;"class="form-group ">
+         <div style = "width: 47%;"class="form-group ">
             <label class="control-label requiredField" for="select">
-            Category Selection
+            Category Selectionasdfadsf
             </label>
             <select ng-model="selectedCategory" class="select form-control" id="select" name="select">
                <option ng-repeat="category in categoryList">{{category}}</option>
@@ -63,7 +125,17 @@
             Choose a Category to Filter Table
             </span>
          </div>
-         <div style = "width: 50%; float: right;"class="form-group ">
+            <div style = "position: absolute; top: 23%; right: 30%;">
+              <button type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#addCategory">
+                <span class="glyphicon glyphicon-plus"></span> Add Category
+              </button>                  
+            </div>
+            <div style = "position: absolute; top: 23%; right: 2%;">
+              <button type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#removeCategory">
+                <span class="glyphicon glyphicon-minus"></span> Remove Category
+              </button>                  
+            </div>          
+         <div style = ""class="form-group ">
             <label class="control-label requiredField" for="select">
             Status
             </label>

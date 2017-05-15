@@ -68,7 +68,7 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
       }).then(function successCallback(response) {
         $scope.documentReturned = response.data
         $scope.documentGrab("/getDocument");   
-
+        
       }, function errorCallback(response) {
         console.log("HTTP File Response failed: " + response);
       });   
@@ -80,7 +80,8 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
         data : data
       }).then(function successCallback(response) {
       $scope.documentReturned = response.data
-      $scope.documentGrab("/getAnnotatedDocument");   
+      $scope.documentGrab("/getAnnotatedDocument");
+      $('#myModal').modal('hide');   
 
       }, function errorCallback(response) {
         console.log("HTTP File Response failed: " + response);
@@ -129,6 +130,7 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
             data : fd
           }).then(function successCallback(response) {
             $scope.getDocumentNameList();
+            $('#myModal').modal('hide');
             $scope.uploadMutex = false;
           }, function errorCallback(response) {
             $scope.uploadMutex = false;

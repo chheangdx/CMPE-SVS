@@ -93,7 +93,7 @@ app.controller('assistDocPrepAdminCtrl',  ['$scope','$http', '$filter', function
    }
 
 //retrieve a document picked from the document list
-   $scope.admingGetDocument = function(docObject){
+   $scope.adminGetDocument = function(docObject){
     var data = {
       'documentName' : docObject.documentName, //Change this later to be selected value from doc
       'username' : docObject.username,
@@ -106,7 +106,6 @@ app.controller('assistDocPrepAdminCtrl',  ['$scope','$http', '$filter', function
         url : '/adminSaveDocumentName',
         data : data
       }).then(function successCallback(response) {
-        $scope.documentReturned = response.data
         $scope.documentGrab("/adminGetDocument");   
 
       }, function errorCallback(response) {
@@ -119,7 +118,6 @@ app.controller('assistDocPrepAdminCtrl',  ['$scope','$http', '$filter', function
         url : '/adminSaveAnnotatedDocumentName',
         data : data
       }).then(function successCallback(response) {
-      $scope.documentReturned = response.data
       $scope.documentGrab("/adminGetAnnotatedDocument");   
 
       }, function errorCallback(response) {
@@ -133,6 +131,7 @@ $scope.saveAnnotatedDocument = function(){
     $scope.annotationArray[$scope.currentPage-1] = anno.getAnnotations();
     var data  = {
       'documentName' : $scope.documentName,
+      'username' : $scope.doccer.username,
       'annotations': $scope.annotationArray,
       'status' : $scope.statusNewChoice,
       'category' : $scope.selectedNewCategory
@@ -245,7 +244,7 @@ $scope.saveAnnotatedDocument = function(){
         };
         $http({
               method : 'post',
-              url : '/getAnnotations',
+              url : '/adminGetAnnotations',
               data : data
           }).then(function successCallback(response) {
             $scope.annotationArray = response.data['documentAnnotation'];

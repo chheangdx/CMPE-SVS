@@ -109,9 +109,12 @@ def whoAmI(db, httprequest):
     username = SVSSessionFactory.getFromSession(httprequest, "username", "BLANK")
     if(username == "BLANK"):
         print("No one is logged in")
-        return {"requset": "FALSE"}
+        return {"request": False}
     else:
-        return username
+        return {
+        "request": True,
+        "username" : username
+        }
 
 def getAccountInformation(db, username):
     accountInformation = db.find_one({"username": username})
@@ -182,6 +185,9 @@ def service(request, data, httprequest):
 
     username = SVSSessionFactory.getFromSession(httprequest, "username", "BLANK")
 
+    if(username == "BLANK"):
+        response = {"request": "FALSE" , "error": "USER IS NOT LOGGED IN."}
+
     if(request == "login"):
         username = accountInformation['user']['username']
         username = username.lower()
@@ -205,8 +211,7 @@ def service(request, data, httprequest):
     if(request == "whoAmI"):
         response = whoAmI(db, httprequest)
 
-    if(username == "BLANK"):
-        response = {"request": "FALSE" , "error": "USER IS NOT LOGGED IN."}
+ 
     
 
     else:

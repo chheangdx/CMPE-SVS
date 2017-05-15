@@ -37,8 +37,8 @@
                   <ul class="nav navbar-nav navbar-right">
                      <li><a ui-sref="welcome" >Home</a></li>
                      <li><a ui-sref="watson">Watson Q&A</a></li>
-                     <li><a ui-sref="prescreen">ADP</a></li>
-                     <li><a ui-sref="prescreenadmin">ADP</a></li>
+                     <li ng-hide=imadmin><a ui-sref="prescreen">ADP</a></li>
+                     <li ng-show=imadmin><a ui-sref="prescreenadmin">ADP</a></li>
                      <li><a ui-sref="settings">User Accounts</a></li>
                      <li><a ui-sref="aboutus">About US</a></li>
                   </ul>

@@ -4,7 +4,7 @@ app.config(function($httpProvider){
     $httpProvider.defaults.headers.post['X-CSRFToken'] = $('meta[name=csrf_token]').attr('content');
 });
 
-app.controller('setingsCtrl',  ['$scope','$http', function($scope,$http) {
+app.controller('settingsCtrl',  ['$scope','$http', function($scope,$http) {
 
 		$scope.userFunctions = [
 			{	
@@ -364,8 +364,39 @@ app.controller('setingsCtrl',  ['$scope','$http', function($scope,$http) {
 				stayLoggedIn:{field:"Stay Logged In?", value:"false", type:"checkbox", key: 6}
 		};
 
-	var init = function(){
+		///????
+		$scope.prefillValues = function(){
+			var data = {}
+	        $http({
+	                method: 'post',
+	                url: '/getAccountInformation',
+	                data: data
+	            }).then(function successCallback(response) {
+	                $scope.currentUser = response.data
+	            }, function errorCallback(response) {
+	            
+	            });
+		}
 
+		$scope.edit = function() {
+			$scope.enableFields = !$scope.enableFields;
+		}
+
+		$scope.pwchecker = function() {
+			$scope.samePass = ($scope.newPassword == $scope.reconfirmedPass)
+		}
+
+		$scope.passPattern = '/^.+$/';
+
+	var init = function(){
+		$scope.currentUser = {username:'ass',
+		firstName:'nick',
+		lastName:'carter'}
+		//$scope.prefillValues()
+		$scope.enableFields = false
+		$scope.pwForm = false
+		$scope.emailForm = false
+		$scope.samePass = false
   	};
 
 	init();

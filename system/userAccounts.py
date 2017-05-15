@@ -14,7 +14,7 @@ def login(request):
 	httprequest = request
 	body_unicode = request.body.decode('utf-8')
 	data = json.loads(body_unicode)
-	response = MongoService.service("login", data, httprequest);
+	response = MongoService.service("login", data, httprequest)
 	print("Returning data for login command:")
 	print(response)
 	return HttpResponse(json.dumps(response))
@@ -24,7 +24,7 @@ def createAccount(request):
 	httprequest = request
 	body_unicode = request.body.decode('utf-8')
 	data = json.loads(body_unicode)
-	response = MongoService.service("createAccount", data, httprequest);
+	response = MongoService.service("createAccount", data, httprequest)
 	print(response)
 	return HttpResponse(json.dumps(response))
 
@@ -32,25 +32,21 @@ def logout(request):
 	httprequest = request
 	body_unicode = request.body.decode('utf-8')
 	data = json.loads(body_unicode)
-	response = MongoService.service("logout", data, httprequest);
+	response = MongoService.service("logout", data, httprequest)
 	print(response)
 	return HttpResponse(json.dumps(response))
 	
-def addCategory(request):			#admin function
+def whoAmI(request):
 	httprequest = request
-	body_unicode = request.body.decode('utf-8')
-	data = json.loads(body_unicode)
-	response = MongoService.service("addCategory", data, httprequest);
-	print("Returning data for addCategory command:")
+	response = MongoService.service("whoAmI", "", httprequest)
 	print(response)
 	return HttpResponse(json.dumps(response))
 
-
-def deleteCategory(request):	# admin function
+def editAccountInformation(request):
 	httprequest = request
 	body_unicode = request.body.decode('utf-8')
 	data = json.loads(body_unicode)
-	response = MongoService.service("deleteCategory", data, httprequest);
-	print("Returning data for deleteCategory command:")
+	response = MongoService.service("editAccountInformation", httprequest)
+	print("Returning data for editAccountInformation command:")
 	print(response)
 	return HttpResponse(json.dumps(response))

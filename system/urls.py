@@ -25,15 +25,14 @@ urlpatterns = [
     url(r'^deleteCategory$', adminCommands.deleteCategory, name = "deleteCategory"),
     url(r'^getCategory$', adminCommands.getCategory, name = "getCategory"),
     url(r'^adminGetDocumentList$', adminCommands.adminGetDocumentList, name = "adminGetDocumentList"),
-    url(r'^saveAnnotatedDocumentName$', adminCommands.saveAnnotatedDocumentName, name = 'saveAnnotatedDocumentName'),
-    url(r'^saveAnnotationAnnotations$', adminCommands.saveAnnotationAnnotations, name = 'saveAnnotationAnnotations'),
     url(r'^saveAnnotatedDocument$', adminCommands.saveAnnotatedDocument, name = 'saveAnnotatedDocument'),
 
   ####################### ACCOUNTS URL #########################
     url(r'^login$', userAccounts.login, name = 'login'),
     url(r'^createAccount$', userAccounts.createAccount, name = 'createAccount'),
     url(r'^logout$', userAccounts.logout, name = 'logout'),
-
+    url(r'^whoAmI$', userAccounts.whoAmI, name = 'whoAmI'),
+    url(r'^editAccountInformation$', userAccounts.editAccountInformation, name = 'editAccountInformation'),
   ######################## ADP URL ##############################
 
     url(r'^saveDocumentName$', assistiveDocumentPreparation.saveDocumentName, name = 'saveDocumentName'),

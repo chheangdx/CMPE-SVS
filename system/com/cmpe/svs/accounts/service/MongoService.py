@@ -41,6 +41,64 @@ def login(db, username, password, httprequest):
                     "error:": "Username does not exist."}
     return response
 
+def createAccount(db, username, password, email, firstName, lastName, isLoggedIn):
+    accountInformation = {  "username":     username,
+                            "password":     password,
+                            "email":        email,
+                            "firstName":    firstName,
+                            "lastName":     lastName,
+                            "isLoggedIn":   "True" }
+                  
+    result = db.create_index([('username', pymongo.ASCENDING)], unique=True)
+    print("Creating Account..")
+    if( db.find_one({"username": username})):
+        print("Account Creation Error: Username already exists.")
+        response = {"createAccount": "FALSE", 
+                            "error": "Username already exists." }
+    else:
+        result = db.insert_one(accountInformation)
+        print("Account Creation Success: Account created.")
+        response = {"createAccount": "TRUE"}        
+    return response
+
+def editAccountInformation(db, username, email, oldPassword, newPassword, firstName, lastName):
+    print("Editing Account Information..")
+    if(db.find_one({"username": username})):
+        accountInformation = db.find_one({"username": username})
+        if (accountInformation['username'] == username):
+
+            if(newPassword == "BLANK" or email == "BLANK"):
+                accountInformation['firstName'] = firstName
+                accountInformation['lastName'] = lastName
+                db.save(accountInformation)
+            else:
+                temporaryPassword =  accountInformation['password']
+                temporaryPassword = SVSEncryptionFactory.svsUnsign(temporaryPassword, "password", True)
+                temporaryPassword = SVSEncryptionFactory.svsDecrypt(temporaryPassword, "password", True)
+                temporaryPassword = SVSEncryptionFactory.svsUnsign(temporaryPassword, "password", False)
+
+                if (oldpassword == temporaryPassword):
+                    accountInformation['firstName'] = firstName
+                    accountInformation['lastName'] = lastName
+                    accountInformation['email'] = email
+                    newPassword = SVSEncryptionFactory.svsSign(password, "password", False)
+                    newPassword = SVSEncryptionFactory.svsEncrypt(password,"password")
+                    newPassword = SVSEncryptionFactory.svsSign(password, "password", True)
+                    accountInformation['password'] =  newPassword
+                    db.save(accountInformation)
+                    print("Edit Success: Account Information Changed.")
+                    response = {"request": "TRUE"}
+                else:
+                    print("Request Error: Incorrect Old Password.")
+                    response = {"request": "FALSE", 
+                                "error": "Incorrect Old Password." }
+    else:
+        print("Login Error: Username does not exist.")
+        response = {"login": "FALSE",
+                    "error:": "Username does not exist."}
+    return response
+        
+
 def addCategory(db, username, category):
     print("Updating Category List...")
     if(db.find_one({"username": username})):
@@ -81,26 +139,6 @@ def getCategory(db, username):
 
     return response
 
-def createAccount(db, username, password, email, firstName, lastName, isLoggedIn):
-    accountInformation = {  "username":     username,
-                            "password":     password,
-                            "email":        email,
-                            "firstName":    firstName,
-                            "lastName":     lastName,
-                            "isLoggedIn":   "True" }
-                  
-    result = db.create_index([('username', pymongo.ASCENDING)], unique=True)
-    print("Creating Account..")
-    if( db.find_one({"username": username})):
-        print("Account Creation Error: Username already exists.")
-        response = {"createAccount": "FALSE", 
-                            "error": "Username already exists." }
-    else:
-        result = db.insert_one(accountInformation)
-        print("Account Creation Success: Account created.")
-        response = {"createAccount": "TRUE"}        
-    return response
-        
 
 
 def setPassword(db, username, password):
@@ -139,8 +177,13 @@ def getUserInformation(db, username):
     return accountInformation
 
 
-def getUsername(db, httprequest):
-    return SVSSessionFactory.getFromSession(httprequest, "username", "BLANK")
+def whoAmI(db, httprequest):
+    username = SVSSessionFactory.getFromSession(httprequest, "username", "BLANK")
+    if(username == "BLANK"):
+        print("No one is logged in")
+        return {"requset": "FALSE"}
+    else:
+        return username
 
 
 
@@ -197,24 +240,32 @@ def service(request, data, httprequest):
         response = createAccount(db, username, password, email, firstName, lastName, isLoggedIn)
 
 
- 
+    if(request == "whoAmI"):
+        response = whoAmI(db, httprequest)
 
     if(username == "BLANK"):
         response = {"request": "FALSE" , "error": "USER IS NOT LOGGED IN."}
         raise Exception("YOU DONE GOOFED. NOT EVEN LOGGED IN BRO.")
     else:
         if(request == "logout"):
-            username = username.lower()
             response = logout(db, username, httprequest)
 
-        if(request == "addCategory"):
-            response = addCategory(db, "admin", data['category'])
-
-        if(request == "deleteCategory"):
-            response = deleteCategory(db, "admin", data['category'])
 
         if(request == "getCategory"):
             response = getCategory(db, "admin")
+
+        if( (request == "addCategory" or request == "deleteCategory" ) and username == "admin"):
+
+            if(request == "addCategory"):
+                response = addCategory(db, "admin", data['category'])
+
+            if(request == "deleteCategory"):
+                response = deleteCategory(db, "admin", data['category'])
+
+
+        else:
+            print("YOU ARE NOT AN ADMIN.")
+            raise Exception("YOU ARE NOT AN ADMIN.")
 
     return response
 

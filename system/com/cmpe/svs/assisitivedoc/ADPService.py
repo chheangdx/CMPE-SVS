@@ -74,7 +74,7 @@ def getDocument(fs, username, documentName):
         response = {"request": "FALSE", "error": "Document not found."}
     return response
 
-def adminGetDocumentNameList(fsfiles, username):
+def adminGetDocumentList(fsfiles):
     response = []
     for doc in fsfiles.find():
          tempobject = {"username": doc['username'], "documentName": doc['documentName'], "status": doc['status'], "date": doc['date'], "category": doc['category']}
@@ -140,7 +140,7 @@ def service(request, data, httprequest):
 
     if(username == "BLANK"):
         response = {"request": "FALSE" , "error": "USER IS NOT LOGGED IN."}
-        raise Exception("YOU DONE GOOFED. NOT EVEN LOGGED IN BRO.")
+        raise Exception("THERE IS NO USER LOGGED IN.")
     else:
 
         if(request == "getAnnotations"):
@@ -175,21 +175,25 @@ def service(request, data, httprequest):
             temporaryCategory = dataRequest['category']
 
 
-        if(request == "saveAnnotatedDocumentName"):
-            response = {"request": "TRUE"}
-            annotatedDocumentName = dataRequest['documentName']
-     
+        if( (request == "saveAnnotatedDocument" or request == "adminGetDocumentList")  and username == "admin"):
 
-        if(request == "saveAnnotatedDocument"):
-            annotatedDocumentName = dataRequest['documentName']
-            documentAnnotation = dataRequest['annotations']
-            category = dataRequest['category']
-            status = dataRequest['status']
-            response = adminSaveAnnotatedDocument(fs, username, annotatedDocumentName, category, status, documentAnnotation, fsfiles)
-            annotatedDocumentName = "BLANK"
-            documentAnnotation = []
-            annotatedDocumentName = "BLANK"
-            status = "BLANK"
+            if(request == "saveAnnotatedDocument"):
+                annotatedDocumentName = dataRequest['documentName']
+                documentAnnotation = dataRequest['annotations']
+                category = dataRequest['category']
+                status = dataRequest['status']
+                actualUsername = dataRequest['username']
+                response = adminSaveAnnotatedDocument(fs, actualUsername, annotatedDocumentName, category, status, documentAnnotation, fsfiles)
+                annotatedDocumentName = "BLANK"
+                documentAnnotation = []
+                annotatedDocumentName = "BLANK"
+                status = "BLANK"
+
+            if(request == "adminGetDocumentList"):
+                response = adminGetDocumentList(fsfiles)
+        else:
+            print("YOU ARE NOT AN ADMIN.")
+            raise Exception("YOU ARE NOT AN ADMIN.")
 
       
     return response

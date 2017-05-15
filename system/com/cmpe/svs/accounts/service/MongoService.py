@@ -71,7 +71,7 @@ def editAccountInformation(db, username, email, oldPassword, newPassword, firstN
                 accountInformation['firstName'] = firstName
                 accountInformation['lastName'] = lastName
                 db.save(accountInformation)
-                 response = {"request": "TRUE"}
+                response = {"request": "TRUE"}
             else:
                 temporaryPassword = accountInformation['password']
                 temporaryPassword = SVSEncryptionFactory.svsUnsign(temporaryPassword, "password", True)
@@ -85,7 +85,7 @@ def editAccountInformation(db, username, email, oldPassword, newPassword, firstN
                     if(email != "BLANK"):
                         accountInformation['email'] = email
 
-                    if(newPassword != "BLANK"):
+                    if(newPassword != "********"):
                         newPassword = SVSEncryptionFactory.svsSign(newPassword, "password", False)
                         newPassword = SVSEncryptionFactory.svsEncrypt(newPassword,"password")
                         newPassword = SVSEncryptionFactory.svsSign(newPassword, "password", True)

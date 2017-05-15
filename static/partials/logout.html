@@ -38,11 +38,11 @@
                                  <tbody>
                                     <tr>
                                        <td>Username</td>
-                                       <td><input class = "form-control" name="username" ng-model=currentUser.username ng-disabled = !enableFields></td>
+                                       <td><input class = "form-control" name="username" ng-model=currentUser.username disabled></td>
                                     </tr>
                                     <tr>
                                        <td>Password</td>
-                                       <td><input type='password' ng-model-options="{ updateOn: 'default blur', debounce: { default: 500, blur: 0 } }" class = "form-control" ng-model="newPassword" name="password" value="******" ng-disabled = !enableFields ng-change="pwchecker()" ng-pattern="passPattern"></td>
+                                       <td><input type='password' ng-model-options="{ updateOn: 'default blur', debounce: { default: 500, blur: 0 } }" class = "form-control" ng-model="newPassword" name="password" ng-disabled = !enableFields ng-change="pwchecker()" ng-pattern="passPattern"></td>
                                     </tr>
                                     <tr>
                                        <td>First Name</td>
@@ -74,13 +74,13 @@
                                     <tr>
                                     	<td ng-show="(!samePass && userInput.reconfirmedPass.$valid && userInput.password.$valid && userInput.reconfirmedPass.$dirty)">* Passwords must match</td>
                                     </tr>
-                                    <tr ng-show="(userInput.email.$error.pattern && userInput.email.dirty)">
+                                    <tr ng-show="(userInput.email.$error.pattern && userInput.email.$dirty)">
                                        <td>Confirm Email</td>
                                        <td><input class = "form-control" name="password" value="" ></td>
                                     </tr>
                                  
                               <tr><td>
-                              <button class="btn btn-info btn-sm" name="submit" type="submit" style = "">
+                              <button class="btn btn-info btn-sm" name="submit" type="submit" style = "" ng-click="submitChange()">
                               Submit <span class="glyphicon glyphicon-circle-arrow-right" style = "color: white;"></span>
                               </button></td></tr>
                               </tbody>

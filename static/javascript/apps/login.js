@@ -26,12 +26,12 @@ app.controller('loginCtrl',  ['$scope','$http', function($scope,$http) {
                     data: data,
                     url:'/loginUser'
                 }).then(function successCallback(response) {
-                    //location.reload();
+                    window.location.replace("/")
                 }, function errorCallback(response) {
                     console.error(response);
                 });
     }   
-    
+
 	var init = function(){
 		
   	};

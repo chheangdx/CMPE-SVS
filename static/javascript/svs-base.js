@@ -115,25 +115,5 @@ app.controller('CmpeSVSCtrl',  ['$scope','$http', function($scope,$http) {
             });
     }
 
-    $scope.login = function() {
-    console.log("User logging in: " + $scope.userInfo);
-    var data = {user: $scope.userInfo};
-
-    $http({
-                method: 'post',
-                url: $scope.urlInput,
-                data: data
-            }).then(function successCallback(response) {
-                //successfully got a response
-                console.log(response);
-                $scope.testBody = response.data;
-            }, function errorCallback(response) {
-                //usually happens when an exception is thrown
-                console.error(response);
-                $scope.testBody = "Request Failed";
-            });
-
-    };
-
 	init();
 }]);

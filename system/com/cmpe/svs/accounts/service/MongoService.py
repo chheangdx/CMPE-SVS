@@ -194,6 +194,7 @@ def service(request, data, httprequest):
     if(username == "BLANK"):
         response = {"request": "FALSE" , "error": "USER IS NOT LOGGED IN."}
         raise Exception("YOU DONE GOOFED. NOT EVEN LOGGED IN BRO.")
+
     else:
         if(request == "editAccountInformation"):
             response = "BLANK"
@@ -208,18 +209,17 @@ def service(request, data, httprequest):
         if(request == "getCategory"):
             response = getCategory(db, "admin")
 
-        if( (request == "addCategory" or request == "deleteCategory" ) and username == "admin"):
+        if( request == "addCategory" or request == "deleteCategory" ):
 
-            if(request == "addCategory"):
-                response = addCategory(db, "admin", data['category'])
+            if(username == "admin"):
+                if(request == "addCategory"):
+                    response = addCategory(db, "admin", data['category'])
 
-            if(request == "deleteCategory"):
-                response = deleteCategory(db, "admin", data['category'])
-
-
-        else:
-            print("YOU ARE NOT AN ADMIN.")
-            raise Exception("YOU ARE NOT AN ADMIN.")
+                if(request == "deleteCategory"):
+                    response = deleteCategory(db, "admin", data['category'])
+            else:
+                print("YOU ARE NOT AN ADMIN #####.")
+                raise Exception("YOU ARE NOT AN ADMIN.")
 
     return response
 

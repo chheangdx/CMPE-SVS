@@ -175,25 +175,25 @@ def service(request, data, httprequest):
             temporaryCategory = dataRequest['category']
 
 
-        if( (request == "saveAnnotatedDocument" or request == "adminGetDocumentList")  and username == "admin"):
+        if( request == "saveAnnotatedDocument" or request == "adminGetDocumentList"):
+            if(username == "admin"):
+                if(request == "saveAnnotatedDocument"):
+                    annotatedDocumentName = dataRequest['documentName']
+                    documentAnnotation = dataRequest['annotations']
+                    category = dataRequest['category']
+                    status = dataRequest['status']
+                    actualUsername = dataRequest['username']
+                    response = adminSaveAnnotatedDocument(fs, actualUsername, annotatedDocumentName, category, status, documentAnnotation, fsfiles)
+                    annotatedDocumentName = "BLANK"
+                    documentAnnotation = []
+                    annotatedDocumentName = "BLANK"
+                    status = "BLANK"
 
-            if(request == "saveAnnotatedDocument"):
-                annotatedDocumentName = dataRequest['documentName']
-                documentAnnotation = dataRequest['annotations']
-                category = dataRequest['category']
-                status = dataRequest['status']
-                actualUsername = dataRequest['username']
-                response = adminSaveAnnotatedDocument(fs, actualUsername, annotatedDocumentName, category, status, documentAnnotation, fsfiles)
-                annotatedDocumentName = "BLANK"
-                documentAnnotation = []
-                annotatedDocumentName = "BLANK"
-                status = "BLANK"
-
-            if(request == "adminGetDocumentList"):
-                response = adminGetDocumentList(fsfiles)
-        else:
-            print("YOU ARE NOT AN ADMIN.")
-            raise Exception("YOU ARE NOT AN ADMIN.")
+                if(request == "adminGetDocumentList"):
+                    response = adminGetDocumentList(fsfiles)
+            else:
+                print("YOU ARE NOT AN ADMIN.")
+                raise Exception("YOU ARE NOT AN ADMIN.")
 
       
     return response

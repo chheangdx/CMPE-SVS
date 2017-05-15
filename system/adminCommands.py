@@ -61,3 +61,34 @@ def adminGetDocumentList(request):	# admin function
 	print("Returning data for adminGetDocumentList List:")
 	print(response)
 	return HttpResponse(json.dumps(response))
+
+
+def adminGetDocument(request):
+	httprequest = request
+	response = ADPService.service("adminGetDocument", "", httprequest)
+	print("ADMIN Returning data for getDocument command:")
+	return HttpResponse(response)
+
+def adminGetAnnotatedDocument(request):
+	httprequest = request
+	response = ADPService.service("adminGetAnnotatedDocument", "", httprequest)
+	print("ADMIN Returning data for getAnnotatedDocument command:")
+	return HttpResponse(response)
+
+def adminGetAnnotations(request):
+	httprequest = request
+	response = ADPService.service("adminGetAnnotations", "", httprequest)
+	print("ADMIN Returning data for getAnnotation command:")
+	print(response)
+	return HttpResponse(json.dumps(response))
+
+def adminSaveDocumentName(request):
+	httprequest = request
+	body_unicode = request.body.decode('utf-8')
+	data = json.loads(body_unicode)
+	print("ADMIN SAVE DOCUMENT NAME REQUEST: ")
+	print(data)
+	response = ADPService.service("adminSaveDocumentName", data, httprequest)
+	print("Returning data for adminSaveDocumentName command:")
+	print(response)
+	return HttpResponse(json.dumps(response))

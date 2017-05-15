@@ -207,7 +207,7 @@ def service(request, data, httprequest):
 
     if(username == "BLANK"):
         response = {"request": "FALSE" , "error": "USER IS NOT LOGGED IN."}
-        raise Exception("YOU DONE GOOFED. NOT EVEN LOGGED IN BRO.")
+    
 
     else:
         if(request == "editAccountInformation"):

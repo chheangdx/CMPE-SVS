@@ -64,6 +64,27 @@ def getAnnotations(fsfiles, username, documentName):
         response = {"request": False, "error": "No annotation documents found."}
     return response
 
+
+def adminGetDocument(fs, username, documentName):
+     if(fs.find_one({"documentName": documentName, "username": username})):
+        documentData = fs.find_one({"documentName": documentName, "username": username}).read()
+         documentData = SVSEncryptionFactory.svsUnsign(documentData, "document", True)
+         documentData = SVSEncryptionFactory.svsDecrypt(documentData, "document", True)
+        documentData = SVSEncryptionFactory.svsUnsign(documentData, "document", True)
+        response =  documentData
+    else:
+        response = {"request": False, "error": "Document not found."}
+    return response
+
+def adminGetAnnotations(fsfiles, username, documentName):
+    if(fsfiles.find_one({"username": username, "documentName": documentName})):
+         documentInformation = fsfiles.find_one({"username": username, "documentName": documentName})
+         response = {"documentAnnotation": documentInformation['documentAnnotation']}
+    else:
+         response = {"request": False, "error": "No annotation documents found."}
+    return response
+
+
 def getDocument(fs, username, documentName):
     if(fs.find_one({"documentName": documentName, "username": username})):
         documentData = fs.find_one({"documentName": documentName, "username": username}).read()
@@ -136,6 +157,9 @@ def service(request, data, httprequest):
     global fs
     global db
     global documentName
+    global adminDocumentName
+    global adminAnnotatedDocumentName
+    global temporaryUsername
     global documentAnnotation
     global annotatedDocumentName
     global fsfiles
@@ -147,7 +171,7 @@ def service(request, data, httprequest):
 
     if(username == "BLANK"):
         response = {"request": "FALSE" , "error": "USER IS NOT LOGGED IN."}
-        raise Exception("THERE IS NO USER LOGGED IN.")
+
     else:
 
         if(request == "getAnnotations"):
@@ -182,7 +206,13 @@ def service(request, data, httprequest):
             temporaryCategory = dataRequest['category']
 
 
-        if( request == "saveAnnotatedDocument" or request == "adminGetDocumentList"):
+        if(request == "saveAnnotatedDocumentName"):
+            response = {"request": "TRUE"}
+            annotatedDocumentName = dataRequest['documentName']
+            temporaryCategory = dataRequest['category']
+
+
+        if( request == "saveAnnotatedDocument" or request == "adminGetDocumentList" or request == "adminSaveDocumentName" or request = "adminGetDocument" or request == "adminGetAnnotatedDocument" or request == "adminGetAnnotations")
             if(username == "admin"):
                 if(request == "saveAnnotatedDocument"):
                     annotatedDocumentName = dataRequest['documentName']
@@ -198,9 +228,33 @@ def service(request, data, httprequest):
 
                 if(request == "adminGetDocumentList"):
                     response = adminGetDocumentList(fsfiles)
+
+                if(request == "adminSaveDocumentName"):
+                    response = {"request": "TRUE"}
+                    adminDocumentName = dataRequest['documentName']
+                    temporaryUsername = dataRequest['username']
+                 
+                if(request == "adminSaveAnnotatedDocumentName"):
+                    response = {"request": "TRUE"}
+                    adminAnnotatedDocumentName = dataRequest['documentName']
+                    temporaryUsername = dataRequest['username']
+
+                if(request == "adminGetDocument"):
+                    response = adminGetDocument(fs, temporaryUsername, adminDocumentName)
+                    adminDocumentName = "BLANK"
+                    temporaryUsername = "BLANK"
+
+                if(request == "adminGetAnnotatedDocument"):
+                       response = getDocument(fs, temporaryUsername, adminAnnotatedDocumentName)
+
+                if(request == "adminGetAnnotations"):
+                    response = getAnnotations(fsfiles, temporaryUsername, adminAnnotatedDocumentName )
+                    adminAnnotatedDocumentName = "BLANK"
+                    temporaryUsername = "BLANK"
+
             else:
                 print("YOU ARE NOT AN ADMIN.")
-                raise Exception("YOU ARE NOT AN ADMIN.")
+           
 
       
     return response
@@ -213,6 +267,9 @@ dbaccounts = connectToMongoDBAccounts(databaseName)
 fsfiles = db.fs.files
 fs = gridfs.GridFS(db)
 documentName = "BLANK"
+adminDocumentName = "BLANK"
 annotatedDocumentName = "BLANK"
+adminAnnotatedDocumentName = "BLANK"
 temporaryCategory = "BLANK"
 documentAnnotation  = []
+temporaryUsername = "BLANK"

@@ -90,14 +90,17 @@ app.controller('CmpeSVSCtrl',  ['$scope','$http', function($scope,$http) {
                 data: data
             }).then(function successCallback(response) {
                 var whodis = response.data
-                $scope.imloggedin = true
-                if (whodis.localeCompare('"admin"') == 0)
-                {
-                    $scope.imadmin = true;
-                }
-                else
-                {
-                    $scope.imadmin = false;
+                if(whodis.request){
+                    $scope.imloggedin = true
+                    console.log(whodis)
+                    if (whodis.username.localeCompare('admin') == 0)
+                    {
+                        $scope.imadmin = true;
+                    }
+                    else
+                    {
+                        $scope.imadmin = false;
+                    }
                 }
             }, function errorCallback(response) {
               $scope.imadmin = false;

@@ -66,10 +66,10 @@ def getAnnotations(fsfiles, username, documentName):
 
 
 def adminGetDocument(fs, username, documentName):
-     if(fs.find_one({"documentName": documentName, "username": username})):
+    if(fs.find_one({"documentName": documentName, "username": username})):
         documentData = fs.find_one({"documentName": documentName, "username": username}).read()
-         documentData = SVSEncryptionFactory.svsUnsign(documentData, "document", True)
-         documentData = SVSEncryptionFactory.svsDecrypt(documentData, "document", True)
+        documentData = SVSEncryptionFactory.svsUnsign(documentData, "document", True)
+        documentData = SVSEncryptionFactory.svsDecrypt(documentData, "document", True)
         documentData = SVSEncryptionFactory.svsUnsign(documentData, "document", True)
         response =  documentData
     else:
@@ -212,7 +212,7 @@ def service(request, data, httprequest):
             temporaryCategory = dataRequest['category']
 
 
-        if( request == "saveAnnotatedDocument" or request == "adminGetDocumentList" or request == "adminSaveDocumentName" or request = "adminGetDocument" or request == "adminGetAnnotatedDocument" or request == "adminGetAnnotations")
+        if( request == "saveAnnotatedDocument" or request == "adminGetDocumentList" or request == "adminSaveDocumentName" or request == "adminGetDocument" or request == "adminGetAnnotatedDocument" or request == "adminGetAnnotations"):
             if(username == "admin"):
                 if(request == "saveAnnotatedDocument"):
                     annotatedDocumentName = dataRequest['documentName']

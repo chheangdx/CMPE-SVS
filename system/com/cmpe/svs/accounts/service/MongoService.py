@@ -67,7 +67,7 @@ def editAccountInformation(db, username, email, oldPassword, newPassword, firstN
         accountInformation = db.find_one({"username": username})
         if (accountInformation['username'] == username):
 
-            if(newPassword == "BLANK" or email == "BLANK"):
+            if(newPassword == "BLANK" and email == "BLANK"):
                 accountInformation['firstName'] = firstName
                 accountInformation['lastName'] = lastName
                 db.save(accountInformation)
@@ -80,11 +80,16 @@ def editAccountInformation(db, username, email, oldPassword, newPassword, firstN
                 if (oldpassword == temporaryPassword):
                     accountInformation['firstName'] = firstName
                     accountInformation['lastName'] = lastName
-                    accountInformation['email'] = email
-                    newPassword = SVSEncryptionFactory.svsSign(password, "password", False)
-                    newPassword = SVSEncryptionFactory.svsEncrypt(password,"password")
-                    newPassword = SVSEncryptionFactory.svsSign(password, "password", True)
-                    accountInformation['password'] =  newPassword
+                    
+                    if(accountInformation['email'] != "BLANK"):
+                        accountInformation['email'] = email
+
+                    if(accountInformation['newPassword'] != "BLANK"):
+                        newPassword = SVSEncryptionFactory.svsSign(password, "password", False)
+                        newPassword = SVSEncryptionFactory.svsEncrypt(password,"password")
+                        newPassword = SVSEncryptionFactory.svsSign(password, "password", True)
+                        accountInformation['password'] =  newPassword
+
                     db.save(accountInformation)
                     print("Edit Success: Account Information Changed.")
                     response = {"request": "TRUE"}
@@ -198,7 +203,12 @@ def service(request, data, httprequest):
 
     else:
         if(request == "editAccountInformation"):
-            response = "BLANK"
+            oldPassword =  accountInformation['user']['oldPassword']
+            newPassword = accountInformation['user']['newPassword']
+            email = accountInformation['user']['email']
+            firstName = accountInformation['user']['firstName']
+            lastName = accountInformation['user']['lastName']
+            response = editAccountInformation(db, username, email, oldPassword, newPassword, firstName, lastName)
 
         if(request == "getAccountInformation"):
             response = getAccountInformation(db, username)

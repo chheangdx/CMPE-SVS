@@ -17,4 +17,4 @@ def deleteSession(request, key):
 		del request.session[key]
 	except:
 		pass
-	return HttpResponse("<strong> You are Logged out. </strong>")
+	return True

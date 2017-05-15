@@ -67,7 +67,7 @@ def editAccountInformation(db, username, email, oldPassword, newPassword, firstN
         accountInformation = db.find_one({"username": username})
         if (accountInformation['username'] == username):
 
-            if(newPassword == "BLANK" and email == "BLANK"):
+            if(newPassword == "********" and email == "BLANK"):
                 accountInformation['firstName'] = firstName
                 accountInformation['lastName'] = lastName
                 db.save(accountInformation)

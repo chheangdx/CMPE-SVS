@@ -117,7 +117,9 @@ def getAccountInformation(db, username):
     accountInformation = db.find_one({"username": username})
     tempobject = {"username": accountInformation['username'], "email": accountInformation['email'], "firstName": accountInformation['firstName'], "lastName":accountInformation['lastName']}
     return tempobject
-
+def getEmail(db, username):
+    accountInformation = db.find_one({"username": username})
+    return accountInformation['email']
 def addCategory(db, username, category):
     print("Updating Category List...")
     if(db.find_one({"username": username})):

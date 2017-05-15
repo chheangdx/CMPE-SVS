@@ -46,7 +46,14 @@ def editAccountInformation(request):
 	httprequest = request
 	body_unicode = request.body.decode('utf-8')
 	data = json.loads(body_unicode)
-	response = MongoService.service("editAccountInformation", httprequest)
+	response = MongoService.service("editAccountInformation","", httprequest)
 	print("Returning data for editAccountInformation command:")
+	print(response)
+	return HttpResponse(json.dumps(response))
+
+def getAccountInformation(request):
+	httprequest = request
+	response = MongoService.service("getAccountInformation", "", httprequest)
+	print("Returning data for getAccountInformation command:")
 	print(response)
 	return HttpResponse(json.dumps(response))

@@ -99,6 +99,18 @@ def editAccountInformation(db, username, email, oldPassword, newPassword, firstN
     return response
         
 
+def whoAmI(db, httprequest):
+    username = SVSSessionFactory.getFromSession(httprequest, "username", "BLANK")
+    if(username == "BLANK"):
+        print("No one is logged in")
+        return {"requset": "FALSE"}
+    else:
+        return username
+
+def getAccountInformation(db, username):
+    accountInformation = db.find_one({"username": username})
+    return accountInformation
+
 def addCategory(db, username, category):
     print("Updating Category List...")
     if(db.find_one({"username": username})):
@@ -139,70 +151,6 @@ def getCategory(db, username):
 
     return response
 
-
-
-def setPassword(db, username, password):
-    accountInformation = db.find_one({"username": username})
-    accountInformation['password'] = password
-    db.save(accountInformation)
-    print("Account Editing Success: Password changed.")
-    
-
-def setEmail(db, username, email):
-    accountInformation = db.find_one({"username": username})
-    accountInformation['email'] = email
-    db.save(accountInformation)
-    print("Account Editing Success: Emailed changed.")
-
-
-def setFirstName(db, username, firstName):
-    accountInformation = db.find_one({"username": username})
-    accountInformation['firstName'] = firstName
-    db.save(accountInformation)
-    print("Account Editing Success: First name changed.")
-
-def setLastName(db, username, lastName):
-    accountInformation = db.find_one({"username": username})
-    accountInformation['lastName'] = lastName
-    db.save(accountInformation)
-    print("Account Editing Success: Last name changed.")
-
-def getEmailPassword(db, username):
-    accountInformation = db.find_one({"username": username})
-    emailPassword = accountInformation['emailPassword']
-    return emailPassword
-
-def getUserInformation(db, username):
-    accountInformation = db.find_one({"username": username})
-    return accountInformation
-
-
-def whoAmI(db, httprequest):
-    username = SVSSessionFactory.getFromSession(httprequest, "username", "BLANK")
-    if(username == "BLANK"):
-        print("No one is logged in")
-        return {"requset": "FALSE"}
-    else:
-        return username
-
-
-
-def getEmail(db, username):
-    accountInformation = db.find_one({"username": username})
-    email = accountInformation['email']
-    return email
-
-def getPassword(db, username):
-    accountInformation = db.find_one({"username": username})
-    return accountInformation['password']
-
-def getFirstName(db, username):
-    accountInformation = db.find_one({"username": username})
-    return accountInformation['firstName']
-
-def getLastName(db, username):
-    accountInformation = db.find_one({"username": username})
-    return accountInformation['lastName']
 
 def logout(db, username, httprequest):
     accountInformation = db.find_one({"username": username})
@@ -247,6 +195,12 @@ def service(request, data, httprequest):
         response = {"request": "FALSE" , "error": "USER IS NOT LOGGED IN."}
         raise Exception("YOU DONE GOOFED. NOT EVEN LOGGED IN BRO.")
     else:
+        if(request == "editAccountInformation"):
+            response = "BLANK"
+
+        if(request == "getAccountInformation"):
+            response = getAccountInformation(db, username)
+
         if(request == "logout"):
             response = logout(db, username, httprequest)
 

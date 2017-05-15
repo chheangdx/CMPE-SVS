@@ -33,6 +33,7 @@ urlpatterns = [
     url(r'^logout$', userAccounts.logout, name = 'logout'),
     url(r'^whoAmI$', userAccounts.whoAmI, name = 'whoAmI'),
     url(r'^editAccountInformation$', userAccounts.editAccountInformation, name = 'editAccountInformation'),
+    url(r'^getAccountInformation$', userAccounts.getAccountInformation, name = 'getAccountInformation'),
   ######################## ADP URL ##############################
 
     url(r'^saveDocumentName$', assistiveDocumentPreparation.saveDocumentName, name = 'saveDocumentName'),

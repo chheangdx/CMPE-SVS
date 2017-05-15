@@ -41,11 +41,13 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
       }).then(function successCallback(response) {
         //name list holds:
         //name, date created, status, student name
-        if(response.data.request)
+        if(response.data.request){
           $scope.documentNameList = response.data.documentList
           console.log(response.data.documentList)
-        else
+        }
+        else{
           $scope.documentNameList = []
+        }
       }, function errorCallback(response) {
         console.log("HTTP File Response failed: " + response);
       });        
@@ -186,25 +188,29 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
                     curpage = 0
                   }
                   console.log("leng:"+$scope.annotationArray[curpage]+"\n")
+
+                   $scope.docUp = false;
+                  $scope.borderStyle = {'border':'1px solid black'}
+
                   try{
                       for (var i = 0; i < 30; i++){
+                        if (typeof $scope.annotationArray[curpage][i] != 'undefined'){
                           var annotation = $scope.annotationArray[curpage][i];
-                          if(!annotation)
-                          {
-                            i = 30;
-                          }
-                          else{
-                            console.log("annotation add")
-                            anno.addAnnotation(annotation);
-                          }
+                          console.log("annotation add")
+                          anno.addAnnotation(annotation);
                         }
+                        else{
+                          throw "Out of annotations to grab"
+                        }
+                      }
                     }
                     catch(err){
-                      console.log("No annotations available");
+                      console.log(err);
                     }
-
+               
                 }
-                image.src = canvas.toDataURL('image/jpeg');         
+                image.src = canvas.toDataURL('image/jpeg'); 
+
           });
           
 
@@ -226,7 +232,7 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
               $scope.annotationsGrab();
             }
 
-            $scope.docUp = false;
+            
       }); 
     }
 
@@ -251,7 +257,7 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
    var init = function(){
       $scope.uploadMutex = false;
       $scope.categoryList = [];
-      $scope.myOrderBy = "dateCreated";
+      $scope.myOrderBy = "date";
       $scope.reverse = false;
       $scope.docUp = true;
       $scope.getCategory();

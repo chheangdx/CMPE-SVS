@@ -387,6 +387,7 @@ app.controller('settingsCtrl',  ['$scope','$http', function($scope,$http) {
 		}
 
 		$scope.passPattern = '/^.+$/';
+		$scope.emailPattern = '/^.+@.+\\..+$/';
 
 	var init = function(){
 		$scope.currentUser = {username:'ass',

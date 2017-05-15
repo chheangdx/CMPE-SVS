@@ -372,6 +372,7 @@ app.controller('settingsCtrl',  ['$scope','$http', function($scope,$http) {
 		};
 
 		$scope.editAccountInformation = function() {
+
 			var data = {
 				user:$scope.currentUser
 			}
@@ -388,7 +389,8 @@ app.controller('settingsCtrl',  ['$scope','$http', function($scope,$http) {
 	            		$scope.errorArrived = true;
 	            		$scope.errorMessage = response.error;
 	            		$scope.currentUser.oldPassword = "";
-	            		$scope.currentUser.new
+	            		$scope.currentUser.newPassword = "";
+	            		$scope.reconfirmedPass = ""
 	            });
 		}
 
@@ -400,7 +402,10 @@ app.controller('settingsCtrl',  ['$scope','$http', function($scope,$http) {
 	                data: data
 	            }).then(function successCallback(response) {
 	                $scope.currentUser = response.data
-	                $scope.currnetUser.newPassword="********"
+	                $scope.currentUser.newPassword='********'
+	                $scope.currentUser = {
+						oldPassword:'BLANK'
+					}
 	            }, function errorCallback(response) {
 	            
 	            });
@@ -418,9 +423,6 @@ app.controller('settingsCtrl',  ['$scope','$http', function($scope,$http) {
 		$scope.emailPattern = '/^.+@.+\\..+$/';
 
 	var init = function(){
-		$scope.currentUser = {username:'ass',
-		firstName:'nick',
-		lastName:'carter'}
 		$scope.prefillValues()
 		$scope.enableFields = false
 		$scope.pwForm = false

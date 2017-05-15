@@ -27,7 +27,12 @@ app.controller('loginCtrl',  ['$scope','$http', function($scope,$http) {
                     url:'/loginUser'
                 }).then(function successCallback(response) {
                   if(response.data.login){
+                    $scope.errorArrive = false;
                     window.location.replace("/")
+                  }
+                  else{
+                    $scope.errorArrive = true;
+                    $scope.errorMessage = response.data.errorMessage
                   }
                 }, function errorCallback(response) {
                     console.error(response);
@@ -41,7 +46,7 @@ app.controller('loginCtrl',  ['$scope','$http', function($scope,$http) {
     }
 
 	var init = function(){
-		
+		$scope.errorArrive = false;
   	};
 
 	init();

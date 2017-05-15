@@ -37,8 +37,8 @@ def login(db, username, password, httprequest):
                             "error": "Incorrect password." }
     else:
         print("Login Error: Username does not exist.")
-        response = {"login": False
-                    "errorMessage:": "Username does not exist."}
+        response = {"login": False,
+                    "errorMessage": "Username does not exist."}
     return response
 
 def createAccount(db, username, password, email, firstName, lastName, isLoggedIn):

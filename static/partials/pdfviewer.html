@@ -98,11 +98,9 @@
                                  <div class="form-group ">
                                     <label class="control-label requiredField" for="name">
                                     File Name
-                                    <span class="asteriskField">
-                                    *
-                                    </span>
+                                   
                                     </label>
-                                    <input class="form-control" id="name" name="name" ng-model=documentName type="text"/>
+                                    <input required class="form-control" id="name" name="name" ng-model=documentName type="text"/>
                                     <span class="help-block" id="hint_name">
                                     Name of document to upload
                                     </span>
@@ -110,11 +108,9 @@
                                  <div class="form-group ">
                                     <label class="control-label requiredField" for="select">
                                     Category Selection
-                                    <span class="asteriskField">
-                                    *
-                                    </span>
+                                   
                                     </label>
-                                    <select class="select form-control" id="select" name="select" ng-model="selectedCategory">
+                                    <select required class="select form-control" id="select" name="select" ng-model="selectedCategory">
 									<option ng-repeat="category in categoryList">{{category}}</option>
 									</select>
                                     <span class="help-block" id="hint_select">
@@ -123,17 +119,18 @@
                                  </div>
                                  <div class="form-group ">
                                     <label class="control-label">Select File</label>
-                                    <input type="file" class="file-loading" name="files" file-model = "myFile" />
+                                    <input required type="file" class="file-loading" name="files" file-model = "myFile" />
                                     <div id="errorBlock" class="help-block"></div>
                                  </div>
+                                 </form>
                                  <div class="form-group" style = "color: black;">
                                     <div>
-                                       <button class="btn btn-default btn-sm" name="submit" type="submit">
+                                       <button class="btn btn-default btn-sm" name="submit" ng-click=saveDocument()>
                                        <span class="glyphicon glyphicon-upload" style = "color: black;"></span> Upload
                                        </button>
                                     </div>
                                  </div>
-                              </form>
+                              
                            </div>
                         </div>
                      </div>

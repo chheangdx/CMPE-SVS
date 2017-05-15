@@ -77,8 +77,8 @@ def editAccountInformation(db, username, email, oldPassword, newPassword, firstN
                 temporaryPassword = SVSEncryptionFactory.svsUnsign(temporaryPassword, "password", True)
                 temporaryPassword = SVSEncryptionFactory.svsDecrypt(temporaryPassword, "password", True)
                 temporaryPassword = SVSEncryptionFactory.svsUnsign(temporaryPassword, "password", False)
-
-                if (oldpassword == temporaryPassword):
+                print(temporaryPassword + " " + oldPassword)
+                if (oldPassword == temporaryPassword):
                     accountInformation['firstName'] = firstName
                     accountInformation['lastName'] = lastName
 

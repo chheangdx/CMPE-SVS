@@ -68,7 +68,7 @@ app.controller('assistDocPrepAdminCtrl',  ['$scope','$http', '$filter', function
     }
 
 //get list of documents specific to user
-   $scope.getDocumentNameList = function(){
+   $scope.adminGetDocumentList = function(){
 
       $http({
           method : 'post',
@@ -135,60 +135,6 @@ $scope.saveAnnotatedDocument = function(){
       }, function errorCallback(response) {
         console.log("HTTP saveAnnotatedDocumentName Response failed: " + response);
       });
-   }
-
-//delete a document from the backend
-   $scope.deleteDocument = function(doc){
-      var data  = {
-      'documentName' : doc.documentName
-    };
-    $http({
-          method : 'post',
-          url : '/deleteDocument',
-          data : data
-      }).then(function successCallback(response) {
-        $scope.getDocumentNameList();
-      }, function errorCallback(response) {
-        console.log("HTTP deleteDocument Response failed: " + response);
-    });        
-   }
-
-//save a document to backend, from normal user
-    $scope.saveDocument = function(){
-    var data  = {
-      'documentName' : $scope.documentName,
-      'category' : $scope.selectedCategory
-    };
-    $http({
-          method : 'post',
-          url : '/saveDocumentName',
-          data : data
-      }).then(function successCallback(response) {
-
-        if(!$scope.uploadMutex){
-          $scope.uploadMutex = true;
-          var file = $scope.myFile;
-          var fd = new FormData();
-          
-          fd.append('file', file);
-             
-          $http({
-            method : 'post',
-            url : '/saveDocument',
-            data : fd
-          }).then(function successCallback(response) {
-            $scope.getDocumentNameList();
-            $scope.uploadMutex = false;
-          }, function errorCallback(response) {
-            $scope.uploadMutex = false;
-            console.log("HTTP saveDocument Response failed: " + response);
-          });
-        }
-
-      }, function errorCallback(response) {
-        console.log("HTTP saveDocumentName Response failed: " + response);
-      });        
-
    }
 
    $scope.nextPage = function(){

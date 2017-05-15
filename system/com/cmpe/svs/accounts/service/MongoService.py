@@ -109,7 +109,8 @@ def whoAmI(db, httprequest):
 
 def getAccountInformation(db, username):
     accountInformation = db.find_one({"username": username})
-    return accountInformation
+    tempobject = {"username": accountInformation['username'], "email": accountInformation['email'], "firstName": accountInformation['firstName'], "lastName":accountInformation['lastName']}
+    return tempobject
 
 def addCategory(db, username, category):
     print("Updating Category List...")

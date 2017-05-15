@@ -4,6 +4,33 @@ app.config(function($httpProvider){
     $httpProvider.defaults.headers.post['X-CSRFToken'] = $('meta[name=csrf_token]').attr('content');
 });
 
+
+      // $(document).ready(function(){
+      //   // Add smooth scrolling to all links
+      //   $("a").on('click', function(event) {
+      
+      //     // Make sure this.hash has a value before overriding default behavior
+      //     if (this.hash !== "") {
+      //       // Prevent default anchor click behavior
+      //       event.preventDefault();
+      
+      //       // Store hash
+      //       var hash = this.hash;
+      
+      //       // Using jQuery's animate() method to add smooth page scroll
+      //       // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
+      //       $('html, body').animate({
+      //         scrollTop: $(hash).offset().top
+      //       }, 800, function(){
+         
+      //         // Add hash (#) to URL when done scrolling (default click behavior)
+      //         window.location.hash = hash;
+      //       });
+      //     } // End if
+      //   });
+      // });
+
+
 app.config(
             ['$stateProvider',
              '$urlRouterProvider',
@@ -46,7 +73,7 @@ app.config(
                     .state('settings', {
                         url: '/settings',
                         templateUrl: '/static/partials/logout.html',
-                        controller: 'logoutCtrl',
+                        controller: 'settingsCtrl',
                     })
 
                     .state('login', {
@@ -61,10 +88,31 @@ app.config(
 
 app.controller('CmpeSVSCtrl',  ['$scope','$http', function($scope,$http) {
 	var init = function(){
-		
+		$scope.loggedIn()
 	}
 
-    
+    $scope.loggedIn = function() {
+        //make a call to back to see if the user logged in is 'admin'
+        var data = {}
+        $http({
+                method: 'post',
+                url: '/whoami',
+                data: data
+            }).then(function successCallback(response) {
+                var whodis = response.data['username']
+                if (whodis === 'admin')
+                {
+                    $scope.imadmin = true;
+                }
+                else
+                {
+                    $scope.imadmin = false;
+                }
+            }, function errorCallback(response) {
+            
+            });
+    }
+
     $scope.login = function() {
     console.log("User logging in: " + $scope.userInfo);
     var data = {user: $scope.userInfo};

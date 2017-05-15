@@ -66,15 +66,22 @@
 
                      <li><a ui-sref="watson">Watson Q&A</a></li>
 
-                     <li ng-hide=imadmin><a ui-sref="prescreen">ADP</a></li>
+                     <!-- logged out -->
+                     <li ng-hide=imloggedin><a ui-sref="login">Document Preparation</a></li>
 
-                     <li ng-show=imadmin><a ui-sref="prescreenadmin">ADP</a></li>
+                     <!-- admin -->
+                     <li ng-show=imadmin><a ui-sref="prescreenadmin">Document Preparation</a></li>
+
+                     <!-- user -->
+                     <li ng-hide="( imadmin || !imloggedin )"><a ui-sref="prescreen">Document Preparation</a></li>
 
                      <li ng-hide=imloggedin><a ui-sref="login">Login/Register</a></li>
 
-                     <li ng-show=imloggedin><a ui-sref="settings">User Accounts</a></li>
+                     <li ng-show=imloggedin><a ui-sref="settings">User Settings</a></li>
 
-                     <li><a ui-sref="aboutus">About US</a></li>
+                     <li><a ui-sref="aboutus">About Us</a></li>
+
+                     <li ng-show=imloggedin><a ng-click="logoutUser()">Logout</a></li>
 
                   </ul>
 

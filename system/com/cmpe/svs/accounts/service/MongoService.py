@@ -203,6 +203,8 @@ def service(request, data, httprequest):
 
     else:
         if(request == "editAccountInformation"):
+            print("Account information: \n")
+            print(accountInformation)
             oldPassword =  accountInformation['user']['oldPassword']
             newPassword = accountInformation['user']['newPassword']
             email = accountInformation['user']['email']

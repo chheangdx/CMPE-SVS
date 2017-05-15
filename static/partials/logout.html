@@ -42,7 +42,7 @@
                                     </tr>
                                     <tr>
                                        <td>Password</td>
-                                       <td><input type='password' ng-model-options="{ updateOn: 'default blur', debounce: { default: 500, blur: 0 } }" class = "form-control" ng-model="newPassword" name="password" ng-disabled = !enableFields ng-change="pwchecker()" ng-pattern="passPattern"></td>
+                                       <td><input type='password' ng-model-options="{ updateOn: 'default blur', debounce: { default: 500, blur: 0 } }" class = "form-control" ng-model="currentuser.newPassword" name="password" ng-disabled = !enableFields ng-change="pwchecker()" ng-pattern="passPattern"></td>
                                     </tr>
                                     <tr>
                                        <td>First Name</td>
@@ -64,28 +64,30 @@
                                  <tbody>
                                     <tr ng-show="((userInput.password.$dirty && userInput.password.$error.pattern) || (userInput.email.$dirty && userInput.email.$error.pattern))">
                                        <td>Confirm Password</td>
-                                       <td><input type='password' class = "form-control" name="confirmpass" ng-model=confirmedPass ></td>
+                                       <td><input type='password' class = "form-control" name="confirmpass" ng-model="currentUser.oldPassword" ></td>
                                     </tr>
                                     <tr ng-show="(userInput.password.$dirty && userInput.password.$error.pattern)">
                                        <td>Re-enter New Password</td>
                                        <td><input type='password' ng-model-options="{ updateOn: 'default blur', debounce: { default: 500, blur: 0 } }" class = "form-control" name="reconfirmedPass" ng-change="pwchecker()" ng-model=reconfirmedPass></td>
                                        
                                     </tr>
-                                    <tr>
-                                    	<td ng-show="(!samePass && userInput.reconfirmedPass.$valid && userInput.password.$valid && userInput.reconfirmedPass.$dirty)">* Passwords must match</td>
-                                    </tr>
-                                    <tr ng-show="(userInput.email.$error.pattern && userInput.email.$dirty)">
-                                       <td>Confirm Email</td>
-                                       <td><input class = "form-control" name="password" value="" ></td>
-                                    </tr>
+                                    <tr><td ng-show="(!samePass && userInput.reconfirmedPass.$valid && userInput.password.$valid && userInput.reconfirmedPass.$dirty)">* Passwords must match</td></tr>
+                                    <tr ng-show="(userInput.email.$error.pattern && userInput.email.$dirty)"><td>Confirm Email</td>
+                                       <td><input class = "form-control" name="password" value="" ></td></tr>
                                  
-                              <tr><td>
-                              <button class="btn btn-info btn-sm" name="submit" type="submit" style = "" ng-click="submitChange()">
+                              <tr><td><button class="btn btn-info btn-sm" name="submit" type="submit" autofocus ng-keydown="enterHandler($event)" ng-click="editAccountInformation()">
                               Submit <span class="glyphicon glyphicon-circle-arrow-right" style = "color: white;"></span>
                               </button></td></tr>
+                              <tr><td>
+                              <span>
+                                 {{errorMessage}}
+                              </span>
+                              </td></tr>
                               </tbody>
                               </table> 
                               </form>                                                        
+                              }
+                              }
                            </div>
                         </div>
                      </div>

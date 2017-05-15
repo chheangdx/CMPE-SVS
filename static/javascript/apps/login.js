@@ -26,11 +26,19 @@ app.controller('loginCtrl',  ['$scope','$http', function($scope,$http) {
                     data: data,
                     url:'/loginUser'
                 }).then(function successCallback(response) {
+                  if(response.data.login){
                     window.location.replace("/")
+                  }
                 }, function errorCallback(response) {
                     console.error(response);
                 });
     }   
+    $scope.enterHandler = function($event) {
+      if ($event.keycode === 13) {
+        $scope.loginUser();
+        console.log("Enter event triggered");
+      }
+    }
 
 	var init = function(){
 		

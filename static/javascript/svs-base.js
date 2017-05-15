@@ -66,9 +66,24 @@ app.controller('CmpeSVSCtrl',  ['$scope','$http', function($scope,$http) {
 		$scope.loggedIn()
 	}
 
+    $scope.logoutUser = function() {
+
+        var data = {};
+        $http({
+                    method: 'post',
+                    data: data,
+                    url:'/logout'
+                }).then(function successCallback(response) {
+                    window.location.replace("/")
+                }, function errorCallback(response) {
+                    console.error(response);
+                });
+    }
+
     $scope.loggedIn = function() {
         //make a call to back to see if the user logged in is 'admin'
         var data = {}
+        try{
         $http({
                 method: 'post',
                 url: '/whoAmI',
@@ -76,21 +91,22 @@ app.controller('CmpeSVSCtrl',  ['$scope','$http', function($scope,$http) {
             }).then(function successCallback(response) {
                 var whodis = response.data
                 $scope.imloggedin = true
-                console.log(whodis.length + " " + '"admin"'.length)
                 if (whodis.localeCompare('"admin"') == 0)
                 {
-                  console.log("yes")
                     $scope.imadmin = true;
                 }
                 else
                 {
-                  console.log("no")
                     $scope.imadmin = false;
                 }
             }, function errorCallback(response) {
               $scope.imadmin = false;
               $scope.imloggedin = false;
             });
+          }
+          catch(err) {
+            console.log("User not logged in.")
+          }
     }
 
 	init();

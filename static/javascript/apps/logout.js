@@ -306,6 +306,13 @@ app.controller('settingsCtrl',  ['$scope','$http', function($scope,$http) {
 			}
 		]
 
+		$scope.enterHandler = function($event) {
+			if ($event.keycode === 13) {
+				$scope.editAccountInformation();
+				console.log("Enter event triggered");
+			}
+		}
+
 		$scope.formPrep = function(target) {
 			$scope.finText = target.bText;
 			$scope.userForm = angular.copy(target.targetForm);
@@ -364,8 +371,25 @@ app.controller('settingsCtrl',  ['$scope','$http', function($scope,$http) {
 				stayLoggedIn:{field:"Stay Logged In?", value:"false", type:"checkbox", key: 6}
 		};
 
-		$scope.submitChange = function() {
-
+		$scope.editAccountInformation = function() {
+			var data = {
+				user:$scope.currentUser
+			}
+			console.log(data)
+			$http({
+	                method: 'post',
+	                url: '/editAccountInformation',
+	                data: data
+	            }).then(function successCallback(response) {
+	                console.log("succ")
+	                $scope.errorArrived = false;
+	            }, function errorCallback(response) {
+	            	if(response.id == 1)
+	            		$scope.errorArrived = true;
+	            		$scope.errorMessage = response.error;
+	            		$scope.currentUser.oldPassword = "";
+	            		$scope.currentUser.new
+	            });
 		}
 
 		$scope.prefillValues = function(){
@@ -376,6 +400,7 @@ app.controller('settingsCtrl',  ['$scope','$http', function($scope,$http) {
 	                data: data
 	            }).then(function successCallback(response) {
 	                $scope.currentUser = response.data
+	                $scope.currnetUser.newPassword="********"
 	            }, function errorCallback(response) {
 	            
 	            });
@@ -401,7 +426,6 @@ app.controller('settingsCtrl',  ['$scope','$http', function($scope,$http) {
 		$scope.pwForm = false
 		$scope.emailForm = false
 		$scope.samePass = false
-		$scope.newPassword="********"
   	};
 
 	init();

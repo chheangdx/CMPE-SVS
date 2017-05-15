@@ -33,12 +33,12 @@ def login(db, username, password, httprequest):
                 print(SVSSessionFactory.getFromSession(httprequest, "username", "BLANK"))
             else:
                 print("Login Error: Incorrect Password.")
-                response = {"login": "FALSE", 
-                            "error": "Incorrect Password." }
+                response = {"login": False, 
+                            "error": "Incorrect password." }
     else:
         print("Login Error: Username does not exist.")
-        response = {"login": "FALSE",
-                    "error:": "Username does not exist."}
+        response = {"login": False
+                    "errorMessage:": "Username does not exist."}
     return response
 
 def createAccount(db, username, password, email, firstName, lastName, isLoggedIn):

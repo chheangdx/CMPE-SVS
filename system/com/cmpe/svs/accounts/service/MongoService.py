@@ -72,7 +72,7 @@ def editAccountInformation(db, username, email, oldPassword, newPassword, firstN
                 accountInformation['lastName'] = lastName
                 db.save(accountInformation)
             else:
-                temporaryPassword =  accountInformation['password']
+                temporaryPassword = accountInformation['password']
                 temporaryPassword = SVSEncryptionFactory.svsUnsign(temporaryPassword, "password", True)
                 temporaryPassword = SVSEncryptionFactory.svsDecrypt(temporaryPassword, "password", True)
                 temporaryPassword = SVSEncryptionFactory.svsUnsign(temporaryPassword, "password", False)
@@ -80,7 +80,7 @@ def editAccountInformation(db, username, email, oldPassword, newPassword, firstN
                 if (oldpassword == temporaryPassword):
                     accountInformation['firstName'] = firstName
                     accountInformation['lastName'] = lastName
-                    
+
                     if(accountInformation['email'] != "BLANK"):
                         accountInformation['email'] = email
 
@@ -96,9 +96,9 @@ def editAccountInformation(db, username, email, oldPassword, newPassword, firstN
                 else:
                     print("Request Error: Incorrect Old Password.")
                     response = {"request": "FALSE", 
-                                "error": "Incorrect Old Password." }
+                                "error": "Incorrect Old Password." , "errorId": 1}
     else:
-        print("Login Error: Username does not exist.")
+        print("Username does not exist.")
         response = {"login": "FALSE",
                     "error:": "Username does not exist."}
     return response

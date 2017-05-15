@@ -68,7 +68,7 @@ app.controller('assistDocPrepAdminCtrl',  ['$scope','$http', '$filter', function
       $scope.status = docObject.status;
       $scope.statusNewChoice = docObject.status
       $scope.selectedNewCategory = docObject.category
-      $scope.getDocument(docObject);
+      $scope.adminGetDocument(docObject);
     }
 
 //get list of documents specific to user
@@ -93,20 +93,21 @@ app.controller('assistDocPrepAdminCtrl',  ['$scope','$http', '$filter', function
    }
 
 //retrieve a document picked from the document list
-   $scope.getDocument = function(docObject){
+   $scope.admingGetDocument = function(docObject){
     var data = {
       'documentName' : docObject.documentName, //Change this later to be selected value from doc
+      'username' : docObject.username,
       'category' : "blankuuuu"
     }
 
     if($scope.status == "Incomplete"){
       $http({
         method : 'post',
-        url : '/saveDocumentName',
+        url : '/adminSaveDocumentName',
         data : data
       }).then(function successCallback(response) {
         $scope.documentReturned = response.data
-        $scope.documentGrab("/getDocument");   
+        $scope.documentGrab("/adminGetDocument");   
 
       }, function errorCallback(response) {
         console.log("HTTP File Response failed: " + response);
@@ -115,11 +116,11 @@ app.controller('assistDocPrepAdminCtrl',  ['$scope','$http', '$filter', function
     else{
       $http({
         method : 'post',
-        url : '/saveAnnotatedDocumentName',
+        url : '/adminSaveAnnotatedDocumentName',
         data : data
       }).then(function successCallback(response) {
       $scope.documentReturned = response.data
-      $scope.documentGrab("/getAnnotatedDocument");   
+      $scope.documentGrab("/adminGetAnnotatedDocument");   
 
       }, function errorCallback(response) {
         console.log("HTTP File Response failed: " + response);

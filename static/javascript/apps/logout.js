@@ -364,7 +364,10 @@ app.controller('settingsCtrl',  ['$scope','$http', function($scope,$http) {
 				stayLoggedIn:{field:"Stay Logged In?", value:"false", type:"checkbox", key: 6}
 		};
 
-		///????
+		$scope.submitChange = function() {
+
+		}
+
 		$scope.prefillValues = function(){
 			var data = {}
 	        $http({
@@ -386,18 +389,19 @@ app.controller('settingsCtrl',  ['$scope','$http', function($scope,$http) {
 			$scope.samePass = ($scope.newPassword == $scope.reconfirmedPass)
 		}
 
-		$scope.passPattern = '/^.+$/';
+		$scope.passPattern = '/^.{8,32}$/';
 		$scope.emailPattern = '/^.+@.+\\..+$/';
 
 	var init = function(){
 		$scope.currentUser = {username:'ass',
 		firstName:'nick',
 		lastName:'carter'}
-		//$scope.prefillValues()
+		$scope.prefillValues()
 		$scope.enableFields = false
 		$scope.pwForm = false
 		$scope.emailForm = false
 		$scope.samePass = false
+		$scope.newPassword="********"
   	};
 
 	init();

@@ -67,6 +67,7 @@
       </div>
    </div>
 </div>
+<!--style = "background-image: url(static/images/landscapeblurred.jpg); background-size: cover; background-repeat: no-repeat; background-position: center center;"-->
 <!-- Delete Category Modal-->
 <div id="removeCategory" class="modal fade" role="dialog">
    <div class="modal-dialog">
@@ -99,10 +100,10 @@
       </div>
    </div>
 </div>
-<section style = "background-image: url(static/images/towerhallblur.jpg); background-size: cover; background-repeat: no-repeat; background-position: center;">
-   <div class="container">
+<section>
+   <div class="container" >
    <div class="row">
-      <div class="col-md-6">
+      <div class="col-md-6" >
          <h2 class="subtitle  wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".3s" style = "text-align: center">Student Files</h2>
          <div style = "float: left; width: 46%;"class="form-group ">
             <label class="control-label requiredField" for="select">
@@ -158,17 +159,21 @@
                </thead>
                <tbody style = "cursor: pointer;">
                   <tr ng-repeat="doc in documentNameList | orderBy : myOrderBy:reverse | filter : searched" >
-                     <th ng-click="setDocument(doc)" style = "font-size: 14px;">{{doc.username}}</th>
-                     <th ng-click="setDocument(doc)" style = "font-size: 14px;">{{doc.date | date:'MM/dd/yyyy'}}</th>
-                     <th ng-click="setDocument(doc)" style = "font-size: 14px;">{{doc.documentName}}</th>
-                     <th ng-click="setDocument(doc)" style = "font-size: 14px;">{{doc.category}}</th>
-                     <th ng-click="setDocument(doc)" style = "font-size: 14px;">{{doc.status}}</th>
-                     <th ng-click="setDocument(doc)" style = "font-size: 14px;"><button ng-click="adminDeleteDocument(doc)">Delete</button></th>
+                     <th ng-click="setDocument(doc)" style = "font-size: 11px;">{{doc.username}}</th>
+                     <th ng-click="setDocument(doc)" style = "font-size: 11px;">{{doc.date | date:'MM/dd/yyyy'}}</th>
+                     <th ng-click="setDocument(doc)" style = "font-size: 11px;">{{doc.documentName}}</th>
+                     <th ng-click="setDocument(doc)" style = "font-size: 11px;">{{doc.category}}</th>
+                     <th ng-click="setDocument(doc)" style = "font-size: 11px;">{{doc.status}}</th>
+                     <th ng-click="setDocument(doc)" style = "font-size: 11px;">
+                     <button ng-click="adminDeleteDocument(doc)" type="button" class="btn btn-default btn-sm">
+                     <span class="glyphicon glyphicon-remove"></span> 
+                     </button>      
+                     </th>
                   </tr>
             </table>
             <!--</div>-->
          </div>
-      </div>
+      </div>    
       <!--End of Column -->
       <div class="col-md-6">
          <div class="map-area">
@@ -230,7 +235,7 @@
             </div>
             <img src = "static/gif/loading 3.gif" style = "z-index: 999; position: absolute; margin-left: auto; margin-right: auto; left: 0; right: 0; margin-top: 20%;">            
             <div ng-hide="docUp" style = "float: right; width: 50%;">
-               <button type="button" class="btn btn-info btn-sm" style = "float: right;" ng-click="nextPage()">
+               <button type="button" class="btn btn-info btn-xs" style = "float: right;" ng-click="nextPage()">
                Next Page <span class="glyphicon glyphicon-menu-right"></span>
                </button>                            
             </div>
@@ -238,6 +243,20 @@
       </div>
    </div>
 </section>
+<!--        <section style = "background-color: #d3d3d3;">
+         <div class="container">
+            <div class="row">
+               <div class="form-group" style = "visibility: hidden;">
+                  <textarea class="form-control" rows="5" id="comment" readonly="checked" ></textarea>
+               </div>
+            </div>
+            <div class="row" style = "visibility: hidden;">
+               <div class="form-group">
+                  <textarea class="form-control" rows="5" id="comment" readonly="checked" ></textarea>
+               </div>
+            </div>
+         </div>
+      </section>  -->
 <footer id="footer" style = "clear: both; width: 100%;">
    <div class="container">
       <div class="col-md-8">

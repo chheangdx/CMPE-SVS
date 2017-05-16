@@ -4,8 +4,8 @@ app.config(function($httpProvider){
     $httpProvider.defaults.headers.post['X-CSRFToken'] = $('meta[name=csrf_token]').attr('content');
 });
 
-app.controller('watsonCtrl',  ['$scope','$http', function($scope,$http) {
-	
+app.controller('watsonCtrl',  ['$scope','$http','$sce', function($scope,$http,$sce) {
+	$scope.trustAsHtml = $sce.trustAsHtml;
 	$scope.query = {queryIn :""};
 
     $scope.ask = function() {

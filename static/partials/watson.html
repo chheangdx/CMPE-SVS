@@ -49,10 +49,10 @@
             <h1  ng-show="resultsGot" id = "results;"class="title wow fadeInDown" data-wow-delay=".3s" style = "text-align: center; color: white;">Results</h1>
             <h2  ng-show="noAnswers" id = "results;"class="title wow fadeInDown" data-wow-delay=".3s" style = "text-align: center; color: white;">No answers found related to your question, sorry!</h1>
          <div class="row" ng-repeat="answer in answers">
-            <div class="form-group">
+            <!--div class="form-group"-->
                <label for="comment" style = "color: white;">Answer {{$index + 1}}:</label>
-               <textarea class="form-control" rows="5" id="comment" readonly="checked" ng-model=answer ></textarea>
-            </div>
+               <div class="form-control" style="display:inline-block; height: 250px; overflow: hidden; overflow-y: scroll" rows="5" id="comment" readonly="checked" ng-bind-html="trustAsHtml(answer)"></div>
+            <!--/div-->
          </div>
       </div>
    </section>

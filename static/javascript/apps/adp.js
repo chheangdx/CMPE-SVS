@@ -164,6 +164,7 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
 
     anno.removeAll();
     if(tarPage > 0 && tarPage <= $scope.pdf.numPages)
+{
         $scope.pdf.getPage(tarPage).then(function getPageHelloWorld(page) {
           $scope.currentPage = tarPage;
           var scale = 1.5;
@@ -223,6 +224,7 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
           
 
     });
+    }
    }
 
     $scope.documentGrab = function(url){

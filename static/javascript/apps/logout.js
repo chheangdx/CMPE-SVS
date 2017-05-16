@@ -6,7 +6,9 @@ app.config(function($httpProvider){
 
 app.controller('settingsCtrl',  ['$scope','$http', function($scope,$http) {
 
-		
+		$scope.passwordPattern = /^.{8,32}$/;
+		$scope.cSamePass = "samePass";
+		$scope.cSameEmail = "sameEmail";
 
 	// {
 	// 			bText : "Register",
@@ -86,13 +88,6 @@ app.controller('settingsCtrl',  ['$scope','$http', function($scope,$http) {
 				user:$scope.currentUser
 			}
 
-			if($scope.currentUser.email.localeCompare($scope.oldEmail) == 0){
-				data.user.email='BLANK'	
-			}
-			if($scope.currentUser.oldPassword == ""){
-	            data.user.oldPassword = 'BLANK'
-			}
-
 
 			console.log(data)
 			$http({
@@ -134,12 +129,20 @@ app.controller('settingsCtrl',  ['$scope','$http', function($scope,$http) {
 			$scope.enableFields = !$scope.enableFields;
 		}
 
-		$scope.pwchecker = function() {
-			if($scope.userInput.reconfirmedPass.$dirty)
-				$scope.samePass = ($scope.reconfirmedPass.localeCompare($scope.currentUser.newPassword) == 0)
+		$scope.checker = function(var1, var2, bool) {
+			console.log(var1);
+			console.log(var2);
+			if(bool == 'samePass') {
+				console.log(bool);
+				$scope.$samePass = (var1.localeCompare(var2) == 0);
+				console.log($scope.$samePass);
+			}
+			if(bool == 'sameEmail') {
+				console.log(bool);
+				$scope.$sameEmail = (var1.localeCompare(var2) == 0);
+				console.log($scope.$sameEmail);
+			}
 		}
-
-		$scope.emailPattern = '/^.+@.+\\..+$/';
 
 	var init = function(){
 		$scope.prefillValues()

@@ -51,7 +51,7 @@
                <label class="control-label requiredField" for="text">
                Enter category name
                </label>
-               <img src = "static/gif/loading 3.gif" style = "z-index: 999; position: absolute; margin-left: auto; margin-right: auto; left: 0; right: 0;">    
+               <img src = "static/gif/loading 3.gif" style = "z-index: 999; position: absolute; margin-left: auto; margin-right: auto; left: 0; right: 0;" ng-show="loadingIconOnModal">    
                <input ng-model="categoryInput" class="form-control" id="text" name="text" type="text"/>
             </div>
             <div class="form-group">
@@ -83,7 +83,7 @@
                <label class="control-label requiredField" for="text" >
                Select category name
                </label>
-               <img src = "static/gif/loading 3.gif" style = "z-index: 999; position: absolute; margin-left: auto; margin-right: auto; left: 0; right: 0;">  
+               <img src = "static/gif/loading 3.gif" style = "z-index: 999; position: absolute; margin-left: auto; margin-right: auto; left: 0; right: 0;" ng-show="loadingIconOnModal">  
                <select ng-model="selectedRemoveCategory" class="select form-control" id="select" name="select">
                   <option ng-repeat="category in categoryList">{{category}}</option>
                </select>
@@ -193,7 +193,7 @@
                   </tr>
                   <tr>
                      <td>Upload Date:</td>
-                     <td>{{doccer.uploadDate | date:'MM/dd/yyyy'}}</td>
+                     <td>{{doccer.date | date:'MM/dd/yyyy'}}</td>
                   </tr>
                   <tr>
                      <td></td>
@@ -207,7 +207,7 @@
                            </select>
                         </div>
                      </td>
-                     <td>Category{{docUp}}:</td>
+                     <td>Category:</td>
                      <td>
                         <div class="form-group ">
                            <select class="select form-control" id="select" name="select" ng-model=selectedNewCategory style = "cursor: pointer;">
@@ -236,7 +236,7 @@
                <span class="glyphicon glyphicon-menu-left"></span> Previous Page
                </button>                            
             </div>
-            <img src = "static/gif/loading 3.gif" style = "z-index: 999; position: absolute; margin-left: auto; margin-right: auto; left: 0; right: 0; margin-top: 20%;">            
+            <img src = "static/gif/loading 3.gif" style = "z-index: 999; position: absolute; margin-left: auto; margin-right: auto; left: 0; right: 0; margin-top: 20%;" ng-show="loadingIconOn">            
             <div ng-hide="docUp" style = "float: right; width: 50%;">
                <button type="button" class="btn btn-info btn-xs" style = "float: right;" ng-click="nextPage()">
                Next Page <span class="glyphicon glyphicon-menu-right"></span>
@@ -246,20 +246,7 @@
       </div>
    </div>
 </section>
-<!--        <section style = "background-color: #d3d3d3;">
-         <div class="container">
-            <div class="row">
-               <div class="form-group" style = "visibility: hidden;">
-                  <textarea class="form-control" rows="5" id="comment" readonly="checked" ></textarea>
-               </div>
-            </div>
-            <div class="row" style = "visibility: hidden;">
-               <div class="form-group">
-                  <textarea class="form-control" rows="5" id="comment" readonly="checked" ></textarea>
-               </div>
-            </div>
-         </div>
-      </section>  -->
+
 <footer id="footer" style = "clear: both; width: 100%;">
    <div class="container">
       <div class="col-md-8">

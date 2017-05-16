@@ -49,7 +49,7 @@ def adminSaveAnnotatedDocument(fs, username, documentName, category, status,  do
             studentEmail = MongoService.getEmail(dbaccounts, documentInformation['username'])
             adminEmail = MongoService.getEmail(dbaccounts, "admin")
             adminEmailPassword = MongoService.getEmailPassword(dbaccounts,"admin")
-            send_mail(subject='SVS NOTIFICATION: YOUR DOCUMENT: "' + documentInformation['documentName'] + '" HAS BEEN REVIEWED', message='Please mark the document as complete if you are satisfied with the review.', from_email= adminEmail, recipient_list=[studentEmail], 
+            send_mail(subject='SVS NOTIFICATION: Your document: "' + documentInformation['documentName'] + '" has been reviewed.', message='Please delete the document if you are satisfied with the review.', from_email= adminEmail, recipient_list=[studentEmail], 
             fail_silently=False, auth_user= adminEmail, auth_password= adminEmailPassword)
          
     else:

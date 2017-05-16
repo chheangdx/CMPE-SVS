@@ -109,7 +109,7 @@
                Enter category name
 
                </label>
-
+                                 <img src = "static/gif/loading 3.gif" style = "z-index: 999; position: absolute; margin-left: auto; margin-right: auto; left: 0; right: 0;">    
                <input ng-model="categoryInput" class="form-control" id="text" name="text" type="text"/>
 
       </div>
@@ -166,10 +166,10 @@
 
           <label class="control-label requiredField" for="text">
 
-               Enter category name
+               Select category name
 
                </label>
-
+                                 <img src = "static/gif/loading 3.gif" style = "z-index: 999; position: absolute; margin-left: auto; margin-right: auto; left: 0; right: 0;">  
                <select ng-model="selectedRemoveCategory" class="select form-control" id="select" name="select">
 
                <option ng-repeat="category in categoryList">{{category}}</option>
@@ -246,7 +246,7 @@
             </button>                  
          </div>         
 
-         <div style = ""class="form-group ">
+         <div style = "clear: both;"class="form-group ">
 
             <label class="control-label requiredField" for="select">
 
@@ -442,6 +442,7 @@
                </button>                            
 
             </div>
+                  <img src = "static/gif/loading 3.gif" style = "z-index: 999; position: absolute; margin-left: auto; margin-right: auto; left: 0; right: 0; margin-top: 20%;">            
 
             <div ng-hide="docUp" style = "float: right; width: 50%;">
 

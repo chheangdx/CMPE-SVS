@@ -113,12 +113,12 @@
                     <span class="glyphicon glyphicon-upload" style = "color: white;">
                    </span>
                 </button>    -->   
-      <section id="contact-section" >
+      <section id="contact-section"  style = "background-image: url(static/images/backgroundblurreddark.jpg); background-size: cover; background-repeat: no-repeat; background-position: center center; height: 700px;">
          <div class="container">
          <div class="row">
             <div class="col-md-6">
                 <div style = "float: left; width: 75%;">
-               <h2 class="subtitle  wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".3s" style = "">Your Document
+               <h2 class="subtitle  wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".3s" style = "color: white;">Your Documents
 
                </h2>
                </div>
@@ -137,16 +137,16 @@
                      <input type="text" ng-model = "searched" id="myInput" placeholder="Search for document" title="Type in a name">
                      <table id="myTable" style = "text-align: center;">
                      <thead>
-						<tr>
-							<th ng-click="orderByMe('documentName')">Document Name</th>
-							<th ng-click="orderByMe('status')">Status</th>
-							<th ng-click="orderByMe('date')">Upload Date</th>
-							<th ng-click="orderByMe('category')">Category</th>
-							<th>Delete</th>
+						<tr style = "background: black;">
+							<th ng-click="orderByMe('documentName')" style = "color: white;">Document Name</th>
+							<th ng-click="orderByMe('status')" style = "color: white;">Status</th>
+							<th ng-click="orderByMe('date')" style = "color: white;">Upload Date</th>
+							<th ng-click="orderByMe('category')" style = "color: white;">Category</th>
+							<th style = "color: white;">Delete</th>
 						</tr>
                   </thead>
                   <tbody>
-						<tr ng-repeat="doc in documentNameList | orderBy : myOrderBy:reverse | filter : searched" ng-click="setDocument(doc)">
+						<tr ng-repeat="doc in documentNameList | orderBy : myOrderBy:reverse | filter : searched" ng-click="setDocument(doc)" style = "color: gray;">
 							<th>{{doc.documentName}}</th>
 							<th>{{doc.status}}</th>
 							<th>{{doc.date | date:'MM/dd/yyyy'}}</th>
@@ -162,7 +162,7 @@
             </div>
             <div class="col-md-6">
                <div class="map-area">
-                  <h2 class="subtitle  wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".3s" style = "text-align: center;">Document Preview</h2>
+                  <h2 class="subtitle  wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".3s" style = "text-align: center; color: white;">Document Preview</h2>
                   <div>
                      <div class="form-group" rows="5" >
                         <canvas id="the-canvas" ng-hide="docUp" style="border:1px  solid black; display:none;"></canvas>
@@ -184,7 +184,8 @@
             </div>
          </div>
       </section>
-      <section id="contact-section">
+      <!--
+      <section id="contact-section" style = "background: #3b5998;">
          <div class="container">
             <div class="row">
                <div class="form-group" style = "visibility: hidden;">
@@ -198,6 +199,7 @@
             </div>
          </div>         
       </section>
+      -->
       
       <footer id="footer">
          <div class="container">

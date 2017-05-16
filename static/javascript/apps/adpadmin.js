@@ -230,9 +230,10 @@ $scope.saveAnnotatedDocument = function(){
                   $scope.docUp = false;
                   $scope.borderStyle = {'border':'1px solid black'}
                   $scope.loadingIconOn = false;
-                  $scope.$apply()
-
-                  anno.makeAnnotatable(document.getElementById('pdfview'));
+                  $scope.$apply();
+                  setTimeout(function () {
+                    anno.makeAnnotatable(document.getElementById('pdfview'));
+                  }, 1000);
                   
                  try{
                       for (var i = 0; i < 30; i++){

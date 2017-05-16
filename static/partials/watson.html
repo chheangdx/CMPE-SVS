@@ -1,29 +1,4 @@
-<!-- <div class="container-fluid">
-	<h1 class="white-text">Watson Q&A</h1>
-	<div style="background-color:white; margin-bottom:25px;">
-		<p>I am Watson, the front line of the Computer Engineering Department Office.</p>
-		<p>I am here to answer any questions you have.</p>
-		<p>My confidence level determines how accurate the results are.</p>
-		<p>Beep Boop Bop.</p>
-	</div>
-	<div class="row">
-		<div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
-			<input name="Question" type="text" placeholder="Please enter your question here!" style="width:100%" ng-model="query.queryIn">
-		</div>
-		<div class="col-xs-offset-3 col-xs-6 col-sm-offset-1 col-sm-3 col-md-offset-1 col-md-3 col-lg-offset-1 col-lg-3">
-			<button ng-click = "ask()" >Ask</button>
-		</div>
-	</div>
-	<div class="divided-section">
-		<span><h2 class="white-text">Results</h2></span>
-	</div>
-	<div ng-repeat="ans in answers" class="row">
-		<div style="height:100px;background-color:white; margin-bottom:25px;overflow:hidden;" class="col-xs-8 col-sm-8 col-md-8 col-lg-8">{{ ans }}
-		</div>
-		<div style="height:100px;background-color:white; margin-bottom:25px;" class="col-xs-offset-1 col-xs-3 col-sm-offset-1 col-sm-3 col-md-offset-1 col-md-3 col-lg-offset-1 col-lg-3">
-		</div>
-	</div>
-</div> -->
+
 <script>
    
    function showResult(){
@@ -71,7 +46,8 @@
    </section>
    <section style = "background: black;">
       <div id = "results" class="container" >
-            <h1  id = "results;"class="title wow fadeInDown" data-wow-delay=".3s" style = "text-align: center; color: white; display:none;">Results</h1>
+            <h1  ng-show="resultsGot" id = "results;"class="title wow fadeInDown" data-wow-delay=".3s" style = "text-align: center; color: white;">Results</h1>
+            <h2  ng-show="noAnswers" id = "results;"class="title wow fadeInDown" data-wow-delay=".3s" style = "text-align: center; color: white;">No answers found related to your question, sorry!</h1>
          <div class="row" ng-repeat="answer in answers">
             <div class="form-group">
                <label for="comment" style = "color: white;">Answer {{$index + 1}}:</label>

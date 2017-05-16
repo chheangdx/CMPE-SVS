@@ -1,35 +1,3 @@
-	<!-- <div>
-	<input type=text ng-model=categoryInput><button ng-click=addCategory()>Add Category</button>
-	<p ng-repeat="category in categoryList">{{category}}<button ng-click="deleteCategory(category)">Delete Category</button></p>
-	
-	</div>
-
-
-	<div>
-	<form name="docInput">
-		<label class="marginRight15">File Upload</label><input type="file" name="files" file-model = "myFile" />
-		<label class="marginRight15">File Name</label><input ng-model=documentName>
-		<label>Category Selection: </label><select ng-model="selectedCategory">
-		<option ng-repeat="category in categoryList">{{category}}</option>
-		</select>
-	</form>	
-
-	<label>Status Selection: </label><select ng-model="statusChoice">
-		<option ng-repeat="choice in choiceList">{{choice}}</option>
-		</select>
-	</div>
-	<button ng-click="previousPage()" ng-disabled="docUp">Previous Page</button>
-	<button ng-click="nextPage()" ng-disabled="docUp">Next Page</button>
-
-	
-	<button ng-click="getDocument()">getDocument</button>
-	<button ng-click="saveAnnotatedDocument()" ng-disabled="docUp">saveAnnotatedDocument</button>
-	<button ng-click="saveDocument()" ng-disabled="!docInput.$valid">saveDocument</button>
-	<button ng-click="getDocumentNameList()">getDocumentNameList</button>
-
-	<canvas id="the-canvas" style="border:1px  solid black; display:none;"></canvas>
-	<img id="pdfview"  style="border:1px  solid black;" data-original="http://stable-identifier/for-image" >
- -->
  <style>.bootstrap-iso .formden_header h2, .bootstrap-iso .formden_header p, .bootstrap-iso form{font-family: Arial, Helvetica, sans-serif; color: black}.bootstrap-iso form button, .bootstrap-iso form button:hover{color: #000000 !important;} .asteriskField{color: red;}</style>
  
 <style>
@@ -119,7 +87,7 @@
                                  </div>
                                  <div class="form-group ">
                                     <label class="control-label">Select File</label>
-                                    <input required type="file" class="file-loading" name="files" file-model = "myFile" />
+                                    <input accept=".pdf"required type="file" class="file-loading" name="files" file-model = "myFile" />
                                     <div id="errorBlock" class="help-block"></div>
                                  </div>
                                  </form>

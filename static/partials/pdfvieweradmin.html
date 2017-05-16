@@ -226,7 +226,8 @@
                   </tr>
                </tbody>
             </table>
-            <div>
+                        <img src = "static/gif/loading 3.gif" style = "z-index: 999; position: absolute; margin-left: auto; margin-right: auto; left: 0; right: 0; margin-top: 20%;" ng-show="loadingIconOn"> 
+            <div> 
                <div class="form-group" rows="5" ng-hide="docUp" style = "background-color:#d3d3d3">
                   <canvas ng-hide="docUp" id="the-canvas" style="border:1px  solid black; display:none;"></canvas>
                   <img id="pdfview"  ng-style="borderStyle" style="width:100%;" data-original="http://stable-identifier/for-image" >
@@ -236,8 +237,7 @@
                <button type="button" class="btn btn-info btn-sm" ng-click="previousPage()"> 
                <span class="glyphicon glyphicon-menu-left"></span> Previous Page
                </button>                            
-            </div>
-            <img src = "static/gif/loading 3.gif" style = "z-index: 999; position: absolute; margin-left: auto; margin-right: auto; left: 0; right: 0; margin-top: 20%;" ng-show="loadingIconOn">            
+            </div>      
             <div ng-hide="docUp" style = "float: right; width: 50%;">
                <button type="button" class="btn btn-info btn-sm" style = "float: right;" ng-click="nextPage()">
                Next Page <span class="glyphicon glyphicon-menu-right"></span>

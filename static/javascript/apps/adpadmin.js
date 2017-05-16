@@ -156,6 +156,7 @@ app.controller('assistDocPrepAdminCtrl',  ['$scope','$http', '$filter', function
 
 //save a document with annotations to backend. admin function
 $scope.saveAnnotatedDocument = function(){
+    $scope.loadingIconOn = true;
     $scope.annotationArray[$scope.currentPage-1] = anno.getAnnotations();
     var data  = {
       'documentName' : $scope.documentName,
@@ -169,8 +170,10 @@ $scope.saveAnnotatedDocument = function(){
           url : '/saveAnnotatedDocument',
           data : data
       }).then(function successCallback(response) {
+        $scope.loadingIconOn = false;
         $scope.adminGetDocumentList();
       }, function errorCallback(response) {
+        $scope.loadingIconOn = false;
         console.log("HTTP saveAnnotatedDocumentName Response failed: " + response);
       });
    }

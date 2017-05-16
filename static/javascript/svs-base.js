@@ -18,7 +18,7 @@ app.config(
                     .state('welcome', {
                         url: '/',
                         templateUrl: '/static/partials/welcome.html',
-                        controller: ''
+                        controller: 'welcomeCtrl'
                     })
       
                     .state('watson', {

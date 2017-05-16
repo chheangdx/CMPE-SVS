@@ -41,13 +41,16 @@
          <div class="col-md-4 col-lg-4 col-xs-12">
             <div class="media wow fadeInDown animated" data-wow-duration="500ms" data-wow-delay="600ms">
                <div class="media-left">
-                  <div class="icon">
+                  <div ng-hide="imadminwelcome" class="icon">
                      <a ui-sref="prescreen" class="ion-ios-keypad-outline" title = "Assistive Document Preparation"></a>
+                  </div>
+                   <div ng-show="imadminwelcome" class="icon">
+                     <a ui-sref="prescreenadmin" class="ion-ios-keypad-outline" title = "Assistive Document Preparation"></a>
                   </div>
                </div>
                <div class="media-body">
                   <h4 class="media-heading">Assistive Document Preparation</h4>
-                  <p>Prescreen your documents!</p>
+                  <p ng-model=prescreenline>Prescreen your documents!</p>
                </div>
             </div>
          </div>

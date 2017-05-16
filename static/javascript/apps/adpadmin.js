@@ -23,6 +23,23 @@ app.controller('assistDocPrepAdminCtrl',  ['$scope','$http', '$filter', function
         }  
     };
 
+    //delete a document from the backend
+    $scope.adminDeleteDocument = function(doc){
+      var data  = {
+      'username' : doc.username,
+      'documentName' : doc.documentName
+    };
+    $http({
+          method : 'post',
+          url : '/adminDeleteDocument',
+          data : data
+      }).then(function successCallback(response) {
+        $scope.getDocumentNameList();
+      }, function errorCallback(response) {
+        console.log("HTTP deleteDocument Response failed: " + response);
+    });        
+   }
+
     $scope.deleteCategory = function(){
       var data = {'category' : $scope.selectedRemoveCategory}
       $http({

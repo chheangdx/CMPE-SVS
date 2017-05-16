@@ -88,7 +88,6 @@ app.controller('settingsCtrl',  ['$scope','$http', function($scope,$http) {
 				user:$scope.currentUser
 			}
 
-
 			console.log(data)
 			$http({
 	                method: 'post',

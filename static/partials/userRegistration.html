@@ -1,0 +1,107 @@
+
+      <section class="global-page-header" style ="margin-bottom: 0px;">
+         <div class="container">
+            <div class="row">
+               <div class="col-md-12">
+                  <div class="block">
+                     <h3 style = "font-size: 40px;">Login/Registration</h3>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
+      <!--/#Page header-->
+      <section id="service-page" class="pages service-page" style = "background: #DFE2DB;">
+         <div class="container">
+         <!--Registration -->
+         <div class="row">
+            <div id = "registration" style="display: none;" class="col-md-6 col-md-offset-3">
+               <div class="panel panel-login">
+                  <div class="panel-heading">
+                     <div class="row">
+                        <div class="col-xs-12">
+                           <span id="register-form-link">Register</span>
+                        </div>
+                     </div>
+                     <hr>
+                  </div>
+                  <div class="panel-body">
+                     <div class="row">
+                        <div class="col-lg-12">
+                           <form name="registerInput" id="register-form" action="" method="post" role="form" >
+                              <div class="form-group">
+                                 <input type="text" name="username" id="username" ng-model="currentRegister.username" tabindex="1" class="form-control" placeholder="Username" value="">
+                              </div>
+                              <div class="form-group">
+                                 <input type="email" name="email" id="email" ng-model="currentRegister.email" tabindex="1" class="form-control" placeholder="Email Address" value="">
+                              </div>
+                              <div class="form-group">
+                                 <input type="text" name="fName" ng-model="currentRegister.firstName" id="fName" tabindex="1" class="form-control" placeholder="First Name" value="">
+                              </div>
+                              <div class="form-group">
+                                 <input type="text" ng-model="currentRegister.lastName" name="lName" id="lName" tabindex="1" class="form-control" placeholder="Last Name" value="">
+                              </div>
+                              <div class="form-group">
+                                 <input type="password" ng-change="pwchecker()" ng-model="currentRegister.password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password">
+                              </div>
+                              <div class="form-group">
+                                 <input type="password" ng-change="pwchecker()" ng-model="confirmPassword" name="confirmpassword" id="confirm-password" tabindex="2" class="form-control" placeholder="Confirm Password">
+                              </div>
+                               <div class="form-group" ng-show="(!samePass && userInput.confirmpassword.$valid && userInput.password.$valid)">* Passwords must match
+                               </div>
+                               </form>
+                              <div class="form-group">
+                                 <div class="row">
+                                    <div class="col-sm-6 col-sm-offset-3">
+                                       <button ng-click="register()" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-register">Register Now</button>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="form-group">
+                                 <div class="row">
+                                    <div class="col-lg-12">
+                                       <div class="text-center">
+                                          <a tabindex="5" class="forgot-password">Have an account?  Click here to Login</a>                                                                
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         </div>
+      </section>
+      <section style = "background: #DFE2DB;">
+         <div class="container">
+            <div class="row">
+               <div class="form-group" style = "visibility: hidden;">
+                  <textarea class="form-control" rows="5" id="comment" readonly="checked" ></textarea>
+               </div>
+            </div>
+            <div class="row" style = "visibility: hidden;">
+               <div class="form-group">
+                  <textarea class="form-control" rows="5" id="comment" readonly="checked" ></textarea>
+               </div>
+            </div>
+         </div>
+      </section>
+    <footer id="footer" style = "">
+         <div class="container">
+            <div class="col-md-8">
+               <p class="copyright" style = "color: white;">Copyright: <span>2017</span> . Design and Developed by SVS Team</p>
+            </div>
+            <div class="col-md-4">
+               <ul >
+                  <li>
+                     <a href = "https://sites.google.com/a/sjsu.edu/smart-visitor-system/home">
+                        <p class = "copyright" style = "color: white;">Visit our page!</p>
+                     </a>
+                  </li>
+               </ul>
+            </div>
+         </div>
+      </footer>      

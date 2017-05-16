@@ -38,7 +38,9 @@
          ================================================== -->
       <section class="global-page-header">
                      <h3 style = "text-align: center; font-size: 30px; margin-top: 0; margin-bottom: 0;">Assistive Document Preparation</h3>
+
       </section>
+
       <!--/#page-header-->
       <!-- Modal -->
       <div class="modal fade" id="myModal" role="dialog">
@@ -53,6 +55,7 @@
                   <div class="bootstrap-iso">
                      <div class="container-fluid">
                         <div class="row">
+                        <img src = "static/gif/loading 3.gif" style = "z-index: 999; position: absolute; margin-left: auto; margin-right: auto; left: 0; right: 0; margin-top: 15%;">                                                      
                            <div class="col-md-6 col-sm-6 col-xs-12">
                               <form method="post" name="docInput">
                                  <div class="form-group ">
@@ -65,12 +68,14 @@
                                     Name of document to upload
                                     </span>
                                  </div>
+
                                  <div class="form-group ">
                                     <label class="control-label requiredField" for="select">
                                     Category Selection
                                    
                                     </label>
                                     <select required class="select form-control" id="select" name="select" ng-model="selectedCategory">
+
 									<option ng-repeat="category in categoryList">{{category}}</option>
 									</select>
                                     <span class="help-block" id="hint_select">
@@ -113,7 +118,7 @@
          <div class="row">
             <div class="col-md-6">
                 <div style = "float: left; width: 75%;">
-               <h2 class="subtitle  wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".3s" style = "">Your Documents
+               <h2 class="subtitle  wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".3s" style = "">Your Document
 
                </h2>
                </div>
@@ -164,6 +169,7 @@
 						<img id="pdfview"  ng-style="borderStyle" style="width:100%;" data-original="http://stable-identifier/for-image" >
                      </div>
                   </div>
+                  <img src = "static/gif/loading 3.gif" style = "z-index: 999; position: absolute; margin-left: auto; margin-right: auto; left: 0; right: 0;">
                   <div ng-hide="docUp" style = "float: left; width: 33.3%;">
                      <button type="button" class="btn btn-default btn-sm" style = "float: left;" ng-click="previousPage()" ng-disabled="docUp">
                      <span class="glyphicon glyphicon-menu-left" ></span> Previous Page

@@ -67,37 +67,29 @@ def editAccountInformation(db, username, email, oldPassword, newPassword, firstN
         accountInformation = db.find_one({"username": username})
         if (accountInformation['username'] == username):
 
-            if(newPassword == "********" and email == "BLANK"):
+            temporaryPassword = accountInformation['password']
+            temporaryPassword = SVSEncryptionFactory.svsUnsign(temporaryPassword, "password", True)
+            temporaryPassword = SVSEncryptionFactory.svsDecrypt(temporaryPassword, "password", True)
+            temporaryPassword = SVSEncryptionFactory.svsUnsign(temporaryPassword, "password", False)
+        
+            if (oldPassword == temporaryPassword):
                 accountInformation['firstName'] = firstName
                 accountInformation['lastName'] = lastName
+                accountInformation['email'] = email
+
+                 if(newPassword != "********"):
+                    newPassword = SVSEncryptionFactory.svsSign(newPassword, "password", False)
+                    newPassword = SVSEncryptionFactory.svsEncrypt(newPassword,"password")
+                    newPassword = SVSEncryptionFactory.svsSign(newPassword, "password", True)
+                    accountInformation['password'] =  newPassword
+
                 db.save(accountInformation)
+                print("Edit Success: Account Information Changed.")
                 response = {"request": "TRUE"}
             else:
-                temporaryPassword = accountInformation['password']
-                temporaryPassword = SVSEncryptionFactory.svsUnsign(temporaryPassword, "password", True)
-                temporaryPassword = SVSEncryptionFactory.svsDecrypt(temporaryPassword, "password", True)
-                temporaryPassword = SVSEncryptionFactory.svsUnsign(temporaryPassword, "password", False)
-                print(temporaryPassword + " " + oldPassword)
-                if (oldPassword == temporaryPassword):
-                    accountInformation['firstName'] = firstName
-                    accountInformation['lastName'] = lastName
-
-                    if(email != "BLANK"):
-                        accountInformation['email'] = email
-
-                    if(newPassword != "********"):
-                        newPassword = SVSEncryptionFactory.svsSign(newPassword, "password", False)
-                        newPassword = SVSEncryptionFactory.svsEncrypt(newPassword,"password")
-                        newPassword = SVSEncryptionFactory.svsSign(newPassword, "password", True)
-                        accountInformation['password'] =  newPassword
-
-                    db.save(accountInformation)
-                    print("Edit Success: Account Information Changed.")
-                    response = {"request": "TRUE"}
-                else:
-                    print("Request Error: Incorrect Old Password.")
-                    response = {"request": "FALSE", 
-                                "error": "Incorrect Old Password." , "errorId": 1}
+                print("Request Error: Incorrect Old Password.")
+                response = {"request": "FALSE", 
+                            "error": "Incorrect Old Password." , "errorId": 1}
     else:
         print("Username does not exist.")
         response = {"login": "FALSE",

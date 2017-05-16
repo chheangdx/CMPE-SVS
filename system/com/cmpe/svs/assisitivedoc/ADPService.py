@@ -45,12 +45,12 @@ def adminSaveAnnotatedDocument(fs, username, documentName, category, status,  do
         documentInformation['category'] = category
         fsfiles.save(documentInformation)
         response = {"request": "TRUE"}
-       # if(documentInformation['status'] == "Reviewed"):
-        #    studentEmail = MongoService.getEmail(dbaccounts, documentInformation['username'])
-         #   adminEmail = MongoService.getEmail(dbaccounts, "admin")
-          #  adminEmailPassword = MongoService.getEmailPassword(dbaccounts,"admin")
-           # send_mail(subject='SVS NOTIFICATION: YOUR DOCUMENT: "' + documentInformation['documentName'] + '" HAS BEEN REVIEWED', message='Please mark the document as complete if you are satisfied with the review.', from_email= adminEmail, recipient_list=[studentEmail], 
-            #fail_silently=False, auth_user= adminEmail, auth_password= adminEmailPassword)
+        if(documentInformation['status'] == "Reviewed"):
+            studentEmail = MongoService.getEmail(dbaccounts, documentInformation['username'])
+            adminEmail = MongoService.getEmail(dbaccounts, "admin")
+            adminEmailPassword = MongoService.getEmailPassword(dbaccounts,"admin")
+            send_mail(subject='SVS NOTIFICATION: YOUR DOCUMENT: "' + documentInformation['documentName'] + '" HAS BEEN REVIEWED', message='Please mark the document as complete if you are satisfied with the review.', from_email= adminEmail, recipient_list=[studentEmail], 
+            fail_silently=False, auth_user= adminEmail, auth_password= adminEmailPassword)
          
     else:
         response = {"request": "FALSE", "error": "Previous document could not be found."}
@@ -133,10 +133,10 @@ def saveDocument(fs, username, documentName, documentData, category):
     documentData = SVSEncryptionFactory.svsEncrypt(documentData, "document")
     documentData = SVSEncryptionFactory.svsSign(documentData, "document", True)
     fs.put(documentData, username = username, documentName = tempDocumentName, status = "Incomplete", date= time.strftime("%m/%d/%Y"), documentAnnotation = " ", category = category)
-    #adminEmail = MongoService.getEmail(dbaccounts, "admin")
-    #adminEmailPassword = MongoService.getEmailPassword(dbaccounts, "admin")
-    #send_mail(subject='SVS NOTIFICATION: A DOCUMENT HAS BEEN UPLOADED: "' + documentName + '" FOR REVIEW', message='Please mark the document as reviewed when finished.', from_email= adminEmail, recipient_list=[adminEmail], 
-    #fail_silently=False, auth_user= adminEmail, auth_password= adminEmailPassword)
+    adminEmail = MongoService.getEmail(dbaccounts, "admin")
+    adminEmailPassword = MongoService.getEmailPassword(dbaccounts, "admin")
+    send_mail(subject='SVS NOTIFICATION: Username: "' + username + '" has uploaded "' + documentName + '" for review.', message='Please mark the document as reviewed when finished.', from_email= adminEmail, recipient_list=[adminEmail], 
+    fail_silently=False, auth_user= adminEmail, auth_password= adminEmailPassword)
     response = {"request": "TRUE"}
     return response
 
@@ -236,8 +236,6 @@ def service(request, data, httprequest):
                  
                 if(request == "adminSaveAnnotatedDocumentName"):
                     response = {"request": "TRUE"}
-                    print("CHECKER BLERRH")
-                    print(response)
                     adminAnnotatedDocumentName = dataRequest['documentName']
                     temporaryUsername = dataRequest['username']
 
@@ -256,9 +254,9 @@ def service(request, data, httprequest):
 
             else:
                 print("YOU ARE NOT AN ADMIN.")
-        
-    print("RESPONSE:")
-    print(response)
+           
+
+      
     return response
 
 

@@ -171,10 +171,11 @@ def getCategory(db, username):
 
 def logout(db, username, httprequest):
     accountInformation = db.find_one({"username": username})
-    accountInformation['isLoggedIn'] = "False"
+    if(username != "admin"):
+        accountInformation['isLoggedIn'] = "False"
+        print("Account Logged In Status: ") + accountInformation['isLoggedIn']
     db.save(accountInformation)
-    print("Account Logged In Status: ") + accountInformation['isLoggedIn']
-    response = {"logout": "TRUE"}
+    response = {"logout": True}
     SVSSessionFactory.deleteSession(httprequest, 'username')
     return response
 

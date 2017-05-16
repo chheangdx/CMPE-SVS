@@ -78,7 +78,8 @@
          </div>
          <div class="modal-body">
             <div class="form-group ">
-               <label class="control-label requiredField" for="text">
+
+               <label class="control-label requiredField" for="text" >
                Select category name
                </label>
                <img src = "static/gif/loading 3.gif" style = "z-index: 999; position: absolute; margin-left: auto; margin-right: auto; left: 0; right: 0;">  
@@ -100,19 +101,20 @@
       </div>
    </div>
 </div>
-<section>
+
+<section style = "background-image: url(static/images/backgroundblurreddark.jpg); background-size: cover; background-repeat: no-repeat; background-position: center center; height: 700px;">
    <div class="container" >
    <div class="row">
       <div class="col-md-6" >
-         <h2 class="subtitle  wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".3s" style = "text-align: center">Student Files</h2>
+         <h2 class="subtitle  wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".3s" style = "text-align: center; color: white;">Student Files</h2>
          <div style = "float: left; width: 46%;"class="form-group ">
-            <label class="control-label requiredField" for="select">
+            <label class="control-label requiredField" for="select" style = "color: white;">
             Category Selection
             </label>
             <select ng-model="selectedCategory" class="select form-control" id="select" name="select">
                <option ng-repeat="category in categoryList">{{category}}</option>
             </select>
-            <span class="help-block" id="hint_select">
+            <span class="help-block" id="hint_select" style = "color: white;">
             Choose a Category to Filter Table
             </span>
          </div>
@@ -133,13 +135,13 @@
             </button>                  
          </div>
          <div style = "clear: both;"class="form-group ">
-            <label class="control-label requiredField" for="select">
+            <label class="control-label requiredField" for="select" style = "color: white;">
             Status
             </label>
             <select ng-model="statusChoice" class="select form-control" id="select" name="select">
                <option ng-repeat="choice in choiceList">{{choice}}</option>
             </select>
-            <span class="help-block" id="hint_select">
+            <span class="help-block" id="hint_select" style = "color: white;">
             Choose a Status to Filter Table
             </span>
          </div>
@@ -148,20 +150,20 @@
             <input type="text" ng-model="searched" id="myInput" placeholder="Search for document" title="Type in a name">
             <table id="myTable" style = "text-align: center; width: 100%;">
                <thead style = "cursor: pointer;">
-                  <tr>
-                     <th ng-click="orderByMe('username')" >Username</th>
-                     <th ng-click="orderByMe('documentName')">Document Name</th>
-                     <th ng-click="orderByMe('date')">Date Submitted</th>
-                     <th ng-click="orderByMe('category')">Category</th>
-                     <th ng-click="orderByMe('status')">Status</th>
+                  <tr style = "background: black; text-align: center;">
+                     <th ng-click="orderByMe('username')" style = "color: white; font-size: 18px;" >Username</th>
+                     <th ng-click="orderByMe('documentName')" style = "color: white; font-size: 18px;">Doc. Name</th>
+                     <th ng-click="orderByMe('date')" style = "color: white; font-size: 18px;">Date Submitted</th>
+                     <th ng-click="orderByMe('category')" style = "color: white; font-size: 18px;">Category</th>
+                     <th ng-click="orderByMe('status')" style = "color: white; font-size: 18px;">Status</th>
                      <th> </th>
                   </tr>
                </thead>
-               <tbody style = "cursor: pointer;">
+               <tbody style = "cursor: pointer; background: gray;">
                   <tr ng-repeat="doc in documentNameList | orderBy : myOrderBy:reverse | filter : searched" >
                      <th ng-click="setDocument(doc)" style = "font-size: 11px;">{{doc.username}}</th>
-                     <th ng-click="setDocument(doc)" style = "font-size: 11px;">{{doc.date | date:'MM/dd/yyyy'}}</th>
                      <th ng-click="setDocument(doc)" style = "font-size: 11px;">{{doc.documentName}}</th>
+                     <th ng-click="setDocument(doc)" style = "font-size: 11px;">{{doc.date | date:'MM/dd/yyyy'}}</th>                     
                      <th ng-click="setDocument(doc)" style = "font-size: 11px;">{{doc.category}}</th>
                      <th ng-click="setDocument(doc)" style = "font-size: 11px;">{{doc.status}}</th>
                      <th ng-click="setDocument(doc)" style = "font-size: 11px;">
@@ -177,7 +179,7 @@
       <!--End of Column -->
       <div class="col-md-6">
          <div class="map-area">
-            <h2 class="subtitle  wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".3s" style = "text-align: center;">Document Preview</h2>
+            <h2 class="subtitle  wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".3s" style = "text-align: center; color: white;">Document Preview</h2>
             <table  ng-hide="docUp" border="0" class="table">
                <tbody>
                   <tr>

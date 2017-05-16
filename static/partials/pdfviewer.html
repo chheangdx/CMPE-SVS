@@ -136,20 +136,22 @@
                      <!--<div class="container">-->
                      <input type="text" ng-model = "searched" id="myInput" placeholder="Search for document" title="Type in a name">
                      <table id="myTable" style = "text-align: center;">
-                     <thead>
+                     <thead style = "cursor: pointer;">
 						<tr style = "background: black;">
 							<th ng-click="orderByMe('documentName')" style = "color: white;">Document Name</th>
 							<th ng-click="orderByMe('status')" style = "color: white;">Status</th>
 							<th ng-click="orderByMe('date')" style = "color: white;">Upload Date</th>
 							<th ng-click="orderByMe('category')" style = "color: white;">Category</th>
+                     <th></th>
 						</tr>
                   </thead>
                   <tbody style = "background: #D3D3D3;">
 						<tr ng-repeat="doc in documentNameList | orderBy : myOrderBy:reverse | filter : searched" ng-click="setDocument(doc)">
-							<th style = "font-size: 11px;">{{doc.documentName}}</th>
-							<th style = "font-size: 11px;">{{doc.status}}</th>
-							<th style = "font-size: 11px;">{{doc.date | date:'MM/dd/yyyy'}}</th>
-							<th style = "font-size: 11px;">{{doc.category}}</th>
+							<th style = "font-size: 11px; cursor: pointer;" >{{doc.documentName}}</th>
+							<th style = "font-size: 11px; cursor: pointer;">{{doc.status}}</th>
+							<th style = "font-size: 11px; cursor: pointer;">{{doc.date | date:'MM/dd/yyyy'}}</th>
+							<th style = "font-size: 11px; cursor: pointer;">{{doc.category}}</th>
+
 							<th>
                                <button ng-click="adminDeleteDocument(doc)" type="button" class="btn btn-default btn-xs">
                      <span class="glyphicon glyphicon-remove"></span> 

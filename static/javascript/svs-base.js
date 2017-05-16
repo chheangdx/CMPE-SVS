@@ -53,8 +53,14 @@ app.config(
 
                     .state('login', {
                         url: '/login',
-                        templateUrl: '/static/partials/login.html',
+                        templateUrl: '/static/partials/userLogin.html',
                         controller: 'loginCtrl',
+                    })
+
+                    .state('register', {
+                        url: '/register',
+                        templateUrl: '/static/partials/userRegistration.html',
+                        controller: 'registerCtrl',
                     })
       
                 $urlRouterProvider.otherwise('/');
@@ -62,6 +68,10 @@ app.config(
 
 
 app.controller('CmpeSVSCtrl',  ['$scope','$http', function($scope,$http) {
+    $scope.$on('$stateChangeSuccess', function() {
+        document.body.scrollTop = document.documentElement.scrollTop = 0;
+    }); 
+
 	var init = function(){
 		$scope.loggedIn()
 	}

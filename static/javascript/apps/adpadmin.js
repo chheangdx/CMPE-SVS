@@ -34,7 +34,7 @@ app.controller('assistDocPrepAdminCtrl',  ['$scope','$http', '$filter', function
           url : '/adminDeleteDocument',
           data : data
       }).then(function successCallback(response) {
-        $scope.getDocumentNameList();
+        $scope.adminGetDocumentList();
       }, function errorCallback(response) {
         console.log("HTTP deleteDocument Response failed: " + response);
     });        
@@ -197,9 +197,11 @@ $scope.saveAnnotatedDocument = function(){
           };
           var task = page.render(renderContext);
           task.promise.then(function(){
+                $scope.docUp = false;
                 var canvas = document.getElementById('the-canvas');
                 var image = document.getElementById('pdfview');
                 image.onload = function() {
+
                   anno.makeAnnotatable(document.getElementById('pdfview'));
 
                   //adding previous annotation block
@@ -250,7 +252,7 @@ $scope.saveAnnotatedDocument = function(){
               $scope.annotationsGrab();
             }
 
-            $scope.docUp = false;
+            
       }); 
     }
 

@@ -50,11 +50,11 @@
                                     </tr>
                                     <tr>
                                        <td>Email</td>
-                                       <td><input type='email' class = "form-control" name="email" ng-model=currentUser.email ng-disabled = !enableFields></td>
+                                       <td><input type='email' class = "form-control" name="email" ng-model=currentUser.email ng-disabled = !enableFields ng-pattern="emailPattern"></td>
                                     </tr>
                                     <tr>
                                        <td>Password</td>
-                                       <td><input type='password' ng-model-options="{ updateOn: 'default blur', debounce: { default: 500, blur: 0 } }" class = "form-control" ng-model="currentUser.newPassword" name="nuPassword" ng-disabled = !enableFields ng-change="pwchecker()" ></td>
+                                       <td><input type='password' ng-model-options="{ updateOn: 'default blur', debounce: { default: 500, blur: 0 } }" class = "form-control" ng-model="currentUser.newPassword" name="nuPassword" ng-disabled = !enableFields ng-pattern="passwordPattern"></td>
                                     </tr>
                                  </tbody>
                               </table>
@@ -62,23 +62,31 @@
                                  <tbody>
                                     <tr ng-show="((userInput.nuPassword.$dirty) || userInput.email.$dirty)">
                                        <td>Current Password</td>
-                                       <td><input type='password' class = "form-control" name="confirmpass" ng-model="currentUser.oldPassword" ></td>
+                                       <td><input type='password' class = "form-control" name="confirmpass" ng-model="currentUser.oldPassword" ng-pattern="passwordPattern"></td>
                                     </tr>
                                     <tr ng-show="userInput.nuPassword.$dirty">
                                        <td>Re-enter New Password</td>
-                                       <td><input type='password' ng-model-options="{ updateOn: 'default blur', debounce: { default: 500, blur: 0 } }" class = "form-control" name="reconfirmedPass" ng-change="pwchecker()" ng-model=reconfirmedPass></td>
+                                       <td><input type='password' ng-model-options="{ updateOn: 'default blur', debounce: { default: 500, blur: 0 } }" class = "form-control" name="reconfirmedPass" ng-model="currentUser.reconfirmedPass" ng-pattern="passwordPattern"></td>
                                        
                                     </tr>
-                                    <tr><td ng-show="(!samePass && userInput.reconfirmedPass.$valid && userInput.nuPassword.$valid && userInput.reconfirmedPass.$dirty)">* Passwords must match</td></tr>
+                                    <tr><td ng-show="!(currentUser.newPassword == currentUser.reconfirmedPass) && userInput.reconfirmedPass.$dirty">* Passwords must match</td></tr>
                                     <tr ng-show="userInput.email.$dirty"><td>Confirm Email</td>
-                                       <td><input class = "form-control" name="password" value="" ></td></tr>
-                                 
-                              <tr><td><button class="btn btn-info btn-sm" name="submit" type="submit" autofocus ng-keydown="enterHandler($event)" ng-click="editAccountInformation()">
+                                       <td><input type='email' class = "form-control" name="confirmEmail" ng-model=currentUser.confirmEmail ></td></tr>
+                                    <tr><td ng-show="(!(currentUser.email == currentUser.confirmEmail)) && userInput.confirmEmail.$dirty">* Emails must match</td></tr>
+                              <tr><td><button class="btn btn-info btn-sm" name="submit" type="submit" autofocus ng-keydown="enterHandler($event)" ng-click="editAccountInformation()"
+                              	ng-disabled="(userInput.nuPassword.$dirty && userInput.nuPassword.$invalid)
+                              		|| (userInput.confirmpass.$dirty && userInput.confirmpass.$invalid)
+                              		|| (userInput.reconfirmedPass.$dirty && userInput.reconfirmedPass.$invalid) 
+                              		|| (userInput.email.$dirty && userInput.email.$invalid) 
+                              		|| (userInput.confirmEmail.$dirty && userInput.confirmEmail.$invalid)">
                               Submit <span class="glyphicon glyphicon-circle-arrow-right" style = "color: white;"></span>
                               </button></td></tr>
+                              <tr><td ng-show="(userInput.nuPassword.$dirty && userInput.nuPassword.$invalid)
+                              		|| (userInput.confirmpass.$dirty && userInput.confirmpass.$invalid)
+                              		|| (userInput.reconfirmedPass.$dirty && userInput.reconfirmedPass.$invalid) ">* Passwords are 8 to 32 characters</td></tr>
                               </tbody>
                               </table> 
-                              </form>   
+                              </form>
                            </div>
                         </div>
                      </div>

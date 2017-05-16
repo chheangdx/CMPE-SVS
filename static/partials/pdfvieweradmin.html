@@ -218,47 +218,33 @@
 
          <h2 class="subtitle  wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".3s" style = "text-align: center">Student Files</h2>
 
-         <div style = "width: 47%;"class="form-group ">
-
-            <label class="control-label requiredField" for="select">
-
+         <div style = "float: left; width: 46%;"class="form-group ">
+             <label class="control-label requiredField" for="select">
             Category Selection
-
             </label>
-
             <select ng-model="selectedCategory" class="select form-control" id="select" name="select">
-
                <option ng-repeat="category in categoryList">{{category}}</option>
-
             </select>
-
             <span class="help-block" id="hint_select">
-
             Choose a Category to Filter Table
-
             </span>
-
          </div>
-
-            <div style = "position: absolute; top: 10.5%; right: 30%;">
-
-              <button type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#addCategory">
-
-                <span class="glyphicon glyphicon-plus"></span> Add Category
-
-              </button>                  
-
-            </div>
-
-            <div style = "position: absolute; top: 10.5%; right: 2%;">
-
-              <button type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#removeCategory">
-
-                <span class="glyphicon glyphicon-minus"></span> Remove Category
-
-              </button>                  
-
-            </div>          
+         <div style = "float: left; width: 25%; margin-left: 10px;">
+             <label style = "visibility : hidden;"class="control-label requiredField" for="select">
+            Category Selection
+            </label>         
+            <button type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#addCategory">
+            <span class="glyphicon glyphicon-plus"></span> Add Category
+            </button>                  
+         </div>
+         <div style = "float: left; width: 25%;">
+             <label style = "visibility : hidden;"class="control-label requiredField" for="select">
+            Category Selection
+            </label>                  
+            <button type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#removeCategory">
+            <span class="glyphicon glyphicon-minus"></span> Remove Category
+            </button>                  
+         </div>         
 
          <div style = ""class="form-group ">
 

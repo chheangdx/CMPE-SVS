@@ -193,7 +193,7 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
 
                    $scope.docUp = false;
                   $scope.borderStyle = {'border':'1px solid black'}
-
+                  $scope.$apply()
                   try{
                       for (var i = 0; i < 30; i++){
                         if (typeof $scope.annotationArray[curpage][i] != 'undefined'){

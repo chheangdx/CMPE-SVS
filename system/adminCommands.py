@@ -99,8 +99,8 @@ def adminSaveAnnotatedDocumentName(request):
 	data = json.loads(body_unicode)
 	print("ADMIN SAVE DOCUMENT NAME REQUEST: ")
 	print(data)
-	response = ADPService.service("adminSaveAnotatedDocumentName", data, httprequest)
-	print("Returning data for adminSaveDocumentName command:")
+	response = ADPService.service("adminSaveAnnotatedDocumentName", data, httprequest)
+	print("Returning data for adminSaveAnnotatedDocumentName command:")
 	print(response)
 	return HttpResponse(json.dumps(response))
 

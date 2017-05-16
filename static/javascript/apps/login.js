@@ -24,10 +24,11 @@ app.controller('loginCtrl',  ['$scope','$http', function($scope,$http) {
                  data: data
              }).then(function successCallback(response) {
                  //successfully got a response
-                 if((response.data.createAccount.localeCompare("'FALSE'") == 0))
-                 $scope.username = $scope.currentRegister.username
-                 $scope.password = $scope.currentRegister.password
-                 $scope.loginUser();
+                 if(response.data.createAccount){
+                     $scope.username = $scope.currentRegister.username
+                     $scope.password = $scope.currentRegister.password
+                     $scope.loginUser();
+                 }
              }, function errorCallback(response) {
                  //usually happens when an exception is thrown
                  console.error(response);

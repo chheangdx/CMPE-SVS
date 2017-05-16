@@ -67,7 +67,7 @@ def both(request):
     	ranker_id = str(ranker['ranker_id'].decode('utf-8'))
     	query = '*' + request + '*'
     	results = pysolr_client.search(q = query, search_handler = '/fcselect', kwargs = {'ranker_id': ranker_id})
-	print('{0} documents found'.format(len(results.docs)))
+    print('{0} documents found'.format(len(results.docs)))
 	   
    
     

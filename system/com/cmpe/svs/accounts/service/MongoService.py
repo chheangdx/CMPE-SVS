@@ -34,7 +34,7 @@ def login(db, username, password, httprequest):
             else:
                 print("Login Error: Incorrect Password.")
                 response = {"login": False, 
-                            "error": "Incorrect password." }
+                            "errorMessage": "Incorrect password." }
     else:
         print("Login Error: Username does not exist.")
         response = {"login": False,

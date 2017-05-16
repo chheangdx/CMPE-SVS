@@ -6,26 +6,9 @@ app.config(function($httpProvider){
 
 app.controller('loginCtrl',  ['$scope','$http', function($scope,$http) {
 
-    $scope.register = function() {
-      var data = {user: $scope.currentRegister};
-       $http({
-                 method: 'post',
-                 url: '/createAccount',
-                 data: data
-             }).then(function successCallback(response) {
-                 //successfully got a response
-                 if(response.data.createAccount){
-                     $scope.username = $scope.currentRegister.username
-                     $scope.password = $scope.currentRegister.password
-                     $scope.loginUser();
-                 }
-             }, function errorCallback(response) {
-                 //usually happens when an exception is thrown
-                 console.error(response);
-             });
-    }
 
     $scope.loginUser = function() {
+        $scope.loadingIconOn = true;
         var data = {user:{
             username: $scope.username,
             password: $scope.password
@@ -35,6 +18,7 @@ app.controller('loginCtrl',  ['$scope','$http', function($scope,$http) {
                     data: data,
                     url:'/loginUser'
                 }).then(function successCallback(response) {
+                    $scope.loadingIconOn = false;
                   if(response.data.login){
                     $scope.errorArrive = false;
                     window.location.replace("/")
@@ -44,9 +28,11 @@ app.controller('loginCtrl',  ['$scope','$http', function($scope,$http) {
                     $scope.errorMessage = response.data.errorMessage
                   }
                 }, function errorCallback(response) {
+                    $scope.loadingIconOn = false;
                     console.error(response);
                 });
     }   
+
     $scope.enterHandler = function($event) {
       if ($event.keycode === 13) {
         $scope.loginUser();
@@ -59,6 +45,7 @@ app.controller('loginCtrl',  ['$scope','$http', function($scope,$http) {
     }
 
 	var init = function(){
+        $scope.loadingIconOn = false;
 		$scope.errorArrive = false;
   	};
 

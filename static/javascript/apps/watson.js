@@ -11,35 +11,43 @@ app.controller('watsonCtrl',  ['$scope','$http','$sce', function($scope,$http,$s
     $scope.ask = function() {
 		console.log("Button was clicked, " + $scope.query.queryIn);
 		var data = {'question':$scope.query.queryIn};
-		$scope.status = "loading";
+		$scope.loadingIconOn = true;
 		$http({
 			method: 'post',
 			url: '/watsonq',
 			data: data
 			}).then(function successCallback(response) {
 				//successfully got a response
-				console.log(response);
-				if(typeof response.data == "undefined"){
+				$scope.loadingIconOn = false;
+				console.log(response.data[0]);
+				if(typeof response.data[0] == "undefined"){
 					$scope.resultsGot = false;
 					$scope.noAnswers = true;
 				}
 				else{
 					$scope.resultsGot = true;
 					$scope.answers = response.data;
-					$scope.status = "idle";
 					$scope.noAnswers = false;
 				}
 				
 			}, function errorCallback(response) {
 				//usually happens when an exception is thrown
+				$scope.loadingIconOn = false;
 				console.error(response);
-				$scope.status = "failed";
 			});
 	};
+
+	$scope.enterHandler = function($event) {
+      if ($event.keycode === 13) {
+        $scope.ask();
+        console.log("Enter event triggered");
+      }
+    }
 
 	var init = function() {
 		$scope.resultsGot = false;
 		$scope.noAnswers = false;
+		$scope.loadingIconOn = false;
 	}
 
 	init()

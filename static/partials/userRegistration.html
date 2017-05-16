@@ -23,23 +23,23 @@
                         <div class="col-lg-12">
                            <form name="registerInput" id="register-form" action="" method="post" role="form" >
                               <div class="form-group">
-                                 <input type="text" name="username" id="username" ng-model="currentRegister.username" tabindex="1" class="form-control" placeholder="Username" value="">
+                                 <input ng-keydown="enterHandler($event)" type="text" name="username" id="username" ng-model="currentRegister.username" tabindex="1" class="form-control" placeholder="Username" value="">
                               </div>
                               <div class="form-group">
-                                 <input type="email" name="email" id="email" ng-model="currentRegister.email" tabindex="1" class="form-control" placeholder="Email Address" value="">
+                                 <input ng-keydown="enterHandler($event)" type="email" name="email" id="email" ng-model="currentRegister.email" tabindex="1" class="form-control" placeholder="Email Address" value="">
                               </div>
-                        <img src = "static/gif/loading 3.gif" style = "z-index: 999; position: absolute; margin-left: auto; margin-right: auto; left: 0; right: 0;">                                                                           
+                        <img src = "static/gif/loading 3.gif" style = "z-index: 999; position: absolute; margin-left: auto; margin-right: auto; left: 0; right: 0;" ng-show="loadingIconOn">                                                                           
                               <div class="form-group">
-                                 <input type="text" name="fName" ng-model="currentRegister.firstName" id="fName" tabindex="1" class="form-control" placeholder="First Name" value="">
-                              </div>
-                              <div class="form-group">
-                                 <input type="text" ng-model="currentRegister.lastName" name="lName" id="lName" tabindex="1" class="form-control" placeholder="Last Name" value="">
+                                 <input ng-keydown="enterHandler($event)" type="text" name="fName" ng-model="currentRegister.firstName" id="fName" tabindex="1" class="form-control" placeholder="First Name" value="">
                               </div>
                               <div class="form-group">
-                                 <input type="password" ng-change="pwchecker()" ng-model="currentRegister.password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password">
+                                 <input ng-keydown="enterHandler($event)" type="text" ng-model="currentRegister.lastName" name="lName" id="lName" tabindex="1" class="form-control" placeholder="Last Name" value="">
                               </div>
                               <div class="form-group">
-                                 <input type="password" ng-change="pwchecker()" ng-model="confirmPassword" name="confirmpassword" id="confirm-password" tabindex="2" class="form-control" placeholder="Confirm Password">
+                                 <input ng-keydown="enterHandler($event)" type="password" ng-change="pwchecker()" ng-model="currentRegister.password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password">
+                              </div>
+                              <div class="form-group">
+                                 <input type="password" ng-change="pwchecker()" ng-modeng-keydown="enterHandler($event)" irm-password" tabindex="2" class="form-control" placeholder="Confirm Password">
                               </div>
                                <div class="form-group" ng-show="(!samePass && userInput.confirmpassword.$valid && userInput.password.$valid)">* Passwords must match
                                </div>
@@ -47,7 +47,7 @@
                               <div class="form-group">
                                  <div class="row">
                                     <div class="col-sm-6 col-sm-offset-3">
-                                       <button ng-click="register()" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-register">Register Now</button>
+                                       <button ng-keydown="enterHandler($event)" ng-click="register()" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-register">Register Now</button>
                                     </div>
                                  </div>
                               </div>

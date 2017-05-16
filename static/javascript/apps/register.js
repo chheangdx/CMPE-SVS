@@ -7,6 +7,7 @@ app.config(function($httpProvider){
 app.controller('registerCtrl',  ['$scope','$http', function($scope,$http) {
 
     $scope.register = function() {
+        $scope.loadingIconOn = true;
       var data = {user: $scope.currentRegister};
        $http({
                  method: 'post',
@@ -20,6 +21,7 @@ app.controller('registerCtrl',  ['$scope','$http', function($scope,$http) {
                      $scope.loginUser();
                  }
              }, function errorCallback(response) {
+                $scope.loadingIconOn = false;
                  //usually happens when an exception is thrown
                  console.error(response);
              });
@@ -35,6 +37,7 @@ app.controller('registerCtrl',  ['$scope','$http', function($scope,$http) {
                     data: data,
                     url:'/loginUser'
                 }).then(function successCallback(response) {
+                    $scope.loadingIconOn = false;
                   if(response.data.login){
                     $scope.errorArrive = false;
                     window.location.replace("/")
@@ -44,12 +47,13 @@ app.controller('registerCtrl',  ['$scope','$http', function($scope,$http) {
                     $scope.errorMessage = response.data.errorMessage
                   }
                 }, function errorCallback(response) {
+                    $scope.loadingIconOn = false;
                     console.error(response);
                 });
     }   
     $scope.enterHandler = function($event) {
       if ($event.keycode === 13) {
-        $scope.loginUser();
+        $scope.register();
         console.log("Enter event triggered");
       }
     }
@@ -59,6 +63,7 @@ app.controller('registerCtrl',  ['$scope','$http', function($scope,$http) {
     }
 
 	var init = function(){
+        $scope.loadingIconOn = false;
 		$scope.errorArrive = false;
   	};
 

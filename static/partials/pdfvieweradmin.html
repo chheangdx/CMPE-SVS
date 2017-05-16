@@ -109,7 +109,7 @@
                Enter category name
 
                </label>
-                                 <img src = "static/gif/loading 3.gif" style = "z-index: 999; position: absolute; margin-left: auto; margin-right: auto; left: 0; right: 0;">    
+                                 <img src = "static/gif/loading 3.gif" style = "z-index: 999; position: absolute; margin-left: auto; margin-right: auto; left: 0; right: 0;" ng-show="loadingIconOnModal">    
                <input ng-model="categoryInput" class="form-control" id="text" name="text" type="text"/>
 
       </div>
@@ -169,7 +169,7 @@
                Select category name
 
                </label>
-                                 <img src = "static/gif/loading 3.gif" style = "z-index: 999; position: absolute; margin-left: auto; margin-right: auto; left: 0; right: 0;">  
+                                 <img src = "static/gif/loading 3.gif" style = "z-index: 999; position: absolute; margin-left: auto; margin-right: auto; left: 0; right: 0;" ng-show="loadingIconOnModal">  
                <select ng-model="selectedRemoveCategory" class="select form-control" id="select" name="select">
 
                <option ng-repeat="category in categoryList">{{category}}</option>
@@ -442,7 +442,7 @@
                </button>                            
 
             </div>
-                  <img src = "static/gif/loading 3.gif" style = "z-index: 999; position: absolute; margin-left: auto; margin-right: auto; left: 0; right: 0; margin-top: 20%;">            
+                  <img src = "static/gif/loading 3.gif" style = "z-index: 999; position: absolute; margin-left: auto; margin-right: auto; left: 0; right: 0; margin-top: 20%;" ng-show="loadingIconOn">            
 
             <div ng-hide="docUp" style = "float: right; width: 50%;">
 

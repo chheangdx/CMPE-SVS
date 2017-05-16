@@ -7,7 +7,7 @@
       <!--/#Page header-->
 
       <section style ="margin-bottom: 0px; background: #DFE2DB; padding-top: 40px; padding-bottom: 20px;">
-                                             <img src = "static/gif/loading 3.gif" style = "z-index: 999; position: absolute; margin-left: auto; margin-right: auto; left: 0; right: 0; margin-top: 11%;">
+                                             <img src = "static/gif/loading 3.gif" style = "z-index: 999; position: absolute; margin-left: auto; margin-right: auto; left: 0; right: 0; margin-top: 11%;" ng-show="loadingIconOn">
          <div class="container">
 
             <div class="row">
@@ -144,7 +144,7 @@
 
                      <div class="panel-footer">
 
-                        <a style = "position: absolute; top: 5px; right: 20px;" ng-click="edit()" data-original-title="Edit this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i></a>
+                        <a autofocus style = "position: absolute; top: 5px; right: 20px;" ng-click="edit()" ng-keydown="enterHandler($event)" data-original-title="Edit this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i></a>
 
                      </div>
 
@@ -158,33 +158,6 @@
 
       </section>
 
-<!--       <section>
-
-         <div class="container">
-
-            <div class="row">
-
-               <div class="form-group" style = "visibility: hidden;">
-
-                  <textarea class="form-control" rows="5" id="comment" readonly="checked" ></textarea>
-
-               </div>
-
-            </div>
-
-            <div class="row" style = "visibility: hidden;">
-
-               <div class="form-group">
-
-                  <textarea class="form-control" rows="5" id="comment" readonly="checked" ></textarea>
-
-               </div>
-
-            </div>
-
-         </div>
-
-      </section> -->
 
     <footer id="footer" style = "">
 

@@ -4,7 +4,7 @@ app.config(function($httpProvider){
     $httpProvider.defaults.headers.post['X-CSRFToken'] = $('meta[name=csrf_token]').attr('content');
 });
 
-app.controller('loginCtrl',  ['$scope','$http', function($scope,$http) {
+app.controller('registerCtrl',  ['$scope','$http', function($scope,$http) {
 
     $scope.register = function() {
       var data = {user: $scope.currentRegister};

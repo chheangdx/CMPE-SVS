@@ -45,12 +45,12 @@ def adminSaveAnnotatedDocument(fs, username, documentName, category, status,  do
         documentInformation['category'] = category
         fsfiles.save(documentInformation)
         response = {"request": "TRUE"}
-       # if(documentInformation['status'] == "Reviewed"):
-        #    studentEmail = MongoService.getEmail(dbaccounts, documentInformation['username'])
-         #   adminEmail = MongoService.getEmail(dbaccounts, "admin")
-          #  adminEmailPassword = MongoService.getEmailPassword(dbaccounts,"admin")
-           # send_mail(subject='SVS NOTIFICATION: YOUR DOCUMENT: "' + documentInformation['documentName'] + '" HAS BEEN REVIEWED', message='Please mark the document as complete if you are satisfied with the review.', from_email= adminEmail, recipient_list=[studentEmail], 
-            #fail_silently=False, auth_user= adminEmail, auth_password= adminEmailPassword)
+        if(documentInformation['status'] == "Reviewed"):
+            studentEmail = MongoService.getEmail(dbaccounts, documentInformation['username'])
+            adminEmail = MongoService.getEmail(dbaccounts, "admin")
+            adminEmailPassword = MongoService.getEmailPassword(dbaccounts,"admin")
+            send_mail(subject='SVS NOTIFICATION: Your document: "' + documentInformation['documentName'] + '" has been reviewed.', message='Please delete the document if you are satisfied with the review.', from_email= adminEmail, recipient_list=[studentEmail], 
+            fail_silently=False, auth_user= adminEmail, auth_password= adminEmailPassword)
          
     else:
         response = {"request": "FALSE", "error": "Previous document could not be found."}
@@ -133,10 +133,10 @@ def saveDocument(fs, username, documentName, documentData, category):
     documentData = SVSEncryptionFactory.svsEncrypt(documentData, "document")
     documentData = SVSEncryptionFactory.svsSign(documentData, "document", True)
     fs.put(documentData, username = username, documentName = tempDocumentName, status = "Incomplete", date= time.strftime("%m/%d/%Y"), documentAnnotation = " ", category = category)
-    #adminEmail = MongoService.getEmail(dbaccounts, "admin")
-    #adminEmailPassword = MongoService.getEmailPassword(dbaccounts, "admin")
-    #send_mail(subject='SVS NOTIFICATION: A DOCUMENT HAS BEEN UPLOADED: "' + documentName + '" FOR REVIEW', message='Please mark the document as reviewed when finished.', from_email= adminEmail, recipient_list=[adminEmail], 
-    #fail_silently=False, auth_user= adminEmail, auth_password= adminEmailPassword)
+    adminEmail = MongoService.getEmail(dbaccounts, "admin")
+    adminEmailPassword = MongoService.getEmailPassword(dbaccounts, "admin")
+    send_mail(subject='SVS NOTIFICATION: Username: "' + username + '" has uploaded "' + documentName + '" for review.', message='Please mark the document as reviewed when finished.', from_email= adminEmail, recipient_list=[adminEmail], 
+    fail_silently=False, auth_user= adminEmail, auth_password= adminEmailPassword)
     response = {"request": "TRUE"}
     return response
 
@@ -212,7 +212,7 @@ def service(request, data, httprequest):
             temporaryCategory = dataRequest['category']
 
 
-        if( request == "saveAnnotatedDocument" or request == "adminGetDocumentList" or request == "adminSaveDocumentName" or request == "adminGetDocument" or request == "adminGetAnnotatedDocument" or request == "adminGetAnnotations"):
+        if( request == "adminDeleteDocument" or request == "saveAnnotatedDocument" or request == "adminGetDocumentList" or request == "adminSaveDocumentName" or request == "adminGetDocument" or request == "adminGetAnnotatedDocument" or request == "adminGetAnnotations" or request == "adminSaveAnnotatedDocumentName"):
             if(username == "admin"):
                 if(request == "saveAnnotatedDocument"):
                     annotatedDocumentName = dataRequest['documentName']
@@ -245,11 +245,18 @@ def service(request, data, httprequest):
                     temporaryUsername = "BLANK"
 
                 if(request == "adminGetAnnotatedDocument"):
-                       response = getDocument(fs, temporaryUsername, adminAnnotatedDocumentName)
+                    response = getDocument(fs, temporaryUsername, adminAnnotatedDocumentName)
 
                 if(request == "adminGetAnnotations"):
                     response = getAnnotations(fsfiles, temporaryUsername, adminAnnotatedDocumentName )
                     adminAnnotatedDocumentName = "BLANK"
+                    temporaryUsername = "BLANK"
+
+                if(request == "adminDeleteDocument"):    
+                    documentName = dataRequest['documentName']
+                    temporaryUsername = dataRequest['username']
+                    response = deleteDocument(fs, temporaryUsername, documentName, fsfiles)
+                    documentName = "BLANK"
                     temporaryUsername = "BLANK"
 
             else:

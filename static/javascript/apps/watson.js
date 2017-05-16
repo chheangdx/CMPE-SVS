@@ -4,7 +4,7 @@ app.config(function($httpProvider){
     $httpProvider.defaults.headers.post['X-CSRFToken'] = $('meta[name=csrf_token]').attr('content');
 });
 
-app.controller('watsonCtrl',  ['$scope','$http', '$sce', function($scope,$http,$sce) {
+app.controller('watsonCtrl',  ['$scope','$http', function($scope,$http) {
 	
 	$scope.query = {queryIn :""};
 
@@ -19,13 +19,29 @@ app.controller('watsonCtrl',  ['$scope','$http', '$sce', function($scope,$http,$
 			}).then(function successCallback(response) {
 				//successfully got a response
 				console.log(response);
-				$scope.answers = response.data;
-				$scope.status = "idle";
+				if(typeof response.data == "undefined"){
+					$scope.resultsGot = false;
+					$scope.noAnswers = true;
+				}
+				else{
+					$scope.resultsGot = true;
+					$scope.answers = response.data;
+					$scope.status = "idle";
+					$scope.noAnswers = false;
+				}
+				
 			}, function errorCallback(response) {
 				//usually happens when an exception is thrown
 				console.error(response);
 				$scope.status = "failed";
 			});
 	};
+
+	var init = function() {
+		$scope.resultsGot = false;
+		$scope.noAnswers = false;
+	}
+
+	init()
 
 }]);

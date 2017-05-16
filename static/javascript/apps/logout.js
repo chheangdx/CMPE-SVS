@@ -88,13 +88,6 @@ app.controller('settingsCtrl',  ['$scope','$http', function($scope,$http) {
 				user:$scope.currentUser
 			}
 
-			if($scope.currentUser.email.localeCompare($scope.oldEmail) == 0){
-				data.user.email='BLANK'	
-			}
-			if($scope.currentUser.oldPassword == ""){
-	            data.user.oldPassword = 'BLANK'
-			}
-
 
 			console.log(data)
 			$http({

@@ -344,7 +344,7 @@
 
             <h2 class="subtitle  wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".3s" style = "text-align: center;">Document Preview</h2>
 
-            <table border="0" class="table">
+            <table  ng-hide="docUp" border="0" class="table">
 
                <tbody>
 
@@ -370,35 +370,13 @@
 
                      <td>{{doccer.uploadDate | date:'MM/dd/yyyy'}}</td>
 
-                     <td>
-
-                        <button style = "float: right;" type="button" class="btn btn-info btn-sm" ng-click="saveAnnotatedDocument()">
-
-                        Save Changes <span class="glyphicon glyphicon-save-file"></span>
-
-                        </button>                                            
-
-                     </td>
+                     
 
                   </tr>
 
                   <tr>
 
-                     <td>Category:</td>
-
-                     <td>
-
-                        <div class="form-group ">
-
-                           <select class="select form-control" id="select" name="select" ng-model=selectedNewCategory style = "cursor: pointer;">
-
-                              <option ng-repeat="category in categoryList">{{category}}</option>
-
-                           </select>
-
-                        </div>
-
-                     </td>
+                     
 
                      <td></td>
 
@@ -422,7 +400,30 @@
 
                      </td>
 
+                     <td>Category{{docUp}}:</td>
+
+                     <td>
+
+                        <div class="form-group ">
+
+                           <select class="select form-control" id="select" name="select" ng-model=selectedNewCategory style = "cursor: pointer;">
+
+                              <option ng-repeat="category in categoryList">{{category}}</option>
+
+                           </select>
+
+                        </div>
+
+                     </td>
+                </tr>
+                <tr>
                      <td>      
+
+                        <button style = "float: right;" type="button" class="btn btn-info btn-sm" ng-click="saveAnnotatedDocument()">
+
+                        Save Changes <span class="glyphicon glyphicon-save-file"></span>
+
+                        </button>                                            
 
                      </td>
 
@@ -436,17 +437,17 @@
 
             <div>
 
-              <div class="form-group" rows="5" style = "background-color:#d3d3d3">
+              <div class="form-group" rows="5" ng-hide="docUp" style = "background-color:#d3d3d3">
 
-                  <canvas id="the-canvas" style="border:1px  solid black; display:none;"></canvas>
+                  <canvas ng-hide="docUp" id="the-canvas" style="border:1px  solid black; display:none;"></canvas>
 
-                  <img id="pdfview"  style="border:1px  solid black;width:100%;" data-original="http://stable-identifier/for-image" >
+                  <img id="pdfview"  ng-style="borderStyle" style="width:100%;" data-original="http://stable-identifier/for-image" >
 
                </div>
 
             </div>
 
-            <div style = "float: left; width: 50%;">
+            <div ng-hide="docUp" style = "float: left; width: 50%;">
 
                <button type="button" class="btn btn-info btn-sm" ng-click="previousPage()"> 
 
@@ -456,7 +457,7 @@
 
             </div>
 
-            <div style = "float: right; width: 50%;">
+            <div ng-hide="docUp" style = "float: right; width: 50%;">
 
                <button type="button" class="btn btn-info btn-sm" style = "float: right;" ng-click="nextPage()">
 

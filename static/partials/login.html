@@ -35,7 +35,12 @@
                                  <div class="row">
                                     <div class="col-sm-6 col-sm-offset-3">
                                        <button autofocus ng-keydown="enterHandler($event)" name="login-submit" id="login-submit" ng-click="loginUser()" tabindex="4" class="form-control btn btn-login">Login</button>
-                                       <span ng-show="errorArrive">{{errorMessage}}</span>
+                                       
+                                    </div>
+                                 </div>
+                                 <div class="row">
+                                    <div class="col-sm-6 col-sm-offset-3">
+                                       <span style = "text-align: center;" ng-show="errorArrive">* {{errorMessage}}</span>
                                     </div>
                                  </div>
                               </div>

@@ -197,7 +197,6 @@ $scope.saveAnnotatedDocument = function(){
           };
           var task = page.render(renderContext);
           task.promise.then(function(){
-                $scope.docUp = false;
                 var canvas = document.getElementById('the-canvas');
                 var image = document.getElementById('pdfview');
                 image.onload = function() {
@@ -212,6 +211,10 @@ $scope.saveAnnotatedDocument = function(){
                     curpage = 0
                   }
                   console.log("leng:"+$scope.annotationArray[curpage]+"\n")
+
+                  $scope.docUp = false;
+                  $scope.borderStyle = {'border':'1px solid black'}
+                  $scope.$apply()
                   try{
                       for (var i = 0; i < 30; i++){
                           var annotation = $scope.annotationArray[curpage][i];

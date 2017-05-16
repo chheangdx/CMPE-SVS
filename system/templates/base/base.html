@@ -70,18 +70,18 @@
                      <li ng-hide=imloggedin><a ui-sref="login">Document Preparation</a></li>
 
                      <!-- admin -->
-                     <li ng-show=imadmin><a ui-sref="prescreenadmin">Document Preparation</a></li>
+                     <li ng-hide="!imadmin"><a ui-sref="prescreenadmin">Document Preparation</a></li>
 
                      <!-- user -->
                      <li ng-hide="( imadmin || !imloggedin )"><a ui-sref="prescreen">Document Preparation</a></li>
 
                      <li ng-hide=imloggedin><a ui-sref="login">Login/Register</a></li>
 
-                     <li ng-show=imloggedin><a ui-sref="settings">User Settings</a></li>
+                     <li ng-hide="!imloggedin"><a ui-sref="settings">User Settings</a></li>
 
                      <li><a ui-sref="aboutus">About Us</a></li>
 
-                     <li ng-show=imloggedin><a ng-click="logoutUser()" style = "cursor: pointer;">Logout</a></li>
+                     <li ng-hide="!imloggedin"><a ng-click="logoutUser()" style = "cursor: pointer;">Logout</a></li>
 
                   </ul>
 

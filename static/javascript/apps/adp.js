@@ -108,7 +108,7 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
 
 //save a document to backend, from normal user
     $scope.saveDocument = function(){
-    $scope.loadingIconOn = true;
+    $scope.loadingIconOnModal = true;
     var data  = {
       'documentName' : $scope.documentName,
       'category' : $scope.selectedCategory
@@ -131,19 +131,19 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
             url : '/saveDocument',
             data : fd
           }).then(function successCallback(response) {
-            $scope.loadingIconOn = false;
+            $scope.loadingIconOnModal = false;
             $scope.getDocumentNameList();
             $('#myModal').modal('hide');
             $scope.uploadMutex = false;
           }, function errorCallback(response) {
-            $scope.loadingIconOn = false;
+            $scope.loadingIconOnModal = false;
             $scope.uploadMutex = false;
             console.log("HTTP saveDocument Response failed: " + response);
           });
         }
 
       }, function errorCallback(response) {
-        $scope.loadingIconOn = false;
+        $scope.loadingIconOnModal = false;
         console.log("HTTP saveDocumentName Response failed: " + response);
       });        
 
@@ -264,6 +264,7 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
 
    var init = function(){
       $scope.loadingIconOn = false;
+      $scope.loadingIconOnModal = false;
       $scope.uploadMutex = false;
       $scope.categoryList = [];
       $scope.myOrderBy = "date";

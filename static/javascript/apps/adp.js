@@ -200,7 +200,6 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
                   $scope.docUp = false;
                   $scope.loadingIconOn = false;
                   $scope.borderStyle = {'border':'1px solid black'}
-                  $scope.$apply();
 
                   anno.makeAnnotatable(document.getElementById('pdfview'));
                   

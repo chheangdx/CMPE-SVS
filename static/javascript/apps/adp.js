@@ -186,7 +186,7 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
                 var canvas = document.getElementById('the-canvas');
                 var image = document.getElementById('pdfview');
                 image.onload = function() {
-                  anno.makeAnnotatable(document.getElementById('pdfview'));
+                  
 
                   //adding previous annotation block
                   if(!begin){
@@ -200,7 +200,10 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
                   $scope.docUp = false;
                   $scope.loadingIconOn = false;
                   $scope.borderStyle = {'border':'1px solid black'}
-                  $scope.$apply()
+                  $scope.$apply();
+
+                  anno.makeAnnotatable(document.getElementById('pdfview'));
+                  
                   try{
                       for (var i = 0; i < 30; i++){
                         if (typeof $scope.annotationArray[curpage][i] != 'undefined'){

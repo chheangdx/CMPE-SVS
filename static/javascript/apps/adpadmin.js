@@ -212,9 +212,9 @@ $scope.saveAnnotatedDocument = function(){
                 var canvas = document.getElementById('the-canvas');
                 var image = document.getElementById('pdfview');
                 image.onload = function() {
-
-                  anno.makeAnnotatable(document.getElementById('pdfview'));
-
+                  console.log("Making Annotation");
+                  
+                  console.log("Annotation complete");
                   //adding previous annotation block
                   if(!begin){
                     curpage = $scope.currentPage-1
@@ -229,6 +229,8 @@ $scope.saveAnnotatedDocument = function(){
                   $scope.loadingIconOn = false;
                   $scope.$apply()
 
+                  anno.makeAnnotatable(document.getElementById('pdfview'));
+                  
                  try{
                       for (var i = 0; i < 30; i++){
                         if (typeof $scope.annotationArray[curpage][i] != 'undefined'){
@@ -246,7 +248,8 @@ $scope.saveAnnotatedDocument = function(){
                     }
 
                 }
-                image.src = canvas.toDataURL('image/jpeg');         
+                image.src = canvas.toDataURL('image/jpeg');
+                console.log("Image Loaded");         
           });
         });
     }

@@ -39,7 +39,7 @@
                                  <input ng-keydown="enterHandler($event)" type="password" ng-change="pwchecker()" ng-model="currentRegister.password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password">
                               </div>
                               <div class="form-group">
-                                 <input type="password" ng-change="pwchecker()" ng-modeng-keydown="enterHandler($event)" irm-password" tabindex="2" class="form-control" placeholder="Confirm Password">
+                                 <input type="password" ng-change="pwchecker()" ng-model="confirmPassword" ng-keydown="enterHandler($event)" irm-password" tabindex="2" class="form-control" placeholder="Confirm Password">
                               </div>
                                <div class="form-group" ng-show="(!samePass && userInput.confirmpassword.$valid && userInput.password.$valid)">* Passwords must match
                                </div>

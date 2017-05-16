@@ -73,6 +73,7 @@ app.controller('CmpeSVSCtrl',  ['$scope','$http', function($scope,$http) {
     }); 
 
 	var init = function(){
+        $scope.currentUsername = ""
 		$scope.loggedIn()
 	}
 
@@ -101,8 +102,9 @@ app.controller('CmpeSVSCtrl',  ['$scope','$http', function($scope,$http) {
             }).then(function successCallback(response) {
                 var whodis = response.data
                 if(whodis.request){
-                    $scope.imloggedin = true
-                    console.log(whodis)
+                    $scope.imloggedin = true;
+                    $scope.currentUsername = whodis.username;
+                    console.log( $scope.currentUsername)
                     if (whodis.username.localeCompare('admin') == 0)
                     {
                         $scope.imadmin = true;
@@ -111,13 +113,18 @@ app.controller('CmpeSVSCtrl',  ['$scope','$http', function($scope,$http) {
                     {
                         $scope.imadmin = false;
                     }
+                    $scope.$apply()
                 }
             }, function errorCallback(response) {
               $scope.imadmin = false;
+              $scope.currentUsername = "";
               $scope.imloggedin = false;
             });
           }
           catch(err) {
+            $scope.imadmin = false;
+            $scope.currentUsername = "";
+            $scope.imloggedin = false;
             console.log("User not logged in.")
           }
     }

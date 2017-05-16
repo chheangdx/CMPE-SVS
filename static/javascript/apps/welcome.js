@@ -7,7 +7,7 @@ app.config(function($httpProvider){
 app.controller('welcomeCtrl',  ['$scope','$http', '$sce', '$state', function($scope,$http,$sce,$state) {
 	var init = function() {
 		$scope.imloggedin = false;
-		$scope.imadminwelcome = false;
+		$scope.imadmin = false;
 		$scope.loggedIn();
 	}
 
@@ -25,15 +25,15 @@ app.controller('welcomeCtrl',  ['$scope','$http', '$sce', '$state', function($sc
                     console.log(whodis)
                     if (whodis.username.localeCompare('admin') == 0)
                     {
-                        $scope.imadminwelcome = true;
+                        $scope.imadmin = true;
                     }
                     else
                     {
-                        $scope.imadminwelcome = false;
+                        $scope.imadmin = false;
                     }
                 }
             }, function errorCallback(response) {
-              $scope.imadminwelcome = false;
+              $scope.imadmin = false;
               $scope.imloggedin = false;
             });
           }

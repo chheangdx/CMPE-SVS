@@ -27,6 +27,7 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
     $scope.documentNameList = []
 
     $scope.setDocument = function(docObject){
+      $scope.loadingIconOn = true;
       $scope.documentName = docObject.documentName;
       $scope.status = docObject.status;
       $scope.getDocument(docObject);
@@ -107,6 +108,7 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
 
 //save a document to backend, from normal user
     $scope.saveDocument = function(){
+    $scope.loadingIconOn = true;
     var data  = {
       'documentName' : $scope.documentName,
       'category' : $scope.selectedCategory
@@ -129,16 +131,19 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
             url : '/saveDocument',
             data : fd
           }).then(function successCallback(response) {
+            $scope.loadingIconOn = false;
             $scope.getDocumentNameList();
             $('#myModal').modal('hide');
             $scope.uploadMutex = false;
           }, function errorCallback(response) {
+            $scope.loadingIconOn = false;
             $scope.uploadMutex = false;
             console.log("HTTP saveDocument Response failed: " + response);
           });
         }
 
       }, function errorCallback(response) {
+        $scope.loadingIconOn = false;
         console.log("HTTP saveDocumentName Response failed: " + response);
       });        
 
@@ -191,7 +196,8 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
                   }
                   console.log("leng:"+$scope.annotationArray[curpage]+"\n")
 
-                   $scope.docUp = false;
+                  $scope.docUp = false;
+                  $scope.loadingIconOn = false;
                   $scope.borderStyle = {'border':'1px solid black'}
                   $scope.$apply()
                   try{
@@ -257,6 +263,7 @@ app.controller('assistDocPrepCtrl',  ['$scope','$http', '$filter', function($sco
     }
 
    var init = function(){
+      $scope.loadingIconOn = false;
       $scope.uploadMutex = false;
       $scope.categoryList = [];
       $scope.myOrderBy = "date";

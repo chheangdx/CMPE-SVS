@@ -3,22 +3,27 @@ var app = angular.module('CmpeSVSApp');
 app.controller('assistDocPrepAdminCtrl',  ['$scope','$http', '$filter', function($scope,$http,$filter) {
     $scope.addCategory = function(){
       //if a category is in the list already, don't continue
+     $scope.loadingIconOnModal = true;
       if($scope.categoryList.indexOf($scope.categoryInput) == -1) {
+        
         var data = {'category' : $scope.categoryInput}
         $http({
             method : 'post',
             url : '/addCategory',
             data: data
         }).then(function successCallback(response) {
+          $scope.loadingIconOnModal = false;
           $scope.categoryList = response.data['categoryList']
           $('#addCategory').modal('hide');
           $scope.categoryInput = ""
         }, function errorCallback(response) {
+          $scope.loadingIconOnModal = false;
           console.log("HTTP Category List Response failed: " + response);
         });      
 
         }
         else{
+          $scope.loadingIconOnModal = false;
           console.log("category already in list")
         }  
     };
@@ -42,15 +47,18 @@ app.controller('assistDocPrepAdminCtrl',  ['$scope','$http', '$filter', function
 
     $scope.deleteCategory = function(){
       var data = {'category' : $scope.selectedRemoveCategory}
+      $scope.loadingIconOnModal = true;
       $http({
           method : 'post',
           url : '/deleteCategory',
           data: data
       }).then(function successCallback(response) {
+        $scope.loadingIconOnModal = false;
         $scope.categoryList = response.data['categoryList']
         $('#removeCategory').modal('hide');
         $scope.selectedRemoveCategory = ""
       }, function errorCallback(response) {
+        $scope.loadingIconOnModal = false;
         console.log("HTTP Category List Response failed: " + response);
       });        
     };
@@ -80,6 +88,7 @@ app.controller('assistDocPrepAdminCtrl',  ['$scope','$http', '$filter', function
     $scope.documentNameList = []
 
     $scope.setDocument = function(docObject){
+      $scope.loadingIconOn = true;
       $scope.doccer = docObject;
       $scope.documentName = docObject.documentName;
       $scope.status = docObject.status;
@@ -126,6 +135,7 @@ app.controller('assistDocPrepAdminCtrl',  ['$scope','$http', '$filter', function
         $scope.documentGrab("/adminGetDocument");   
 
       }, function errorCallback(response) {
+        $scope.loadingIconOn = false;
         console.log("HTTP File Response failed: " + response);
       });   
     }
@@ -138,6 +148,7 @@ app.controller('assistDocPrepAdminCtrl',  ['$scope','$http', '$filter', function
       $scope.documentGrab("/adminGetAnnotatedDocument");   
 
       }, function errorCallback(response) {
+        $scope.loadingIconOn = false;
         console.log("HTTP File Response failed: " + response);
       });   
     }  
@@ -179,6 +190,7 @@ $scope.saveAnnotatedDocument = function(){
 
     anno.removeAll();
     if(tarPage > 0 && tarPage <= $scope.pdf.numPages)
+    {
         $scope.pdf.getPage(tarPage).then(function getPageHelloWorld(page) {
           $scope.currentPage = tarPage;
           var scale = 1.5;
@@ -214,7 +226,9 @@ $scope.saveAnnotatedDocument = function(){
 
                   $scope.docUp = false;
                   $scope.borderStyle = {'border':'1px solid black'}
+                  $scope.loadingIconOn = false;
                   $scope.$apply()
+
                   try{
                       for (var i = 0; i < 30; i++){
                           var annotation = $scope.annotationArray[curpage][i];
@@ -235,9 +249,14 @@ $scope.saveAnnotatedDocument = function(){
                 }
                 image.src = canvas.toDataURL('image/jpeg');         
           });
-          
+        });
+    }
+    else
+    {
+      $scope.loadingIconOn = false;      
+    }
 
-    });
+    
    }
 
     $scope.documentGrab = function(url){
@@ -272,6 +291,7 @@ $scope.saveAnnotatedDocument = function(){
             $scope.annotationArray = response.data['documentAnnotation'];
             $scope.pageGrab(1, true); //true because this is the beginning
           }, function errorCallback(response) {
+            $scope.loadingIconOn = false;
             console.log("HTTP getAnnotations Response failed: " + response);
         });
       }        
@@ -279,6 +299,9 @@ $scope.saveAnnotatedDocument = function(){
 
    var init = function(){
       $scope.uploadMutex = false;
+      $scope.loadingIconOn = false;
+      $scope.loadingIconOnModal = false;
+
       $scope.categoryList = [];
       $scope.myOrderBy = "date";
       $scope.reverse = false;

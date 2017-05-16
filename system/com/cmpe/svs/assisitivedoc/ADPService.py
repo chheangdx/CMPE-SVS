@@ -212,7 +212,7 @@ def service(request, data, httprequest):
             temporaryCategory = dataRequest['category']
 
 
-        if( request == "saveAnnotatedDocument" or request == "adminGetDocumentList" or request == "adminSaveDocumentName" or request == "adminGetDocument" or request == "adminGetAnnotatedDocument" or request == "adminGetAnnotations" or request == "adminSaveAnnotatedDocumentName"):
+        if( request == "adminDeleteDocument" or request == "saveAnnotatedDocument" or request == "adminGetDocumentList" or request == "adminSaveDocumentName" or request == "adminGetDocument" or request == "adminGetAnnotatedDocument" or request == "adminGetAnnotations" or request == "adminSaveAnnotatedDocumentName"):
             if(username == "admin"):
                 if(request == "saveAnnotatedDocument"):
                     annotatedDocumentName = dataRequest['documentName']
@@ -250,6 +250,13 @@ def service(request, data, httprequest):
                 if(request == "adminGetAnnotations"):
                     response = getAnnotations(fsfiles, temporaryUsername, adminAnnotatedDocumentName )
                     adminAnnotatedDocumentName = "BLANK"
+                    temporaryUsername = "BLANK"
+
+                if(request == "adminDeleteDocument"):    
+                    documentName = dataRequest['documentName']
+                    temporaryUsername = dataRequest['username']
+                    response = deleteDocument(fs, temporaryUsername, documentName, fsfiles)
+                    documentName = "BLANK"
                     temporaryUsername = "BLANK"
 
             else:

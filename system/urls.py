@@ -32,7 +32,7 @@ urlpatterns = [
     url(r'^adminGetAnnotations$', adminCommands.adminGetAnnotations, name = 'adminGetAnnotations'),
     url(r'^adminGetAnnotatedDocument$', adminCommands.adminGetAnnotatedDocument, name = 'adminGetAnnotations'),
     url(r'^adminSaveAnnotatedDocumentName$', adminCommands.adminSaveAnnotatedDocumentName, name = "adminSaveAnnotatedDocumentName"),
-
+    url(r'^adminDeleteDocument$', adminCommands.adminDeleteDocument, name = "adminDeleteDocument"),
   ####################### ACCOUNTS URL #########################
     url(r'^loginUser$', userAccounts.login, name = 'login'),
     url(r'^createAccount$', userAccounts.createAccount, name = 'createAccount'),

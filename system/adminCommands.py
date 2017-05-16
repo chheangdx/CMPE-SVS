@@ -93,6 +93,16 @@ def adminSaveDocumentName(request):
 	print(response)
 	return HttpResponse(json.dumps(response))
 
+def adminDeleteDocument(request):
+	httprequest = request
+	body_unicode = request.body.decode('utf-8')
+	data = json.loads(body_unicode)
+	response = ADPService.service("adminDeleteDocument", data, httprequest)
+	print("Returning data for adminDeleteDocument command:")
+	print(response)
+	return HttpResponse(json.dumps(response))
+
+
 def adminSaveAnnotatedDocumentName(request):
 	httprequest = request
 	body_unicode = request.body.decode('utf-8')

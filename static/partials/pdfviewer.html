@@ -113,7 +113,7 @@
                     <span class="glyphicon glyphicon-upload" style = "color: white;">
                    </span>
                 </button>    -->   
-      <section id="contact-section"  style = "background-image: url(static/images/backgroundblurreddark.jpg); background-size: cover; background-repeat: no-repeat; background-position: center center; height: 700px;">
+      <section id="contact-section"  style = "background-image: url(static/images/backgroundblurreddark.jpg); background-size: cover; background-repeat: no-repeat; background-position: center center; height: 100vh;">
          <div class="container">
          <div class="row">
             <div class="col-md-6">
@@ -145,13 +145,17 @@
 							<th style = "color: white;">Delete</th>
 						</tr>
                   </thead>
-                  <tbody>
-						<tr ng-repeat="doc in documentNameList | orderBy : myOrderBy:reverse | filter : searched" ng-click="setDocument(doc)" style = "color: gray;">
-							<th>{{doc.documentName}}</th>
-							<th>{{doc.status}}</th>
-							<th>{{doc.date | date:'MM/dd/yyyy'}}</th>
-							<th>{{doc.category}}</th>
-							<th><button ng-click="deleteDocument(doc)">Delete</button></th>
+                  <tbody style = "background: gray;">
+						<tr ng-repeat="doc in documentNameList | orderBy : myOrderBy:reverse | filter : searched" ng-click="setDocument(doc)">
+							<th style = "font-size: 11;">{{doc.documentName}}</th>
+							<th style = "font-size: 11;">{{doc.status}}</th>
+							<th style = "font-size: 11;">{{doc.date | date:'MM/dd/yyyy'}}</th>
+							<th style = "font-size: 11;">{{doc.category}}</th>
+							<th>
+                               <button ng-click="adminDeleteDocument(doc)" type="button" class="btn btn-default btn-sm">
+                     <span class="glyphicon glyphicon-remove"></span> 
+                     </button>              
+                     </th>
 						</tr>
                   </tbody>
 					</table>

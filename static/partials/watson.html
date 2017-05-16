@@ -12,15 +12,13 @@
          <div class="col-md-12">
             <div class="block">
                <div style = "float: left;  width: 60%;">
-                  <h2 style = "float: right;">Watson Q&A</h2>
+                  <h2 class="subtitle  wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".3s" style = "float: right;">Watson Q&A</h2>
                </div>
-               <div style = "float: right; width: 40%;">
+               <div class="subtitle  wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".3s" style = "float: right; width: 40%;">
                   <img src = "static/gif/watson.gif" width = "80px" height = "80px" style = "float: left;">
                </div>
-               <ol class="breadcrumb" style = "clear: both;">
-                  <li class="active">
+               <ol class="breadcrumb subtitle wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".3s" style = "clear: both;" >
                      Ask Watson any question regarding SJSU or the Computer Engineering Department
-                  </li>
                </ol>
             </div>
          </div>
@@ -28,10 +26,10 @@
       </div>
    </section>
    <!--/#Page header-->
-   <section style = "text-align: center; background: black;">
+   <section style = "text-align: center; background: black;" >
       <div class="container">
          <div class="row">
-            <div id="custom-search-input">
+            <div id="custom-search-input" class="subtitle  wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".3s">
                <div class="input-group col-md-12">
                   <input type="text" ng-model="query.queryIn" class="search-query form-control" placeholder="Enter your question here..." />
                   <span class="input-group-btn">
@@ -44,7 +42,7 @@
          </div>
       </div>
    </section>
-   <section style = "background: black;">
+   <section style = "background: black; height: 100vh;">
       <div id = "results" class="container" >
             <h1  ng-show="resultsGot" id = "results;"class="title wow fadeInDown" data-wow-delay=".3s" style = "text-align: center; color: white;">Results</h1>
             <h2  ng-show="noAnswers" id = "results;"class="title wow fadeInDown" data-wow-delay=".3s" style = "text-align: center; color: white;">No answers found related to your question, sorry!</h1>
@@ -56,7 +54,7 @@
          </div>
       </div>
    </section>
-      <section style = "background: black;">
+<!--       <section style = "background: black;">
                                  <img src = "static/gif/loading 4.gif" style = "z-index: 999; position: absolute; margin-left: auto; margin-right: auto; left: 0; right: 0; margin-top: 5%;"  ng-show = "loadingIconOn">        
          <div class="container">
             <div class="row">
@@ -80,7 +78,7 @@
                </div>
             </div>             
          </div>
-      </section>   
+      </section>  -->  
     <footer id="footer" style = "">
          <div class="container">
             <div class="col-md-8">

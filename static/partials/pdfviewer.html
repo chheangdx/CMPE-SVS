@@ -113,7 +113,7 @@
                     <span class="glyphicon glyphicon-upload" style = "color: white;">
                    </span>
                 </button>    -->   
-      <section id="contact-section"  style = "background-image: url(static/images/backgroundblurreddark.jpg); background-size: cover; background-repeat: no-repeat; background-position: center center; height: 100vh;">
+      <section id="contact-section"  style = "background-image: url(static/images/backgroundblurreddark.jpg); background-size: cover; background-repeat: no-repeat; background-position: center center; height: 150vh;">
          <div class="container">
          <div class="row">
             <div class="col-md-6 wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".3s" >
@@ -142,17 +142,16 @@
 							<th ng-click="orderByMe('status')" style = "color: white;">Status</th>
 							<th ng-click="orderByMe('date')" style = "color: white;">Upload Date</th>
 							<th ng-click="orderByMe('category')" style = "color: white;">Category</th>
-							<th style = "color: white;">Delete</th>
 						</tr>
                   </thead>
-                  <tbody style = "background: gray;">
+                  <tbody style = "background: #D3D3D3;">
 						<tr ng-repeat="doc in documentNameList | orderBy : myOrderBy:reverse | filter : searched" ng-click="setDocument(doc)">
-							<th style = "font-size: 11;">{{doc.documentName}}</th>
-							<th style = "font-size: 11;">{{doc.status}}</th>
-							<th style = "font-size: 11;">{{doc.date | date:'MM/dd/yyyy'}}</th>
-							<th style = "font-size: 11;">{{doc.category}}</th>
+							<th style = "font-size: 11px;">{{doc.documentName}}</th>
+							<th style = "font-size: 11px;">{{doc.status}}</th>
+							<th style = "font-size: 11px;">{{doc.date | date:'MM/dd/yyyy'}}</th>
+							<th style = "font-size: 11px;">{{doc.category}}</th>
 							<th>
-                               <button ng-click="adminDeleteDocument(doc)" type="button" class="btn btn-default btn-sm">
+                               <button ng-click="adminDeleteDocument(doc)" type="button" class="btn btn-default btn-xs">
                      <span class="glyphicon glyphicon-remove"></span> 
                      </button>              
                      </th>

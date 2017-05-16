@@ -103,7 +103,7 @@
    </div>
 </div>
 
-<section style = "background-image: url(static/images/backgroundblurreddark.jpg); background-size: cover; background-repeat: no-repeat; background-position: center center; height: 100vh;">
+<section style = "background-image: url(static/images/backgroundblurreddark.jpg); background-size: cover; background-repeat: no-repeat; background-position: center center; height: 200vh;">
    <div class="container" >
    <div class="row">
       <div class="col-md-6 wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".3s" >
@@ -160,7 +160,7 @@
                      <th> </th>
                   </tr>
                </thead>
-               <tbody style = "cursor: pointer; background: gray;">
+               <tbody style = "cursor: pointer; background: #D3D3D3;">
                   <tr ng-repeat="doc in documentNameList | orderBy : myOrderBy:reverse | filter : searched" >
                      <th ng-click="setDocument(doc)" style = "font-size: 11px;">{{doc.username}}</th>
                      <th ng-click="setDocument(doc)" style = "font-size: 11px;">{{doc.documentName}}</th>
@@ -168,7 +168,7 @@
                      <th ng-click="setDocument(doc)" style = "font-size: 11px;">{{doc.category}}</th>
                      <th ng-click="setDocument(doc)" style = "font-size: 11px;">{{doc.status}}</th>
                      <th ng-click="setDocument(doc)" style = "font-size: 11px;">
-                     <button ng-click="adminDeleteDocument(doc)" type="button" class="btn btn-default btn-sm">
+                     <button ng-click="adminDeleteDocument(doc)" type="button" class="btn btn-default btn-xs">
                      <span class="glyphicon glyphicon-remove"></span> 
                      </button>      
                      </th>
@@ -184,22 +184,19 @@
             <table  ng-hide="docUp" border="0" class="table">
                <tbody>
                   <tr>
-                     <td>Username: </td>
-                     <td>{{doccer.username}}</td>
+                     <td style = "color: white;">Username: </td>
+                     <td style = "color: white;">{{doccer.username}}</td>
                   </tr>
                   <tr>
-                     <td>Document Name: </td>
-                     <td>{{doccer.documentName}}</td>
+                     <td style = "color: white;">Document Name: </td>
+                     <td style = "color: white;">{{doccer.documentName}}</td>
                   </tr>
                   <tr>
-                     <td>Upload Date:</td>
-                     <td>{{doccer.date | date:'MM/dd/yyyy'}}</td>
+                     <td style = "color: white;">Upload Date:</td>
+                     <td style = "color: white;">{{doccer.date | date:'MM/dd/yyyy'}}</td>
                   </tr>
                   <tr>
-                     <td></td>
-                  </tr>
-                  <tr>
-                     <td>Status:</td>
+                     <td style = "color: white;">Status:</td>
                      <td>
                         <div style = ""class="form-group ">
                            <select class="select form-control" id="select" name="select" ng-model=statusNewChoice style = "cursor: pointer;">
@@ -207,7 +204,9 @@
                            </select>
                         </div>
                      </td>
-                     <td>Category:</td>
+                     </tr>
+                     <tr>
+                     <td style = "color: white;">Category:</td>
                      <td>
                         <div class="form-group ">
                            <select class="select form-control" id="select" name="select" ng-model=selectedNewCategory style = "cursor: pointer;">
@@ -217,6 +216,8 @@
                      </td>
                   </tr>
                   <tr>
+                  <td>
+                  </td>
                      <td>      
                         <button style = "float: right;" type="button" class="btn btn-info btn-sm" ng-click="saveAnnotatedDocument()">
                         Save Changes <span class="glyphicon glyphicon-save-file"></span>
@@ -238,7 +239,7 @@
             </div>
             <img src = "static/gif/loading 3.gif" style = "z-index: 999; position: absolute; margin-left: auto; margin-right: auto; left: 0; right: 0; margin-top: 20%;" ng-show="loadingIconOn">            
             <div ng-hide="docUp" style = "float: right; width: 50%;">
-               <button type="button" class="btn btn-info btn-xs" style = "float: right;" ng-click="nextPage()">
+               <button type="button" class="btn btn-info btn-sm" style = "float: right;" ng-click="nextPage()">
                Next Page <span class="glyphicon glyphicon-menu-right"></span>
                </button>                            
             </div>

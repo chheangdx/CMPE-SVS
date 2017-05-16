@@ -1,495 +1,257 @@
-<style>.bootstrap-iso .formden_header h2, .bootstrap-iso .formden_header p, .bootstrap-iso form{font-family: Arial, Helvetica, sans-serif; color: black}.bootstrap-iso form button, .bootstrap-iso form button:hover{color: #000000 !important;} .asteriskField{color: red;}</style>
-
-<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
-
-<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
-
-<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
-
-<!-- Inline CSS based on choices in "Settings" tab -->
-
-<style>
-
-   * {
-
-   box-sizing: border-box;
-
-   }
-
-   #myInput {
-
-   background-image: url('/css/searchicon.png');
-
-   background-position: 10px 10px;
-
-   background-repeat: no-repeat;
-
-   width: 100%;
-
-   font-size: 16px;
-
-   padding: 12px 20px 12px 40px;
-
-   border: 1px solid #ddd;
-
-   margin-bottom: 12px;
-
-   }
-
-   #myTable {
-
-   border-collapse: collapse;
-
-   width: 100%;
-
-   border: 1px solid #ddd;
-
-   font-size: 18px;
-
-   }
-
-   #myTable th, #myTable td {
-
-   text-align: left;
-
-   padding: 12px;
-
-   }
-
-   #myTable tr {
-
-   border-bottom: 1px solid #ddd;
-
-   }
-
-   #myTable tr.header, #myTable tr:hover {
-
-   background-color: #f1f1f1;
-
-   }
-
-</style>
-
-
-
-
-
-<section class="global-page-header">
-
-<h3 style = "text-align: center; font-size: 30px; margin-top: 0; margin-bottom: 0;">Assistive Document Preparation</h3>
-
-</section>
-
-
-
-
-
-<!-- Add Category Modal-->
-
-<div id="addCategory" class="modal fade" role="dialog">
-
-  <div class="modal-dialog">
-
-    <div class="modal-content">
-
-      <div class="modal-header">
-
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-
-        <h4 class="modal-title">Add Category</h4>
-
-      </div>
-
-      <div class="modal-body">
-
-      <div class="form-group ">
-
-          <label class="control-label requiredField" for="text">
-
-               Enter category name
-
-               </label>
-                                 <img src = "static/gif/loading 3.gif" style = "z-index: 999; position: absolute; margin-left: auto; margin-right: auto; left: 0; right: 0;" ng-show="loadingIconOnModal">    
-               <input ng-model="categoryInput" class="form-control" id="text" name="text" type="text"/>
-
-      </div>
-
-      <div class="form-group">
-
-         <div>
-
-            <button class="btn btn-primary " name="submit" ng-click="addCategory()">
-
-            Add Category
-
-            </button>
-
-         </div>
-
-      </div>      
-
-      </div>
-
-      <div class="modal-footer">
-
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-
-      </div>
-
-    </div>
-
-    </div>
-
-    </div>
-
-    
-
-    <!-- Delete Category Modal-->
-
-<div id="removeCategory" class="modal fade" role="dialog">
-
-  <div class="modal-dialog">    
-
-    <div class="modal-content">
-
-      <div class="modal-header">
-
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-
-        <h4 class="modal-title">Remove Category</h4>
-
-      </div>
-
-      <div class="modal-body">
-
-      <div class="form-group ">
-
-          <label class="control-label requiredField" for="text">
-
-               Select category name
-
-               </label>
-                                 <img src = "static/gif/loading 3.gif" style = "z-index: 999; position: absolute; margin-left: auto; margin-right: auto; left: 0; right: 0;" ng-show="loadingIconOnModal">  
-               <select ng-model="selectedRemoveCategory" class="select form-control" id="select" name="select">
-
-               <option ng-repeat="category in categoryList">{{category}}</option>
-
-            </select>
-
-      </div>
-
-      <div class="form-group">
-
-         <div>
-
-            <button class="btn btn-primary " name="submit" ng-click="deleteCategory()">
-
-            Remove Category
-
-            </button>
-
-         </div>
-
-      </div>      
-
-      </div>
-
-      <div class="modal-footer">
-
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-
-      </div>
-
-    </div>    
-
-
-
-  </div>
-
-</div>
-
-<section style = "margin-top: 10px; margin-bottom: 20px;">
-
-   <div class="container">
-
-   <div class="row">
-
-      <div class="col-md-6">
-
-         <h2 class="subtitle  wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".3s" style = "text-align: center">Student Files</h2>
-
-         <div style = "float: left; width: 46%;"class="form-group ">
-             <label class="control-label requiredField" for="select">
-            Category Selection
-            </label>
-            <select ng-model="selectedCategory" class="select form-control" id="select" name="select">
-               <option ng-repeat="category in categoryList">{{category}}</option>
-            </select>
-            <span class="help-block" id="hint_select">
-            Choose a Category to Filter Table
-            </span>
-         </div>
-         <div style = "float: left; width: 25%; margin-left: 10px;">
-             <label style = "visibility : hidden;"class="control-label requiredField" for="select">
-            Category Selection
-            </label>         
-            <button type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#addCategory">
-            <span class="glyphicon glyphicon-plus"></span> Add Category
-            </button>                  
-         </div>
-         <div style = "float: left; width: 25%;">
-             <label style = "visibility : hidden;"class="control-label requiredField" for="select">
-            Category Selection
-            </label>                  
-            <button type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#removeCategory">
-            <span class="glyphicon glyphicon-minus"></span> Remove Category
-            </button>                  
-         </div>         
-
-         <div style = "clear: both;"class="form-group ">
-
-            <label class="control-label requiredField" for="select">
-
-            Status
-
-            </label>
-
-            <select ng-model="statusChoice" class="select form-control" id="select" name="select">
-
-               <option ng-repeat="choice in choiceList">{{choice}}</option>
-
-            </select>
-
-            <span class="help-block" id="hint_select">
-
-            Choose a Status to Filter Table
-
-            </span>
-
-         </div>
-
-         <div style = "clear: both;" class="block">
-
-            <!--<div class="container">-->
-
-            <input type="text" ng-model="searched" id="myInput" placeholder="Search for document" title="Type in a name">
-
-            <table id="myTable" style = "text-align: center; width: 100%;">
-
-               <thead style = "cursor: pointer;">
-
-                  <tr>
-
-                     <th ng-click="orderByMe('username')" >Username</th>
-
-                     <th ng-click="orderByMe('documentName')">Document Name</th>
-
-                     <th ng-click="orderByMe('date')">Date Submitted</th>
-
-                     <th ng-click="orderByMe('category')">Category</th>
-
-                     <th ng-click="orderByMe('status')">Status</th>
-
-                     <th> </th>
-
-                  </tr>
-
-               </thead>
-
-               <tbody style = "cursor: pointer;">
-
-                  <tr ng-repeat="doc in documentNameList | orderBy : myOrderBy:reverse | filter : searched" >
-
-                     <th ng-click="setDocument(doc)" style = "font-size: 14px;">{{doc.username}}</th>
-
-                     <th ng-click="setDocument(doc)" style = "font-size: 14px;">{{doc.date | date:'MM/dd/yyyy'}}</th>
-
-                     <th ng-click="setDocument(doc)" style = "font-size: 14px;">{{doc.documentName}}</th>
-
-                     <th ng-click="setDocument(doc)" style = "font-size: 14px;">{{doc.category}}</th>
-
-                     <th ng-click="setDocument(doc)" style = "font-size: 14px;">{{doc.status}}</th>
-
-                     <th ng-click="setDocument(doc)" style = "font-size: 14px;"><button ng-click="adminDeleteDocument(doc)">Delete</button></th>
-
-                  </tr>
-
-            </table>
-
-            <!--</div>-->
-
-         </div>
-
-      </div>
-
-      <!--End of Column -->
-
-      <div class="col-md-6">
-
-         <div class="map-area">
-
-            <h2 class="subtitle  wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".3s" style = "text-align: center;">Document Preview</h2>
-
-            <table  ng-hide="docUp" border="0" class="table">
-
-               <tbody>
-
-                  <tr>
-
-                     <td>Username: </td>
-
-                     <td>{{doccer.username}}</td>
-
-                  </tr>
-
-                  <tr>
-
-                     <td>Document Name: </td>
-
-                     <td>{{doccer.documentName}}</td>
-
-                  </tr>
-
-                  <tr>
-
-                     <td>Upload Date:</td>
-
-                     <td>{{doccer.uploadDate | date:'MM/dd/yyyy'}}</td>
-
-                     
-
-                  </tr>
-
-                  <tr>
-
-                     
-
-                     <td></td>
-
-                  </tr>
-
-                  <tr>
-
-                     <td>Status:</td>
-
-                     <td>
-
-                        <div style = ""class="form-group ">
-
-                           <select class="select form-control" id="select" name="select" ng-model=statusNewChoice style = "cursor: pointer;">
-
-                              <option ng-repeat="choice in choiceList">{{choice}}</option>
-
-                           </select>
-
-                        </div>
-
-                     </td>
-
-                     <td>Category{{docUp}}:</td>
-
-                     <td>
-
-                        <div class="form-group ">
-
-                           <select class="select form-control" id="select" name="select" ng-model=selectedNewCategory style = "cursor: pointer;">
-
-                              <option ng-repeat="category in categoryList">{{category}}</option>
-
-                           </select>
-
-                        </div>
-
-                     </td>
-                </tr>
-                <tr>
-                     <td>      
-
-                        <button style = "float: right;" type="button" class="btn btn-info btn-sm" ng-click="saveAnnotatedDocument()">
-
-                        Save Changes <span class="glyphicon glyphicon-save-file"></span>
-
-                        </button>                                            
-
-                     </td>
-
-                  </tr>
-
-                  
-
-               </tbody>
-
-            </table>
-
-            <div>
-
-              <div class="form-group" rows="5" ng-hide="docUp" style = "background-color:#d3d3d3">
-
-                  <canvas ng-hide="docUp" id="the-canvas" style="border:1px  solid black; display:none;"></canvas>
-
-                  <img id="pdfview"  ng-style="borderStyle" style="width:100%;" data-original="http://stable-identifier/for-image" >
-
-               </div>
-
-            </div>
-
-            <div ng-hide="docUp" style = "float: left; width: 50%;">
-
-               <button type="button" class="btn btn-info btn-sm" ng-click="previousPage()"> 
-
-               <span class="glyphicon glyphicon-menu-left"></span> Previous Page
-
-               </button>                            
-
-            </div>
-                  <img src = "static/gif/loading 3.gif" style = "z-index: 999; position: absolute; margin-left: auto; margin-right: auto; left: 0; right: 0; margin-top: 20%;" ng-show="loadingIconOn">            
-
-            <div ng-hide="docUp" style = "float: right; width: 50%;">
-
-               <button type="button" class="btn btn-info btn-sm" style = "float: right;" ng-click="nextPage()">
-
-               Next Page <span class="glyphicon glyphicon-menu-right"></span>
-
-               </button>                            
-
-            </div>
-
-         </div>
-
-      </div>
-
-   </div>
-
-</section>
-
-    <footer id="footer" style = "clear: both; width: 100%;">
-
-         <div class="container">
-
-            <div class="col-md-8">
-
-               <p class="copyright" style = "color: white;">Copyright: <span>2017</span> . Design and Developed by SVS Team</p>
-
-            </div>
-
-            <div class="col-md-4">
-
-               <ul >
-
-                  <li>
-
-                     <a href = "https://sites.google.com/a/sjsu.edu/smart-visitor-system/home">
-
-                        <p class = "copyright" style = "color: white;">Visit our page!</p>
-
-                     </a>
-
-                  </li>
-
-               </ul>
-
-            </div>
-
-         </div>
-
-      </footer>
+<style>.bootstrap-iso .formden_header h2, .bootstrap-iso .formden_header p, .bootstrap-iso form{font-family: Arial, Helvetica, sans-serif; color: black}.bootstrap-iso form button, .bootstrap-iso form button:hover{color: #000000 !important;} .asteriskField{color: red;}</style>
+<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
+<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
+<!-- Inline CSS based on choices in "Settings" tab -->
+<style>
+   * {
+   box-sizing: border-box;
+   }
+   #myInput {
+   background-image: url('/css/searchicon.png');
+   background-position: 10px 10px;
+   background-repeat: no-repeat;
+   width: 100%;
+   font-size: 16px;
+   padding: 12px 20px 12px 40px;
+   border: 1px solid #ddd;
+   margin-bottom: 12px;
+   }
+   #myTable {
+   border-collapse: collapse;
+   width: 100%;
+   border: 1px solid #ddd;
+   font-size: 18px;
+   }
+   #myTable th, #myTable td {
+   text-align: left;
+   padding: 12px;
+   }
+   #myTable tr {
+   border-bottom: 1px solid #ddd;
+   }
+   #myTable tr.header, #myTable tr:hover {
+   background-color: #f1f1f1;
+   }
+</style>
+<section class="global-page-header">
+   <h3 style = "text-align: center; font-size: 30px; margin-top: 0; margin-bottom: 0;">Assistive Document Preparation</h3>
+</section>
+<!-- Add Category Modal-->
+<div id="addCategory" class="modal fade" role="dialog">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Add Category</h4>
+         </div>
+         <div class="modal-body">
+            <div class="form-group ">
+               <label class="control-label requiredField" for="text">
+               Enter category name
+               </label>
+                                 <img src = "static/gif/loading 3.gif" style = "z-index: 999; position: absolute; margin-left: auto; margin-right: auto; left: 0; right: 0;" ng-show="loadingIconOnModal">    
+               <input ng-model="categoryInput" class="form-control" id="text" name="text" type="text"/>
+            </div>
+            <div class="form-group">
+               <div>
+                  <button class="btn btn-primary " name="submit" ng-click="addCategory()">
+                  Add Category
+                  </button>
+               </div>
+            </div>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+         </div>
+      </div>
+   </div>
+</div>
+<!-- Delete Category Modal-->
+<div id="removeCategory" class="modal fade" role="dialog">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Remove Category</h4>
+         </div>
+         <div class="modal-body">
+            <div class="form-group ">
+               <label class="control-label requiredField" for="text">
+               Select category name
+               </label>
+                                 <img src = "static/gif/loading 3.gif" style = "z-index: 999; position: absolute; margin-left: auto; margin-right: auto; left: 0; right: 0;" ng-show="loadingIconOnModal">  
+               <select ng-model="selectedRemoveCategory" class="select form-control" id="select" name="select">
+                  <option ng-repeat="category in categoryList">{{category}}</option>
+               </select>
+            </div>
+            <div class="form-group">
+               <div>
+                  <button class="btn btn-primary " name="submit" ng-click="deleteCategory()">
+                  Remove Category
+                  </button>
+               </div>
+            </div>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+         </div>
+      </div>
+   </div>
+</div>
+<section style = "background-image: url(static/images/towerhallblur.jpg); background-size: cover; background-repeat: no-repeat; background-position: center;">
+   <div class="container">
+   <div class="row">
+      <div class="col-md-6">
+         <h2 class="subtitle  wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".3s" style = "text-align: center">Student Files</h2>
+         <div style = "float: left; width: 46%;"class="form-group ">
+            <label class="control-label requiredField" for="select">
+            Category Selection
+            </label>
+            <select ng-model="selectedCategory" class="select form-control" id="select" name="select">
+               <option ng-repeat="category in categoryList">{{category}}</option>
+            </select>
+            <span class="help-block" id="hint_select">
+            Choose a Category to Filter Table
+            </span>
+         </div>
+         <div style = "float: left; width: 25%; margin-left: 10px;">
+            <label style = "visibility : hidden;"class="control-label requiredField" for="select">
+            Category Selection
+            </label>         
+            <button type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#addCategory">
+            <span class="glyphicon glyphicon-plus"></span> Add Category
+            </button>                  
+         </div>
+         <div style = "float: left; width: 25%;">
+            <label style = "visibility : hidden;"class="control-label requiredField" for="select">
+            Category Selection
+            </label>                  
+            <button type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#removeCategory">
+            <span class="glyphicon glyphicon-minus"></span> Remove Category
+            </button>                  
+         </div>
+         <div style = "clear: both;"class="form-group ">
+            <label class="control-label requiredField" for="select">
+            Status
+            </label>
+            <select ng-model="statusChoice" class="select form-control" id="select" name="select">
+               <option ng-repeat="choice in choiceList">{{choice}}</option>
+            </select>
+            <span class="help-block" id="hint_select">
+            Choose a Status to Filter Table
+            </span>
+         </div>
+         <div style = "clear: both;" class="block">
+            <!--<div class="container">-->
+            <input type="text" ng-model="searched" id="myInput" placeholder="Search for document" title="Type in a name">
+            <table id="myTable" style = "text-align: center; width: 100%;">
+               <thead style = "cursor: pointer;">
+                  <tr>
+                     <th ng-click="orderByMe('username')" >Username</th>
+                     <th ng-click="orderByMe('documentName')">Document Name</th>
+                     <th ng-click="orderByMe('date')">Date Submitted</th>
+                     <th ng-click="orderByMe('category')">Category</th>
+                     <th ng-click="orderByMe('status')">Status</th>
+                     <th> </th>
+                  </tr>
+               </thead>
+               <tbody style = "cursor: pointer;">
+                  <tr ng-repeat="doc in documentNameList | orderBy : myOrderBy:reverse | filter : searched" >
+                     <th ng-click="setDocument(doc)" style = "font-size: 14px;">{{doc.username}}</th>
+                     <th ng-click="setDocument(doc)" style = "font-size: 14px;">{{doc.date | date:'MM/dd/yyyy'}}</th>
+                     <th ng-click="setDocument(doc)" style = "font-size: 14px;">{{doc.documentName}}</th>
+                     <th ng-click="setDocument(doc)" style = "font-size: 14px;">{{doc.category}}</th>
+                     <th ng-click="setDocument(doc)" style = "font-size: 14px;">{{doc.status}}</th>
+                     <th ng-click="setDocument(doc)" style = "font-size: 14px;"><button ng-click="adminDeleteDocument(doc)">Delete</button></th>
+                  </tr>
+            </table>
+            <!--</div>-->
+         </div>
+      </div>
+      <!--End of Column -->
+      <div class="col-md-6">
+         <div class="map-area">
+            <h2 class="subtitle  wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".3s" style = "text-align: center;">Document Preview</h2>
+            <table  ng-hide="docUp" border="0" class="table">
+               <tbody>
+                  <tr>
+                     <td>Username: </td>
+                     <td>{{doccer.username}}</td>
+                  </tr>
+                  <tr>
+                     <td>Document Name: </td>
+                     <td>{{doccer.documentName}}</td>
+                  </tr>
+                  <tr>
+                     <td>Upload Date:</td>
+                     <td>{{doccer.uploadDate | date:'MM/dd/yyyy'}}</td>
+                  </tr>
+                  <tr>
+                     <td></td>
+                  </tr>
+                  <tr>
+                     <td>Status:</td>
+                     <td>
+                        <div style = ""class="form-group ">
+                           <select class="select form-control" id="select" name="select" ng-model=statusNewChoice style = "cursor: pointer;">
+                              <option ng-repeat="choice in choiceList">{{choice}}</option>
+                           </select>
+                        </div>
+                     </td>
+                     <td>Category{{docUp}}:</td>
+                     <td>
+                        <div class="form-group ">
+                           <select class="select form-control" id="select" name="select" ng-model=selectedNewCategory style = "cursor: pointer;">
+                              <option ng-repeat="category in categoryList">{{category}}</option>
+                           </select>
+                        </div>
+                     </td>
+                  </tr>
+                  <tr>
+                     <td>      
+                        <button style = "float: right;" type="button" class="btn btn-info btn-sm" ng-click="saveAnnotatedDocument()">
+                        Save Changes <span class="glyphicon glyphicon-save-file"></span>
+                        </button>                                            
+                     </td>
+                  </tr>
+               </tbody>
+            </table>
+            <div>
+               <div class="form-group" rows="5" ng-hide="docUp" style = "background-color:#d3d3d3">
+                  <canvas ng-hide="docUp" id="the-canvas" style="border:1px  solid black; display:none;"></canvas>
+                  <img id="pdfview"  ng-style="borderStyle" style="width:100%;" data-original="http://stable-identifier/for-image" >
+               </div>
+            </div>
+            <div ng-hide="docUp" style = "float: left; width: 50%;">
+               <button type="button" class="btn btn-info btn-sm" ng-click="previousPage()"> 
+               <span class="glyphicon glyphicon-menu-left"></span> Previous Page
+               </button>                            
+            </div>
+                  <img src = "static/gif/loading 3.gif" style = "z-index: 999; position: absolute; margin-left: auto; margin-right: auto; left: 0; right: 0; margin-top: 20%;" ng-show="loadingIconOn">            
+
+            <div ng-hide="docUp" style = "float: right; width: 50%;">
+               <button type="button" class="btn btn-info btn-sm" style = "float: right;" ng-click="nextPage()">
+               Next Page <span class="glyphicon glyphicon-menu-right"></span>
+               </button>                            
+            </div>
+         </div>
+      </div>
+   </div>
+</section>
+<footer id="footer" style = "clear: both; width: 100%;">
+   <div class="container">
+      <div class="col-md-8">
+         <p class="copyright" style = "color: white;">Copyright: <span>2017</span> Design and Developed by SVS Team</p>
+      </div>
+      <div class="col-md-4">
+         <ul >
+            <li>
+               <a href = "https://sites.google.com/a/sjsu.edu/smart-visitor-system/home">
+                  <p class = "copyright" style = "color: white;">Visit our page!</p>
+               </a>
+            </li>
+         </ul>
+      </div>
+   </div>
+</footer>

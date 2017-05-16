@@ -22,6 +22,17 @@ def saveDocumentName(request):
 	print(response)
 	return HttpResponse(json.dumps(response))
 
+def saveAnnotatedDocumentName(request):
+	httprequest = request
+	body_unicode = request.body.decode('utf-8')
+	data = json.loads(body_unicode)
+	print("SAVE DOCUMENT NAME REQUEST: ")
+	print(data)
+	response = ADPService.service("saveAnnotatedDocumentName", data, httprequest)
+	print("Returning data for saveAnnotatedDocumentName command:")
+	print(response)
+	return HttpResponse(json.dumps(response))
+
 def saveDocument(request):
 	httprequest  = request
 	myFile = request.body

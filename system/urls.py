@@ -41,7 +41,7 @@ urlpatterns = [
     url(r'^editAccountInformation$', userAccounts.editAccountInformation, name = 'editAccountInformation'),
     url(r'^getAccountInformation$', userAccounts.getAccountInformation, name = 'getAccountInformation'),
   ######################## ADP URL ##############################
-
+    url(r'saveAnnotatedDocumentName$', assistiveDocumentPreparation.saveAnnotatedDocumentName, name = "saveAnnotatedDocumentName"),
     url(r'^saveDocumentName$', assistiveDocumentPreparation.saveDocumentName, name = 'saveDocumentName'),
     url(r'^saveDocument$', assistiveDocumentPreparation.saveDocument, name = 'saveDocument'),
     url(r'^getDocument$', assistiveDocumentPreparation.getDocument, name = 'getDocument'),

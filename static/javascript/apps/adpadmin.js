@@ -229,18 +229,17 @@ $scope.saveAnnotatedDocument = function(){
                   $scope.loadingIconOn = false;
                   $scope.$apply()
 
-                  try{
+                 try{
                       for (var i = 0; i < 30; i++){
+                        if (typeof $scope.annotationArray[curpage][i] != 'undefined'){
                           var annotation = $scope.annotationArray[curpage][i];
-                          if(!annotation)
-                          {
-                            i = 30;
-                          }
-                          else{
-                            console.log("annotation add")
-                            anno.addAnnotation(annotation);
-                          }
+                          console.log("annotation add")
+                          anno.addAnnotation(annotation);
                         }
+                        else{
+                          throw "Out of annotations to grab"
+                        }
+                      }
                     }
                     catch(err){
                       console.log("No annotations available");

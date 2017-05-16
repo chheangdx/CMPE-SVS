@@ -37,15 +37,7 @@
 
 
 <section class="global-page-header">
-   <div class="container">
-      <div class="row">
-         <div class="col-md-12">
-            <div class="block">
-               <h3 style = "font-size: 40px;">Assistive Document Preparation</h3>
-            </div>
-         </div>
-      </div>
-   </div>
+<h3 style = "text-align: center; font-size: 30px; margin-top: 0; margin-bottom: 0;">Assistive Document Preparation</h3>
 </section>
 
 
@@ -111,7 +103,7 @@
 
   </div>
 </div>
-<section id="contact-section" style = "">
+<section style = "margin-top: 10px; margin-bottom: 20px;">
    <div class="container">
    <div class="row">
       <div class="col-md-6">
@@ -127,12 +119,12 @@
             Choose a Category to Filter Table
             </span>
          </div>
-            <div style = "position: absolute; top: 7.7%; right: 30%;">
+            <div style = "position: absolute; top: 10.5%; right: 30%;">
               <button type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#addCategory">
                 <span class="glyphicon glyphicon-plus"></span> Add Category
               </button>                  
             </div>
-            <div style = "position: absolute; top: 7.7%; right: 2%;">
+            <div style = "position: absolute; top: 10.5%; right: 2%;">
               <button type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#removeCategory">
                 <span class="glyphicon glyphicon-minus"></span> Remove Category
               </button>                  
@@ -151,23 +143,23 @@
          <div style = "clear: both;" class="block">
             <!--<div class="container">-->
             <input type="text" ng-model="searched" id="myInput" placeholder="Search for document" title="Type in a name">
-            <table id="myTable" style = "text-align: center;">
-               <thead>
+            <table id="myTable" style = "text-align: center; width: 100%;">
+               <thead style = "cursor: pointer;">
                   <tr>
-                     <th ng-click="orderByMe('username')">Username</th>
+                     <th ng-click="orderByMe('username')" >Username</th>
                      <th ng-click="orderByMe('documentName')">Document Name</th>
                      <th ng-click="orderByMe('date')">Date Submitted</th>
                      <th ng-click="orderByMe('category')">Category</th>
                      <th ng-click="orderByMe('status')">Status</th>
                   </tr>
                </thead>
-               <tbody>
+               <tbody style = "cursor: pointer;">
                   <tr ng-repeat="doc in documentNameList | orderBy : myOrderBy:reverse | filter : searched" ng-click="setDocument(doc)">
-                     <th>{{doc.username}}</th>
-                     <th>{{doc.documentName}}</th>
-                     <th>{{doc.date | date:'MM/dd/yyyy'}}</th>
-                     <th>{{doc.category}}</th>
-                     <th>{{doc.status}}</th>
+                     <th style = "font-size: 14px;">{{doc.username}}</th>
+                     <th style = "font-size: 14px;">{{doc.documentName}}</th>
+                     <th style = "font-size: 14px;">{{doc.date | date:'MM/dd/yyyy'}}</th>
+                     <th style = "font-size: 14px;">{{doc.category}}</th>
+                     <th style = "font-size: 14px;">{{doc.status}}</th>
                   </tr>
             </table>
             <!--</div>-->
@@ -188,7 +180,7 @@
                      <td>Category:</td>
                      <td>
                         <div class="form-group ">
-                           <select class="select form-control" id="select" name="select" ng-model=selectedNewCategory>
+                           <select class="select form-control" id="select" name="select" ng-model=selectedNewCategory style = "cursor: pointer;">
                               <option ng-repeat="category in categoryList">{{category}}</option>
                            </select>
                         </div>
@@ -199,7 +191,7 @@
                      <td>Status:</td>
                      <td>
                         <div style = ""class="form-group ">
-                           <select class="select form-control" id="select" name="select" ng-model=statusNewChoice>
+                           <select class="select form-control" id="select" name="select" ng-model=statusNewChoice style = "cursor: pointer;">
                               <option ng-repeat="choice in choiceList">{{choice}}</option>
                            </select>
                         </div>
@@ -238,7 +230,7 @@
       </div>
    </div>
 </section>
-    <footer id="footer" style = "clear: both;">
+    <footer id="footer" style = "clear: both; width: 100%;">
          <div class="container">
             <div class="col-md-8">
                <p class="copyright" style = "color: white;">Copyright: <span>2017</span> . Design and Developed by SVS Team</p>

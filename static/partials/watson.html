@@ -44,6 +44,7 @@
    </section>
    <section style = "background: black; height: 100vh;">
       <div id = "results" class="container" >
+   <img src = "static/gif/loading 4.gif" style = "z-index: 999; position: absolute; margin-left: auto; margin-right: auto; left: 0; right: 0; margin-top: 5%;"  ng-show = "loadingIconOn">
             <h1  ng-show="resultsGot" id = "results;"class="title wow fadeInDown" data-wow-delay=".3s" style = "text-align: center; color: white;">Results</h1>
             <h2  ng-show="noAnswers" id = "results;"class="title wow fadeInDown" data-wow-delay=".3s" style = "text-align: center; color: white;">No answers found related to your question, sorry!</h1>
          <div class="row" ng-repeat="answer in answers">
@@ -53,32 +54,7 @@
             <!--/div-->
          </div>
       </div>
-   </section>
-<!--       <section style = "background: black;">
-                                 <img src = "static/gif/loading 4.gif" style = "z-index: 999; position: absolute; margin-left: auto; margin-right: auto; left: 0; right: 0; margin-top: 5%;"  ng-show = "loadingIconOn">        
-         <div class="container">
-            <div class="row">
-               <div class="form-group" style = "visibility: hidden;">
-                  <textarea class="form-control" rows="5" id="comment" readonly="checked" ></textarea>
-               </div>
-            </div>
-            <div class="row" style = "visibility: hidden;">
-               <div class="form-group">
-                  <textarea class="form-control" rows="5" id="comment" readonly="checked" ></textarea>
-               </div>
-            </div>           
-            <div class="row" style = "visibility: hidden;">
-               <div class="form-group">
-                  <textarea class="form-control" rows="5" id="comment" readonly="checked" ></textarea>
-               </div>
-            </div>             
-            <div class="row" style = "visibility: hidden;">
-               <div class="form-group">
-                  <textarea class="form-control" rows="5" id="comment" readonly="checked" ></textarea>
-               </div>
-            </div>             
-         </div>
-      </section>  -->  
+   </section>  
     <footer id="footer" style = "">
          <div class="container">
             <div class="col-md-8">

@@ -38,18 +38,30 @@ app.controller('settingsCtrl',  ['$scope','$http', function($scope,$http) {
 	                url: '/editAccountInformation',
 	                data: data
 	            }).then(function successCallback(response) {
-	                console.log("succ")
-	                $scope.loadingIconOn = false;
-	                $scope.errorArrived = false;
-	                $scope.currentUser.email = $scope.savedEmail
+	            	if(response.data.request){
+						console.log("succ")
+		                $scope.loadingIconOn = false;
+		                $scope.errorArrive = false;
+		                $scope.currentUser.email = $scope.savedEmail
+	            	}
+	            	else{
+	            		console.log("fai")
+		                $scope.loadingIconOn = false;
+		                $scope.errorArrive = true;
+		                $scope.currentUser.email = $scope.savedEmail
+		                $scope.errorMessage = response.data.error;
+	                	$scope.currentUser.oldPassword = "";
+	            		$scope.currentUser.newPassword = "********";
+	            		$scope.reconfirmedPass = ""
+	            	}
+	                
 	            }, function errorCallback(response) {
 	            	$scope.loadingIconOn = false;
-	            	if(response.id == 1)
-	            		$scope.errorArrived = true;
-	            		$scope.errorMessage = response.error;
-	            		$scope.currentUser.oldPassword = "";
-	            		$scope.currentUser.newPassword = "";
-	            		$scope.reconfirmedPass = ""
+            		$scope.errorArrive = true;
+            		$scope.errorMessage = response.data.error;
+            		$scope.currentUser.oldPassword = "";
+            		$scope.currentUser.newPassword = "********";
+            		$scope.reconfirmedPass = ""
 	            });
 		}
 
@@ -91,6 +103,7 @@ app.controller('settingsCtrl',  ['$scope','$http', function($scope,$http) {
 
 	var init = function(){
 		$scope.prefillValues()
+		$scope.errorArrive = false;
 		$scope.enableFields = false
 		$scope.pwForm = false
 		$scope.emailForm = false

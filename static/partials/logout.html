@@ -218,15 +218,7 @@
 
 
 
-                              <tr><td><button class="btn btn-info btn-sm" name="submit" type="submit" autofocus ng-keydown="enterHandler($event)" ng-click="editAccountInformation()"
-
-
-
-                              	ng-disabled="(userInput.nuPassword.$dirty && userInput.nuPassword.$invalid)
-
-
-
-                              		|| (userInput.confirmpass.$dirty && userInput.confirmpass.$invalid)
+                              <tr><td><button class="btn btn-info btn-sm" name="submit" type="submit" autofocus ng-keydown="enterHandler($event)" ng-click="editAccountInformation()" ng-disabled="(userInput.nuPassword.$dirty && userInput.nuPassword.$invalid)                       		|| (userInput.confirmpass.$dirty && userInput.confirmpass.$invalid)
 
 
 
@@ -241,12 +233,11 @@
                               		|| (userInput.confirmEmail.$dirty && userInput.confirmEmail.$invalid)">
 
 
+                              Submit <span class="glyphicon glyphicon-circle-arrow-right" style = "color: white;"></span></button></td>
 
-                              Submit <span class="glyphicon glyphicon-circle-arrow-right" style = "color: white;"></span>
-
-
-
-                              </button></td></tr>
+                              <td>
+                                 <span ng-show="errorArrive">{{errorMessage}}</span>
+                              </td></tr>
 
 
 

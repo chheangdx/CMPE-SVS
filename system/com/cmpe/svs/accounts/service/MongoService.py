@@ -85,14 +85,14 @@ def editAccountInformation(db, username, email, oldPassword, newPassword, firstN
 
                 db.save(accountInformation)
                 print("Edit Success: Account Information Changed.")
-                response = {"request": "TRUE"}
+                response = {"request": True}
             else:
                 print("Request Error: Incorrect Old Password.")
-                response = {"request": "FALSE", 
-                            "error": "Incorrect Old Password." , "errorId": 1}
+                response = {"request": False, 
+                            "error": "Incorrect Old Password."}
     else:
         print("Username does not exist.")
-        response = {"login": "FALSE",
+        response = {"request": False,
                     "error:": "Username does not exist."}
     return response
         

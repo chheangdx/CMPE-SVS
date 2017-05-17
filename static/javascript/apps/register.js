@@ -7,6 +7,7 @@ app.config(function($httpProvider){
 app.controller('registerCtrl',  ['$scope','$http', function($scope,$http) {
 
     $scope.register = function() {
+        $scope.errorArrive = false;
         $scope.loadingIconOn = true;
       var data = {user: $scope.currentRegister};
        $http({
@@ -19,6 +20,14 @@ app.controller('registerCtrl',  ['$scope','$http', function($scope,$http) {
                      $scope.username = $scope.currentRegister.username
                      $scope.password = $scope.currentRegister.password
                      $scope.loginUser();
+                     $scope.errorArrive = false;
+                     $scope.loadingIconOn = false;
+                 }
+                 else
+                 {  
+                    $scope.errorArrive = true;
+                    $scope.errorMessage = response.data.error;
+                    $scope.loadingIconOn = false;
                  }
              }, function errorCallback(response) {
                 $scope.loadingIconOn = false;

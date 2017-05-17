@@ -1,6 +1,11 @@
 var app = angular.module('CmpeSVSApp');
 
 app.controller('assistDocPrepAdminCtrl',  ['$scope','$http', '$filter', function($scope,$http,$filter) {
+   
+    $scope.numberOfPages=function(){
+        return Math.ceil($scope.documentNameList.length/$scope.pageSize);                
+    }
+
     $scope.addCategory = function(){
       //if a category is in the list already, don't continue
      $scope.loadingIconOnModal = true;
@@ -307,7 +312,8 @@ $scope.saveAnnotatedDocument = function(){
       $scope.uploadMutex = false;
       $scope.loadingIconOn = false;
       $scope.loadingIconOnModal = false;
-
+      $scope.currentPage = 0;
+      $scope.pageSize = 10;
       $scope.categoryList = [];
       $scope.myOrderBy = "date";
       $scope.reverse = false;
@@ -348,3 +354,10 @@ app.directive('fileModel', ['$parse', function ($parse) {
        }
     };
  }]);
+
+app.filter('startFrom', function() {
+    return function(input, start) {
+        start = +start; //parse to int
+        return input.slice(start);
+    }
+});

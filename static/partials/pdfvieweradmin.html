@@ -161,7 +161,7 @@
                   </tr>
                </thead>
                <tbody style = "cursor: pointer; background: #D3D3D3;">
-                  <tr ng-repeat="doc in documentNameList | orderBy : myOrderBy:reverse | filter : searched | filter: statusChoice | filter: selectedCategory" >
+                  <tr ng-repeat="doc in documentNameList | orderBy : myOrderBy:reverse | filter : searched | filter: statusChoice | filter: selectedCategory | startFrom:currentPage*pageSize | limitTo:pageSize" >
                      <th ng-click="setDocument(doc)" style = "font-size: 11px;">{{doc.username}}</th>
                      <th ng-click="setDocument(doc)" style = "font-size: 11px;">{{doc.documentName}}</th>
                      <th ng-click="setDocument(doc)" style = "font-size: 11px;">{{doc.date | date:'MM/dd/yyyy'}}</th>                     
@@ -174,18 +174,17 @@
                      </th>
                   </tr>
             </table>
-            <div  style = "float: left; width: 50%;">
-               <button type="button" class="btn btn-info btn-sm" > 
+            <div  style = "float: left; width: 33%;">
+               <button ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1" type="button" class="btn btn-info btn-sm"> 
                <span class="glyphicon glyphicon-menu-left"></span> Previous Page
                </button>                            
             </div>
-            <!--
-            <div style = " float: left; width: 33%; text-align: center; background: red;">
-               <h3 style = "top:0px;">m/n</h3>    
-            </div>                  
-            -->
-            <div style = " float: right; width: 50%;">
-               <button type="button" class="btn btn-info btn-sm" style = "float: right;">
+           
+            <div style = " float: left; width: 33%; text-align: center;">
+               <h4 style = "margin-top: -4px; color:white;">{{currentPage + 1}}/{{numberOfPages()}}</h4>    
+            </div>  
+            <div style = " float: right; width: 33%;">
+               <button type="button"  ng-disabled="currentPage >= documentNameList.length/pageSize - 1" ng-click="currentPage=currentPage+1" class="btn btn-info btn-sm" style = "float: right;">
                Next Page <span class="glyphicon glyphicon-menu-right"></span>
                </button>                            
             </div>
